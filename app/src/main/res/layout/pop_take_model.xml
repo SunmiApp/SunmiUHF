@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/sunmi_10px"
+    app:cardElevation="@dimen/sunmi_10px"
+    android:translationZ="@dimen/sunmi_10px"
+    app:cardMaxElevation="@dimen/sunmi_28px"
+    android:layout_height="wrap_content">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/take_mode_rv"
+        android:layout_width="@dimen/sunmi_240px"
+        android:layout_height="@dimen/sunmi_240px" />
+</androidx.cardview.widget.CardView>

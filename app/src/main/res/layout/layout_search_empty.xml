@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/search_empty_icon"
+            android:drawablePadding="@dimen/sunmi_24px"
+            android:gravity="center|top"
+            android:text="@string/search_empty_text"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="@dimen/sunmi_24px" />
+
+    </LinearLayout>
+</layout>

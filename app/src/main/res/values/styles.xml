@@ -1,0 +1,41 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:switchStyle">@style/SwitchBigStyle</item>
+    </style>
+
+    <style name="FullScreenDialog" parent="@style/Theme.AppCompat.Light.Dialog">
+        <!--        <item name="colorAccent">@color/color_2086FF</item>-->
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimAmount">0.6</item>
+        <!--        <item name="checkboxStyle">@style/CheckBoxStyle</item>-->
+        <!--        <item name="android:switchStyle">@style/SwitchBigStyle</item>-->
+    </style>
+
+    <style name="SwitchBigStyle" parent="android:Widget.CompoundButton">
+        <item name="android:showText">false</item>
+        <item name="android:background">@null</item>
+        <item name="android:thumb">@drawable/sunmi_switch_thumb_big</item>
+        <item name="android:track">@drawable/sunmi_switch_track_big</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="UhfTabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">@dimen/sunmi_36ps</item>
+    </style>
+</resources>

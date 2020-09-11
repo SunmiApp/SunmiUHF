@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.sunmi.uhf.fragment.readwrite.ReadWriteViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/sunmi_100px"
+            android:onClick="@{()->vm.onBackClick()}"
+            android:paddingStart="@dimen/sunmi_30px"
+            android:paddingEnd="@dimen/sunmi_20px"
+            android:src="@drawable/back_arrow_icon"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/title_tv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center|left"
+            android:text="@string/fast_read_write_text"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_40ps"
+            app:layout_constraintBottom_toBottomOf="@id/back_iv"
+            app:layout_constraintLeft_toRightOf="@id/back_iv"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/back_iv" />
+
+        <View
+            android:id="@+id/title_line"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sunmi_1px"
+            android:background="@color/dividerColor"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/back_iv" />
+
+        <TextView
+            android:id="@+id/label_number_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/sunmi_60px"
+            android:text="@string/label_number_text"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_32ps"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_line" />
+
+        <TextView
+            android:id="@+id/label_number_value_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(vm.labelNum)}"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_120ps"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_number_tv" />
+
+
+        <TextView
+            android:id="@+id/total_number_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/sunmi_20px"
+            android:text="@string/read_write_number_total"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="@dimen/sunmi_28ps"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_number_value_tv" />
+
+        <TextView
+            android:id="@+id/total_number_value_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(vm.totalLabelNum)}"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_88ps"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/total_number_tv" />
+
+
+        <TextView
+            android:id="@+id/read_write_speed_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/sunmi_20px"
+            android:gravity="center"
+            android:text="@string/read_write_speed_text"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="@dimen/sunmi_28ps"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/read_write_time_tv"
+            app:layout_constraintTop_toBottomOf="@id/total_number_value_tv" />
+
+        <TextView
+            android:id="@+id/read_write_time_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/read_write_time_text"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="@dimen/sunmi_28ps"
+            app:layout_constraintBottom_toBottomOf="@id/read_write_speed_tv"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@id/read_write_speed_tv"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/read_write_speed_tv" />
+
+        <TextView
+            android:id="@+id/read_write_speed_value_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/sunmi_10px"
+            android:paddingLeft="@dimen/sunmi_10px"
+            android:text="@{String.valueOf(vm.speed)}"
+
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_56ps"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/read_write_speed_unit_tv"
+            app:layout_constraintTop_toBottomOf="@id/read_write_speed_tv" />
+
+        <TextView
+            android:id="@+id/read_write_speed_unit_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/sunmi_10px"
+            android:text="@string/speed_unit_text"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_32ps"
+            app:layout_constraintBaseline_toBaselineOf="@id/read_write_speed_value_tv"
+            app:layout_constraintBottom_toBottomOf="@id/read_write_speed_value_tv"
+            app:layout_constraintLeft_toRightOf="@id/read_write_speed_value_tv"
+            app:layout_constraintRight_toRightOf="@id/read_write_speed_tv" />
+
+
+        <Chronometer
+            android:id="@+id/chronometerView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/sunmi_10px"
+            android:format="%s"
+            android:paddingLeft="@dimen/sunmi_10px"
+            android:paddingRight="@dimen/sunmi_10px"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_56ps"
+            app:layout_constraintLeft_toLeftOf="@id/read_write_time_tv"
+            app:layout_constraintLeft_toRightOf="@id/read_write_speed_value_tv"
+            app:layout_constraintRight_toRightOf="@id/read_write_time_tv"
+            app:layout_constraintTop_toBottomOf="@id/read_write_time_tv" />
+
+
+        <TextView
+            android:layout_width="@dimen/sunmi_168px"
+            android:layout_height="@dimen/sunmi_168px"
+            android:layout_marginTop="@dimen/sunmi_30px"
+            android:background="@{vm.start?@drawable/read_write_stop_btn_shape:@drawable/read_write_start_btn_shape}"
+            android:drawableTop="@{vm.start?@drawable/stop_icon:@drawable/start_icon}"
+            android:drawablePadding="@dimen/sunmi_10px"
+            android:gravity="center_horizontal"
+            android:onClick="@{()->vm.onBtnClick()}"
+            android:paddingTop="@dimen/sunmi_45px"
+            android:text="@{vm.start?@string/stop_text:@string/start_text}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sunmi_28px"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/read_write_speed_value_tv" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

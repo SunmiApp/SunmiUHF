@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:left="@dimen/sunmi_switch_padding"
+        android:right="@dimen/sunmi_switch_padding">
+        <bitmap android:src="@drawable/switch_circle_big" />
+    </item>
+</layer-list>

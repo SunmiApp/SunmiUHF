@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:sunmi="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.sunmi.uhf.fragment.takeinventory.TakeInventoryModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/defaultMainColor">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/title_ll"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sunmi_100px"
+            android:background="@color/white"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <ImageView
+                android:id="@+id/back_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:onClick="@{()->vm.onBackClick()}"
+                android:paddingStart="@dimen/sunmi_30px"
+                android:paddingEnd="@dimen/sunmi_20px"
+                android:src="@drawable/back_arrow_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/edit_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/sunmi_100px"
+                android:layout_marginRight="@dimen/sunmi_10px"
+                android:onClick="@{()->vm.onEditAbleClick()}"
+                android:padding="@dimen/sunmi_20px"
+                android:src="@drawable/edit_icon"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/sunmi_10px"
+                android:layout_marginTop="@dimen/sunmi_15px"
+                android:layout_marginRight="@dimen/sunmi_10px"
+                android:layout_marginBottom="@dimen/sunmi_15px"
+                android:background="#EDEDF0"
+                android:drawableLeft="@drawable/search_icon"
+                android:drawablePadding="@dimen/sunmi_20px"
+                android:hint="@string/search_text"
+                android:paddingLeft="@dimen/sunmi_30px"
+                android:paddingRight="@dimen/sunmi_30px"
+                android:textColor="@color/majorTextColor"
+                app:layout_constraintBottom_toBottomOf="@id/back_iv"
+                app:layout_constraintLeft_toRightOf="@id/back_iv"
+                app:layout_constraintRight_toLeftOf="@+id/edit_iv"
+                app:layout_constraintTop_toTopOf="@id/back_iv"
+                sunmi:outline="@{`10`}" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/title_line"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sunmi_1px"
+            android:background="@color/dividerColor"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_ll" />
+
+        <HorizontalScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scrollbars="none"
+            android:visibility="@{(vm.filterLabelList==null||vm.filterLabelList.size()==0)?View.GONE:View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_line">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include
+                    layout="@layout/layout_take_inventory_header_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_96px"
+                    app:editAble="@{vm.editModel}" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/label_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <include
+            layout="@layout/layout_search_empty"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="@{(vm.filterLabelList==null||vm.filterLabelList.size()==0)?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_line" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

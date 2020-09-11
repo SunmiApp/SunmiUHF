@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:sunmi="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.sunmi.uhf.fragment.home.HomeViewMode" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/home_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/sunmi_30px"
+            android:layout_marginTop="@dimen/sunmi_30px"
+            android:text="@string/home_title_text"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_48ps"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/power_status_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/sunmi_30px"
+            android:text="@string/home_power_text"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_24ps"
+            app:layout_constraintBottom_toBottomOf="@id/home_title_tv"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/home_title_tv" />
+
+        <TextView
+            android:id="@+id/fast_read_write_tv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/sunmi_30px"
+            android:layout_marginRight="@dimen/sunmi_20px"
+            android:background="@color/readWriteColor"
+            android:drawableTop="@drawable/read_write_icon"
+            android:drawablePadding="@dimen/sunmi_6px"
+            android:gravity="center_horizontal"
+            android:onClick="@{()->vm.onFastReadWriteClick()}"
+            android:paddingTop="@dimen/sunmi_50px"
+            android:text="@string/fast_read_write_text"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sunmi_32ps"
+            app:layout_constraintDimensionRatio="h,11:10"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="@id/home_title_tv"
+            app:layout_constraintRight_toLeftOf="@id/take_inventory_tv"
+            app:layout_constraintTop_toBottomOf="@id/home_title_tv"
+            sunmi:outline="@{`12`}" />
+
+        <TextView
+            android:id="@+id/take_inventory_tv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/takeInventoryColor"
+            android:drawableTop="@drawable/take_inventory_icon"
+            android:drawablePadding="@dimen/sunmi_6px"
+            android:gravity="center_horizontal"
+            android:paddingTop="@dimen/sunmi_50px"
+            android:onClick="@{()->vm.onTakeInventoryClick()}"
+            android:text="@string/take_inventory_text"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sunmi_32ps"
+            app:layout_constraintDimensionRatio="h,11:10"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@id/fast_read_write_tv"
+            app:layout_constraintRight_toRightOf="@id/power_status_tv"
+            app:layout_constraintTop_toTopOf="@id/fast_read_write_tv"
+            sunmi:outline="@{`12`}" />
+
+
+        <TextView
+            android:id="@+id/label_operation_tv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/sunmi_20px"
+            android:layout_marginRight="@dimen/sunmi_20px"
+            android:background="@color/labelOperationColor"
+            android:drawableTop="@drawable/label_operation_icon"
+            android:drawablePadding="@dimen/sunmi_6px"
+            android:onClick="@{()->vm.onLabelOperationClick()}"
+            android:gravity="center_horizontal"
+            android:paddingTop="@dimen/sunmi_50px"
+            android:text="@string/label_operation_text"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sunmi_32ps"
+            app:layout_constraintDimensionRatio="h,11:10"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="@id/fast_read_write_tv"
+            app:layout_constraintRight_toLeftOf="@id/label_location_tv"
+            app:layout_constraintTop_toBottomOf="@id/fast_read_write_tv"
+            sunmi:outline="@{`12`}" />
+
+        <TextView
+            android:id="@+id/label_location_tv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/labelLocationColor"
+            android:drawableTop="@drawable/label_location_icon"
+            android:drawablePadding="@dimen/sunmi_6px"
+            android:gravity="center_horizontal"
+            android:paddingTop="@dimen/sunmi_50px"
+            android:onClick="@{()->vm.onLabelLocationClick()}"
+            android:text="@string/label_location_text"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sunmi_32ps"
+            app:layout_constraintDimensionRatio="h,11:10"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@id/label_operation_tv"
+            app:layout_constraintRight_toRightOf="@id/take_inventory_tv"
+            app:layout_constraintTop_toTopOf="@id/label_operation_tv"
+            sunmi:outline="@{`12`}" />
+
+
+        <TextView
+            android:id="@+id/label_filter_tv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sunmi_100px"
+            android:layout_marginTop="@dimen/sunmi_30px"
+            android:drawableLeft="@drawable/label_filter_icon"
+            android:drawableRight="@drawable/right_arrow_icon"
+            android:drawablePadding="@dimen/sunmi_20px"
+            android:gravity="center|left"
+            android:onClick="@{()->vm.onLabelFilterClick()}"
+            android:text="@string/label_filter_text"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_32ps"
+            app:layout_constraintLeft_toLeftOf="@id/label_operation_tv"
+            app:layout_constraintRight_toRightOf="@id/label_location_tv"
+            app:layout_constraintTop_toBottomOf="@id/label_operation_tv" />
+
+        <View
+            android:id="@+id/label_filter_line"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sunmi_1px"
+            android:background="@color/dividerColor"
+            app:layout_constraintLeft_toLeftOf="@id/label_filter_tv"
+            app:layout_constraintRight_toRightOf="@id/label_filter_tv"
+            app:layout_constraintTop_toBottomOf="@id/label_filter_tv" />
+
+        <TextView
+            android:id="@+id/setting_tv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sunmi_100px"
+            android:drawableLeft="@drawable/setting_icon"
+            android:drawableRight="@drawable/right_arrow_icon"
+            android:drawablePadding="@dimen/sunmi_20px"
+            android:gravity="center|left"
+            android:onClick="@{()->vm.onSettingClick()}"
+            android:text="@string/setting_text"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_32ps"
+            app:layout_constraintLeft_toLeftOf="@id/label_filter_line"
+            app:layout_constraintRight_toRightOf="@id/label_filter_line"
+            app:layout_constraintTop_toBottomOf="@id/label_filter_line" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sunmi_1px"
+            android:background="@color/dividerColor"
+            app:layout_constraintLeft_toLeftOf="@id/setting_tv"
+            app:layout_constraintRight_toRightOf="@id/setting_tv"
+            app:layout_constraintTop_toBottomOf="@id/setting_tv" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

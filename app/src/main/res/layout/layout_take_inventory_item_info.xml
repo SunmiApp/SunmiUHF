@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="bean"
+            type="com.sunmi.uhf.bean.LabelInfoBean" />
+
+        <variable
+            name="index"
+            type="Integer" />
+
+        <variable
+            name="editAble"
+            type="Boolean" />
+
+        <import type="android.text.TextUtils" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sunmi_96px"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/sunmi_30px"
+        android:paddingRight="@dimen/sunmi_30px">
+
+        <ImageView
+            android:id="@+id/item_check_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{editAble?View.VISIBLE:View.GONE}"
+            android:paddingTop="@dimen/sunmi_10px"
+            android:paddingBottom="@dimen/sunmi_10px"
+            android:src="@drawable/not_check_icon" />
+
+        <TextView
+            android:id="@+id/item_id_iv"
+            android:layout_width="@dimen/sunmi_103px"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:paddingLeft="@dimen/sunmi_5px"
+            android:paddingRight="@dimen/sunmi_5px"
+            android:singleLine="true"
+            android:text="@{String.valueOf(index+1)}"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="@dimen/sunmi_28px" />
+
+        <TextView
+            android:id="@+id/item_epc_iv"
+            android:layout_width="@dimen/sunmi_275px"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text='@{TextUtils.isEmpty(bean.epc)?"":bean.epc}'
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/sunmi_28px" />
+
+        <TextView
+            android:id="@+id/item_pc_iv"
+            android:layout_width="@dimen/sunmi_164px"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:paddingLeft="@dimen/sunmi_25px"
+            android:paddingRight="@dimen/sunmi_25px"
+            android:singleLine="true"
+            android:text='@{TextUtils.isEmpty(bean.pc)?"":bean.pc}'
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_28px" />
+
+        <TextView
+            android:id="@+id/item_find_number_iv"
+            android:layout_width="@dimen/sunmi_164px"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:paddingLeft="@dimen/sunmi_25px"
+            android:paddingRight="@dimen/sunmi_25px"
+            android:singleLine="true"
+            android:text="@{String.valueOf(bean.findNum)}"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_28px" />
+
+        <TextView
+            android:id="@+id/item_rssi_iv"
+            android:layout_width="@dimen/sunmi_164px"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:paddingLeft="@dimen/sunmi_25px"
+            android:paddingRight="@dimen/sunmi_25px"
+            android:singleLine="true"
+            android:text='@{TextUtils.isEmpty(bean.rssi)?"":bean.rssi}'
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_28px" />
+
+        <TextView
+            android:id="@+id/item_frequency_iv"
+            android:layout_width="@dimen/sunmi_164px"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:padding="@dimen/sunmi_25px"
+            android:paddingLeft="@dimen/sunmi_13px"
+            android:paddingRight="@dimen/sunmi_13px"
+            android:singleLine="true"
+            android:text='@{TextUtils.isEmpty(bean.frequency)?"":bean.frequency}'
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_28px" />
+    </LinearLayout>
+</layout>

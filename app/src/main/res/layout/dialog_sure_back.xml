@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/sunmi_600px"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    app:cardBackgroundColor="@color/dialogContentColor"
+    app:cardCornerRadius="@dimen/sunmi_15px"
+    app:cardElevation="0dp"
+    app:cardUseCompatPadding="false">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="@dimen/sunmi_600px"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/sure_title_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/sunmi_48px"
+            android:text="@string/sure_back_text"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/sure_title_line"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sunmi_2px"
+            android:background="#1A000000"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sure_title_tv" />
+
+        <TextView
+            android:id="@+id/sure_back_cancel_tv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sunmi_104px"
+            android:background="#E8EAED"
+            android:gravity="center"
+            android:text="@string/cancel_text"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_32px"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/middle_line"
+            app:layout_constraintTop_toBottomOf="@id/sure_title_line" />
+
+        <View
+            android:id="@+id/middle_line"
+            android:layout_width="@dimen/sunmi_2px"
+            android:layout_height="0dp"
+            android:background="#1A000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sure_title_line" />
+
+        <TextView
+            android:id="@+id/sure_back_exit_tv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sunmi_104px"
+            android:background="@color/dialogBtnColor"
+            android:gravity="center"
+            android:text="@string/exit_text"
+            android:textColor="@color/exitColor"
+            android:textSize="@dimen/sunmi_32px"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@id/middle_line"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sure_title_line" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

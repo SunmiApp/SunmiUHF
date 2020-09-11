@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.sunmi.uhf.fragment.operation.LabelOperationModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/defaultMainColor"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/title_ll"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sunmi_100px"
+            android:background="@color/white"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/back_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/sunmi_100px"
+                android:onClick="@{()->vm.onBackClick()}"
+                android:paddingStart="@dimen/sunmi_30px"
+                android:paddingEnd="@dimen/sunmi_20px"
+                android:src="@drawable/back_arrow_icon"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/title_tv"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center|left"
+                android:text="@string/set_operation_type_text"
+                android:textColor="@color/majorTextColor"
+                android:textSize="@dimen/sunmi_40ps"
+                app:layout_constraintBottom_toBottomOf="@id/back_iv"
+                app:layout_constraintLeft_toRightOf="@id/back_iv"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/back_iv" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/title_line"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sunmi_1px"
+            android:background="@color/dividerColor"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_ll" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/data_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+</layout>

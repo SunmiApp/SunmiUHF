@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.sunmi.uhf.fragment.takeinventory.TakeInventoryModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/defaultMainColor">
+
+        <include
+            android:id="@+id/title_ll"
+            layout="@layout/layout_take_inventory_title"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sunmi_100px"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:vm="@{vm}" />
+
+        <View
+            android:id="@+id/title_line"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sunmi_1px"
+            android:background="@color/dividerColor"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_ll" />
+
+
+        <include
+            android:id="@+id/basic_ll"
+            layout="@layout/layout_take_inventory_basic"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_line"
+            app:vm="@{vm}" />
+
+        <include
+            android:id="@+id/filter_ll"
+            layout="@layout/layout_take_inventory_filter"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sunmi_132px"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/basic_ll"
+            app:vm="@{vm}" />
+
+        <include
+            android:id="@+id/bottom_ll"
+            layout="@layout/layout_take_inventory_bottom"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sunmi_112px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:vm="@{vm}" />
+
+
+        <HorizontalScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toTopOf="@id/bottom_ll"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/filter_ll">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include
+                    layout="@layout/layout_take_inventory_header_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_96px"
+                    app:editAble="@{vm.editModel}" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/label_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

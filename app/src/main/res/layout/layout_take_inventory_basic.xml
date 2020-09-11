@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.sunmi.uhf.fragment.takeinventory.TakeInventoryModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingTop="@dimen/sunmi_28px"
+        android:paddingBottom="@dimen/sunmi_28px">
+
+        <TextView
+            android:id="@+id/effect_label_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/label_num_text"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="@dimen/sunmi_24ps"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/speed_tv"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/speed_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/read_write_speed_text"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="@dimen/sunmi_24ps"
+            app:layout_constraintBottom_toBottomOf="@id/effect_label_tv"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@id/effect_label_tv"
+            app:layout_constraintRight_toLeftOf="@id/total_number_tv"
+            app:layout_constraintTop_toTopOf="@id/effect_label_tv" />
+
+        <TextView
+            android:id="@+id/total_number_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/total_number_text"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="@dimen/sunmi_24ps"
+            app:layout_constraintBottom_toBottomOf="@id/effect_label_tv"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@id/speed_tv"
+            app:layout_constraintRight_toLeftOf="@id/time_tv"
+            app:layout_constraintTop_toTopOf="@id/effect_label_tv" />
+
+        <TextView
+            android:id="@+id/time_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/read_write_time_text"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="@dimen/sunmi_24ps"
+            app:layout_constraintBottom_toBottomOf="@id/effect_label_tv"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@id/total_number_tv"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/effect_label_tv" />
+
+
+        <TextView
+            android:id="@+id/effect_label_value_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/sunmi_14px"
+            android:gravity="center"
+            android:text="@{String.valueOf(vm.labelNum)}"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_36ps"
+            app:layout_constraintLeft_toLeftOf="@id/effect_label_tv"
+            app:layout_constraintRight_toRightOf="@id/effect_label_tv"
+            app:layout_constraintTop_toBottomOf="@id/effect_label_tv"
+            tools:text="330" />
+
+        <TextView
+            android:id="@+id/speed_value_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{String.valueOf(vm.speed)}"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_36ps"
+            app:layout_constraintBottom_toBottomOf="@id/effect_label_value_tv"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="@id/speed_tv"
+            app:layout_constraintRight_toLeftOf="@id/speed_unit_value_tv"
+            app:layout_constraintTop_toTopOf="@id/effect_label_value_tv"
+            tools:text="11" />
+
+
+        <TextView
+            android:id="@+id/speed_unit_value_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/speed_unit_text"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_24ps"
+            app:layout_constraintBaseline_toBaselineOf="@id/speed_value_tv"
+            app:layout_constraintBottom_toBottomOf="@id/speed_value_tv"
+            app:layout_constraintLeft_toRightOf="@id/speed_value_tv"
+            app:layout_constraintRight_toRightOf="@id/speed_tv"
+            app:layout_constraintTop_toBottomOf="@id/speed_tv" />
+
+        <TextView
+            android:id="@+id/total_value_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{String.valueOf(vm.totalNum)}"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_36ps"
+            app:layout_constraintBottom_toBottomOf="@id/effect_label_value_tv"
+            app:layout_constraintLeft_toLeftOf="@id/total_number_tv"
+            app:layout_constraintRight_toRightOf="@id/total_number_tv"
+            app:layout_constraintTop_toTopOf="@id/effect_label_value_tv"
+            tools:text="330"
+
+            />
+
+        <TextView
+            android:id="@+id/time_value_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_36ps"
+            app:layout_constraintBottom_toBottomOf="@id/effect_label_value_tv"
+            app:layout_constraintLeft_toLeftOf="@id/time_tv"
+            app:layout_constraintRight_toRightOf="@id/time_tv"
+            app:layout_constraintTop_toTopOf="@id/effect_label_value_tv"
+            tools:text="00′11" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

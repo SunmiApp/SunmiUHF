@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorAccent">#FF6000</color>
+
+
+
+    <color name="majorTextColor">#FF333C4F</color>
+    <color name="primaryTextColor">#99333C4F</color>
+
+
+    <color name="readWriteColor">#F25B00</color>
+    <color name="takeInventoryColor">#F4A507</color>
+    <color name="labelOperationColor">#5B57EE</color>
+    <color name="labelLocationColor">#089FA1</color>
+
+
+    <color name="dividerColor">#e4e4e4</color>
+
+
+    <color name="stopReadWriteColor">#FFD94253</color>
+    <color name="exitColor">#FFBD4351</color>
+    <color name="dialogContentColor">#F4F5F8</color>
+    <color name="dialogBtnColor">#E8EAED</color>
+    <color name="defaultMainColor">#ECECEF</color>
+
+    <color name="color_1A000000">#1A000000</color>
+
+    <color name="color_FF858A95">#FF858A95</color>
+    <color name="signalIndicatorColor">#FF858A95</color>
+
+</resources>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.sunmi.uhf.fragment.takeinventory.TakeInventoryModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@{vm.editModel?@color/white:@color/defaultMainColor}">
+
+        <View
+            android:id="@+id/top_line"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sunmi_1px"
+            android:background="#1A000000"
+            android:visibility="@{vm.editModel?View.GONE:View.VISIBLE}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/bottom_line"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sunmi_1px"
+            android:background="#1A000000"
+            android:visibility="@{vm.editModel?View.GONE:View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="@string/start_take_inventory_text"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_32ps"
+            android:visibility="@{vm.editModel?View.GONE:View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/copy_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/copy_icon"
+            android:gravity="center"
+            android:paddingLeft="@dimen/sunmi_10px"
+            android:paddingTop="@dimen/sunmi_16px"
+            android:paddingRight="@dimen/sunmi_10px"
+            android:text="@string/copy_text"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_24ps"
+            android:visibility="@{vm.editModel?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/share_tv"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/share_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/sunmi_64px"
+            android:layout_marginRight="@dimen/sunmi_64px"
+            android:drawableTop="@drawable/share_icon"
+            android:gravity="center"
+            android:paddingLeft="@dimen/sunmi_10px"
+            android:paddingTop="@dimen/sunmi_16px"
+            android:paddingRight="@dimen/sunmi_10px"
+            android:text="@string/share_text"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_24ps"
+            android:visibility="@{vm.editModel?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/copy_tv"
+            app:layout_constraintRight_toLeftOf="@id/excel_tv"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/excel_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/excel_icon"
+            android:gravity="center"
+            android:paddingLeft="@dimen/sunmi_10px"
+            android:paddingTop="@dimen/sunmi_16px"
+            android:paddingRight="@dimen/sunmi_10px"
+            android:text="@string/import_excel_text"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_24ps"
+            android:visibility="@{vm.editModel?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/share_tv"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

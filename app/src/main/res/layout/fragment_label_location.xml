@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:sunmi="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.sunmi.uhf.fragment.location.LabelLocationModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/sunmi_100px"
+            android:onClick="@{()->vm.onBackClick()}"
+            android:paddingStart="@dimen/sunmi_30px"
+            android:paddingEnd="@dimen/sunmi_20px"
+            android:src="@drawable/back_arrow_icon"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/title_tv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center|left"
+            android:text="@string/label_location_text"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_40ps"
+            app:layout_constraintBottom_toBottomOf="@id/back_iv"
+            app:layout_constraintLeft_toRightOf="@id/back_iv"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/back_iv" />
+
+        <View
+            android:id="@+id/title_line"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sunmi_1px"
+            android:background="@color/dividerColor"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/back_iv" />
+
+        <TextView
+            android:id="@+id/epc_tv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sunmi_88px"
+            android:layout_marginLeft="@dimen/sunmi_30px"
+            android:layout_marginTop="@dimen/sunmi_30px"
+            android:layout_marginRight="@dimen/sunmi_30px"
+            android:background="@drawable/btn_stoke_shape"
+            android:ellipsize="end"
+            android:gravity="center|left"
+            android:paddingLeft="@dimen/sunmi_24px"
+            android:paddingRight="@dimen/sunmi_24px"
+            android:singleLine="true"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_28ps"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_line"
+            tools:text="E20091133441" />
+
+
+        <TextView
+            android:id="@+id/light_vv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sunmi_88px"
+            android:layout_marginTop="@dimen/sunmi_20px"
+            android:layout_marginRight="@dimen/sunmi_24px"
+            android:background="@drawable/btn_stoke_shape"
+            android:gravity="center|left"
+            android:paddingLeft="@dimen/sunmi_24px"
+            android:text="@string/light_text"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_28ps"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="@id/epc_tv"
+            app:layout_constraintRight_toLeftOf="@id/voice_vv"
+            app:layout_constraintTop_toBottomOf="@id/epc_tv" />
+
+        <TextView
+            android:id="@+id/voice_vv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sunmi_88px"
+            android:background="@drawable/btn_stoke_shape"
+            android:gravity="center|left"
+            android:paddingLeft="@dimen/sunmi_24px"
+            android:text="@string/voice_text"
+            android:textColor="@color/majorTextColor"
+            android:textSize="@dimen/sunmi_28ps"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@id/light_vv"
+            app:layout_constraintRight_toRightOf="@id/epc_tv"
+            app:layout_constraintTop_toTopOf="@id/light_vv" />
+
+        <Switch
+            android:id="@+id/light_sw"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/sunmi_38px"
+            android:layout_marginRight="@dimen/sunmi_24px"
+            app:layout_constraintBottom_toBottomOf="@id/light_vv"
+            app:layout_constraintRight_toRightOf="@id/light_vv"
+            app:layout_constraintTop_toTopOf="@id/light_vv" />
+
+        <Switch
+            android:id="@+id/voice_sw"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/sunmi_38px"
+            android:layout_marginRight="@dimen/sunmi_24px"
+            app:layout_constraintBottom_toBottomOf="@id/voice_vv"
+            app:layout_constraintRight_toRightOf="@id/voice_vv"
+            app:layout_constraintTop_toTopOf="@id/voice_vv" />
+
+
+        <TextView
+            android:id="@+id/location_btn"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sunmi_88px"
+            android:layout_marginBottom="@dimen/sunmi_24px"
+            android:background="@color/colorAccent"
+            android:gravity="center"
+            android:text="@string/location_text"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sunmi_32px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/epc_tv"
+            app:layout_constraintRight_toRightOf="@id/epc_tv"
+            sunmi:outline="@{`10`}" />
+
+        <TextView
+            android:id="@+id/tip_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/sunmi_24px"
+            android:text="@string/input_epc_text"
+            android:textColor="@color/color_FF858A95"
+            android:textSize="@dimen/sunmi_28ps"
+            app:layout_constraintBottom_toTopOf="@id/location_btn"
+            app:layout_constraintLeft_toLeftOf="@id/epc_tv"
+            app:layout_constraintRight_toRightOf="@id/epc_tv" />
+
+        <com.sunmi.uhf.view.SignalIndicatorView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/sunmi_24px"
+            android:layout_marginBottom="@dimen/sunmi_20px"
+            android:paddingTop="@dimen/sunmi_24px"
+            app:layout_constraintBottom_toTopOf="@id/tip_tv"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/light_vv" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

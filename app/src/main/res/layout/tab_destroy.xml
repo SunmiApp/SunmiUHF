@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sunmi="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.sunmi.uhf.fragment.operation.LabelOperationModel" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/epc_et"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_88px"
+                android:background="@drawable/btn_stoke_shape"
+                android:ellipsize="end"
+                android:gravity="center|left"
+                android:hint="@string/edit_epc_text"
+                android:paddingLeft="@dimen/sunmi_24px"
+                android:paddingRight="@dimen/sunmi_24px"
+                android:singleLine="true"
+                android:text="@={vm.epc}"
+                android:textColor="@color/majorTextColor"
+                android:textSize="@dimen/sunmi_28ps" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_1px"
+                android:background="@color/dividerColor" />
+            <!--  密码 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sunmi_20px"
+                android:text="@string/get_pwd_text"
+                android:textColor="@color/majorTextColor"
+                android:textSize="@dimen/sunmi_24ps" />
+
+            <EditText
+                android:id="@+id/pwd_et"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_88px"
+                android:layout_marginTop="@dimen/sunmi_10px"
+                android:background="@drawable/btn_stoke_shape"
+                android:ellipsize="end"
+                android:gravity="center|left"
+                android:hint="@string/edit_pwd_text"
+                android:paddingLeft="@dimen/sunmi_24px"
+                android:paddingRight="@dimen/sunmi_24px"
+                android:singleLine="true"
+                android:text="@={vm.pwd}"
+                android:textColor="@color/majorTextColor"
+                android:textSize="@dimen/sunmi_28ps" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_1px"
+                android:layout_marginTop="@dimen/sunmi_20px"
+                android:background="@color/dividerColor" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_88px"
+                android:layout_marginTop="@dimen/sunmi_20px"
+                android:layout_marginBottom="@dimen/sunmi_20px"
+                android:background="@color/colorAccent"
+                android:gravity="center"
+                android:onClick="@{()->vm.onDestroyClick()}"
+                android:text="@string/destory_text"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sunmi_32ps"
+                sunmi:outline="@{`10`}" />
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</layout>
