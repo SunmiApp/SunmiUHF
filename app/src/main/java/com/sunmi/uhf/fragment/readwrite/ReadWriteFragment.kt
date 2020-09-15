@@ -76,6 +76,11 @@ class ReadWriteFragment : BaseFragment<FragmentReadWriteBinding>() {
         dialog?.show(parentFragmentManager, SureBackDialog::class.java.name)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dialog?.dismiss()
+    }
+
 
     companion object {
         fun newInstance(args: Bundle?) = ReadWriteFragment()

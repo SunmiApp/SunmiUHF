@@ -94,23 +94,4 @@ class LabelOperationModel : BaseViewModel() {
     fun onDestroyClick() {
 
     }
-
-
-    fun createOperationAreaList() {
-        val list = mutableListOf<String>()
-        list.add("None")
-        list.add("User")
-        list.add("TID")
-        list.add("EPC")
-        operationAreaList.value = list
-    }
-
-    fun createOperationTypeList() {
-        val list = mutableListOf<String>()
-        list.add("开放")
-        list.add("永久开放")
-        list.add("锁定")
-        list.add("永久锁定")
-        operationTypeList.value = list
-    }
 }

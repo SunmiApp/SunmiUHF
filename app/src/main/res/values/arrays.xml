@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="area_array">
+        <item>None</item>
+        <item>User</item>
+        <item>TID</item>
+        <item>EPC</item>
+    </string-array>
+
+    <string-array name="type_array">
+        <item>开放</item>
+        <item>永久开放</item>
+        <item>锁定</item>
+        <item>永久锁定</item>
+    </string-array>
+
+    <string-array name="session_array">
+        <item>S0</item>
+        <item>S1</item>
+        <item>S2</item>
+        <item>S3</item>
+    </string-array>
+
+    <string-array name="link_array">
+        <item>Tari 25us; FM0 40K</item>
+        <item>Tari 25us; Miller4 250KHz</item>
+        <item>Tari 25us; Miller4 300KHz</item>
+        <item>Tari 6.25us; FM0 400KHz</item>
+    </string-array>
+
+    <string-array name="hand_type_array">
+        <item>长按触发</item>
+        <item>点按触发</item>
+    </string-array>
+
+    <string-array name="label_array">
+        <item>6C标签</item>
+        <item>6B标签</item>
+    </string-array>
+</resources>

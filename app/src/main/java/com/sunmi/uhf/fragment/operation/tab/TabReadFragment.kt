@@ -1,18 +1,16 @@
 package com.sunmi.uhf.fragment.operation.tab
 
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.Observer
 import com.sunmi.uhf.R
 import com.sunmi.uhf.base.BaseFragment
+import com.sunmi.uhf.bean.CommonListBean
 import com.sunmi.uhf.constants.Constant
 import com.sunmi.uhf.constants.EventConstant
 import com.sunmi.uhf.databinding.TabReadWriteBinding
 import com.sunmi.uhf.event.SimpleViewEvent
-import com.sunmi.uhf.fragment.location.LabelLocationFragment
-import com.sunmi.uhf.fragment.operation.LabelOperationFragment
+import com.sunmi.uhf.fragment.list.ListFragment
 import com.sunmi.uhf.fragment.operation.LabelOperationModel
-import com.sunmi.uhf.fragment.operation.select.OperationAreaFragment
 import com.sunmi.uhf.utils.LiveDataBusEvent
 
 /**
@@ -38,9 +36,9 @@ class TabReadFragment : BaseFragment<TabReadWriteBinding>() {
     }
 
     override fun initData() {
-        LiveDataBusEvent.get().with(EventConstant.LABEL_OPERATION_AREA, String::class.java)
+        LiveDataBusEvent.get().with(EventConstant.LABEL_SELECT, CommonListBean::class.java)
             .observe(viewLifecycleOwner, Observer {
-                vm.areaData.value = it
+                vm.areaData.value = it.select
             })
     }
 
@@ -49,9 +47,25 @@ class TabReadFragment : BaseFragment<TabReadWriteBinding>() {
         when (event.event) {
             EventConstant.EVENT_OPERATION_AREA -> {
                 //操作区域
-                val args = Bundle().apply { putString(Constant.KEY_AREA, vm.areaData.value) }
+                val args = Bundle().apply {
+                    putString(
+                        Constant.KEY_TITLE,
+                        resources.getString(R.string.select_operation_area_text)
+                    )
+                    putStringArrayList(
+                        Constant.KEY_LIST,
+                        resources.getStringArray(R.array.area_array).toList() as ArrayList<String>
+                    )
+                    putParcelable(
+                        Constant.KEY_SELECT,
+                        CommonListBean(
+                            type = EventConstant.EVENT_OPERATION_AREA,
+                            select = vm.areaData.value
+                        )
+                    )
+                }
                 switchFragment(
-                    OperationAreaFragment.newInstance(args),
+                    ListFragment.newInstance(args),
                     addToBackStack = true,
                     clearStack = false
                 )

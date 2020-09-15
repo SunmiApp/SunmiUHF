@@ -1,49 +1,54 @@
-package com.sunmi.uhf.fragment.operation.tab
+package com.sunmi.uhf.fragment.filter.tab
 
 import android.os.Bundle
+
 import androidx.lifecycle.Observer
 import com.sunmi.uhf.R
 import com.sunmi.uhf.base.BaseFragment
 import com.sunmi.uhf.bean.CommonListBean
 import com.sunmi.uhf.constants.Constant
 import com.sunmi.uhf.constants.EventConstant
-import com.sunmi.uhf.databinding.TabLockBinding
+import com.sunmi.uhf.databinding.LayoutTabFilterBinding
 import com.sunmi.uhf.event.SimpleViewEvent
+import com.sunmi.uhf.fragment.filter.LabelFilterModel
+import com.sunmi.uhf.fragment.filter.select.FilterRuleFragment
 import com.sunmi.uhf.fragment.list.ListFragment
-import com.sunmi.uhf.fragment.operation.LabelOperationModel
 import com.sunmi.uhf.utils.LiveDataBusEvent
 
 /**
- * @ClassName: LockFragment
- * @Description: 标签操作页面 第二个 tab 锁定
+ * @ClassName: TabFilter1Fragment
+ * @Description: 标签过滤 ，过滤器1
  * @Author: clh
- * @CreateDate: 20-9-11 下午3:52
- * @UpdateDate: 20-9-11 下午3:52
+ * @CreateDate: 20-9-14 上午9:59
+ * @UpdateDate: 20-9-14 上午9:59
  */
-class LockFragment : BaseFragment<TabLockBinding>() {
-    lateinit var vm: LabelOperationModel
-    override fun getLayoutResource() = R.layout.tab_lock
+class TabFilter1Fragment : BaseFragment<LayoutTabFilterBinding>() {
+
+    lateinit var vm: LabelFilterModel
+
+    override fun getLayoutResource() = R.layout.layout_tab_filter
 
     override fun initVM() {
-        vm = getViewModel(LabelOperationModel::class.java)
+        vm = getViewModel(LabelFilterModel::class.java)
         binding.vm = vm
     }
 
     override fun initView() {
-        if (vm.areaData.value == null) {
-            vm.areaData.value = "EPC"
-        }
-        if (vm.typeData.value == null) {
-            vm.typeData.value = "开放"
-        }
+        vm.mBlockData.value = "EPC"
+        vm.mFilterRuleData.value = "0"
+        vm.mTargetData.value = "S0"
     }
 
     override fun initData() {
+        LiveDataBusEvent.get().with(EventConstant.LABEL_RULE_INDEX, String::class.java)
+            .observe(viewLifecycleOwner, Observer {
+                vm.mFilterRuleData.value = it
+            })
         LiveDataBusEvent.get().with(EventConstant.LABEL_SELECT, CommonListBean::class.java)
             .observe(viewLifecycleOwner, Observer {
                 when(it.type){
-                    EventConstant.EVENT_OPERATION_AREA ->      vm.areaData.value = it.select
-                    EventConstant.EVENT_OPERATION_TYPE ->      vm.typeData.value = it.select
+                    EventConstant.EVENT_BLOCK_CLICK ->      vm.mBlockData.value = it.select
+                    EventConstant.EVENT_TARGET_CLICK ->      vm.mTargetData.value = it.select
                 }
             })
     }
@@ -51,7 +56,7 @@ class LockFragment : BaseFragment<TabLockBinding>() {
     override fun onSimpleViewEvent(event: SimpleViewEvent) {
         super.onSimpleViewEvent(event)
         when (event.event) {
-            EventConstant.EVENT_OPERATION_AREA -> {
+            EventConstant.EVENT_BLOCK_CLICK -> {
                 //操作区域
                 val args = Bundle().apply {
                     putString(
@@ -65,8 +70,8 @@ class LockFragment : BaseFragment<TabLockBinding>() {
                     putParcelable(
                         Constant.KEY_SELECT,
                         CommonListBean(
-                            type = EventConstant.EVENT_OPERATION_AREA,
-                            select = vm.areaData.value
+                            type = EventConstant.EVENT_BLOCK_CLICK,
+                            select = vm.mTargetData.value
                         )
                     )
                 }
@@ -76,23 +81,31 @@ class LockFragment : BaseFragment<TabLockBinding>() {
                     clearStack = false
                 )
             }
-            EventConstant.EVENT_OPERATION_TYPE -> {
-                //操作区域
+            EventConstant.EVENT_FILTER_RULE -> {
+                //过滤规则
                 val args = Bundle().apply {
-                    putString(
-                        Constant.KEY_TITLE,
-                        resources.getString(R.string.set_operation_type_text)
-                    )
+                    putInt(Constant.KEY_RULE, vm.mFilterRuleData.value?.toInt() ?: 0)
+                }
+                switchFragment(
+                    FilterRuleFragment.newInstance(args),
+                    addToBackStack = true,
+                    clearStack = false
+                )
+            }
+            EventConstant.EVENT_TARGET_CLICK -> {
+                //目标 session
+                val args = Bundle().apply {
+                    putString(Constant.KEY_TITLE, resources.getString(R.string.select_session_text))
                     putStringArrayList(
                         Constant.KEY_LIST,
-                        resources.getStringArray(R.array.type_array).toList() as ArrayList<String>
+                        resources.getStringArray(R.array.session_array)
+                            .toList() as ArrayList<String>
                     )
                     putParcelable(
                         Constant.KEY_SELECT,
                         CommonListBean(
-                            type = EventConstant.EVENT_OPERATION_TYPE,
-                            select = vm.typeData.value
-                        )
+                            type = EventConstant.EVENT_TARGET_CLICK,
+                            select = vm.mTargetData.value)
                     )
                 }
                 switchFragment(
@@ -106,7 +119,7 @@ class LockFragment : BaseFragment<TabLockBinding>() {
 
 
     companion object {
-        fun newInstance(args: Bundle?) = LockFragment()
+        fun newInstance(args: Bundle?) = TabFilter1Fragment()
             .apply { arguments = args }
     }
 }
