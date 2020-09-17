@@ -139,9 +139,11 @@
         <com.sunmi.uhf.view.SignalIndicatorView
             android:id="@+id/signal_vv"
             android:layout_width="0dp"
-            android:layout_height="@dimen/sunmi_400px"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/sunmi_24px"
             android:layout_marginBottom="@dimen/sunmi_20px"
+            android:layout_marginRight="@dimen/sunmi_30px"
+            android:layout_marginLeft="@dimen/sunmi_30px"
             android:paddingTop="@dimen/sunmi_24px"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintTop_toBottomOf="@id/light_vv"

@@ -43,6 +43,9 @@ class SignalIndicatorView @JvmOverloads constructor(
     //信号区域颜色
     private val mSignalColor: Int = ContextCompat.getColor(context, R.color.colorAccent)
 
+    //默认 宽 高
+    private var defaultSize: Int = context.resources.getDimensionPixelSize(R.dimen.sunmi_360px)
+
     //线条和文字的 paint
     private val mLinePaint = Paint()
 
@@ -88,6 +91,37 @@ class SignalIndicatorView @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        var mWidth = getSize(defaultSize, widthMeasureSpec)
+        var mHeight = getSize(defaultSize, heightMeasureSpec)
+        Log.i("xcfdsaf","1 mWidth=$mWidth,mHeight:$mHeight,defaultSize:$defaultSize")
+        if (mHeight > defaultSize) mHeight = defaultSize
+        if (mWidth > defaultSize) mWidth = defaultSize
+        mWidth = mWidth.coerceAtMost(mHeight)
+        mHeight = mWidth
+        Log.i("xcfdsaf","2 mWidth=$mWidth,mHeight:$mHeight")
+        setMeasuredDimension(mWidth, mHeight);
+    }
+
+    private fun getSize(defaultSize: Int, measureSpec: Int): Int {
+        var mySize = defaultSize
+        val mode = MeasureSpec.getMode(measureSpec)
+        val size = MeasureSpec.getSize(measureSpec)
+        when (mode) {
+            MeasureSpec.UNSPECIFIED -> {
+                //如果没有指定大小，就设置为默认大小
+                mySize = defaultSize
+            }
+            MeasureSpec.AT_MOST -> {
+                //如果测量模式是最大取值为size
+                //我们将大小取最大值,你也可以取其他值
+                mySize = size
+            }
+            MeasureSpec.EXACTLY -> {
+                //如果是固定的大小，那就不要去改变它
+                mySize = size
+            }
+        }
+        return mySize
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -99,7 +133,7 @@ class SignalIndicatorView @JvmOverloads constructor(
         val d = (height - paddingTop) / size
         mTextArray.forEachIndexed { index, s ->
             //弧线
-            mLinePaint.style= Paint.Style.STROKE
+            mLinePaint.style = Paint.Style.STROKE
             canvas?.drawArc(
                 ((width / (size * 2)) * index + textHeight / 2).toFloat(),
                 (paddingTop + d * index + textHeight / 2).toFloat(),
@@ -120,7 +154,7 @@ class SignalIndicatorView @JvmOverloads constructor(
                     (paddingTop + d * index + textHeight).toFloat(), mBgPaint
                 )
                 //绘制文字
-                mLinePaint.style= Paint.Style.FILL
+                mLinePaint.style = Paint.Style.FILL
                 canvas?.drawText(
                     s,
                     textX.toFloat(),
