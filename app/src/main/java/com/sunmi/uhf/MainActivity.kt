@@ -71,11 +71,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
         val backStackEntryCount: Int = supportFragmentManager.backStackEntryCount
         if (backStackEntryCount <= 1) {
             finish()
+            return
         }
+        super.onBackPressed()
     }
 
 }

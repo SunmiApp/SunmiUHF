@@ -55,4 +55,9 @@ class HomeViewMode : BaseViewModel() {
     fun onSettingClick() {
         EventConstant.EVENT_SETTING.publish()
     }
+
+
+
+
+
 }

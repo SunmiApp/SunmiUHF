@@ -99,6 +99,7 @@ class SignalIndicatorView @JvmOverloads constructor(
         val d = (height - paddingTop) / size
         mTextArray.forEachIndexed { index, s ->
             //弧线
+            mLinePaint.style= Paint.Style.STROKE
             canvas?.drawArc(
                 ((width / (size * 2)) * index + textHeight / 2).toFloat(),
                 (paddingTop + d * index + textHeight / 2).toFloat(),
@@ -119,6 +120,7 @@ class SignalIndicatorView @JvmOverloads constructor(
                     (paddingTop + d * index + textHeight).toFloat(), mBgPaint
                 )
                 //绘制文字
+                mLinePaint.style= Paint.Style.FILL
                 canvas?.drawText(
                     s,
                     textX.toFloat(),
