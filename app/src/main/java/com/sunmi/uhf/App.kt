@@ -1,6 +1,10 @@
 package com.sunmi.uhf
 
 import android.app.Application
+import android.util.Log
+import com.sunmi.rfid.RFIDManager
+import com.sunmi.uhf.utils.SharedPreference
+import com.sunmi.widget.util.ToastUtils
 
 /**
  * @ClassName: App
@@ -14,10 +18,21 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         mContext = this
+        mPreference = SharedPreference.get()
+        ToastUtils.init(this)
+        RFIDManager.getInstance().setPrintLog(true)
+        RFIDManager.getInstance().connect(mContext)
+    }
+
+    override fun onTerminate() {
+        super.onTerminate()
+        RFIDManager.getInstance().disconnect()
     }
 
     companion object {
         lateinit var mContext: Application
+        lateinit var mPreference: SharedPreference
     }
+
 
 }

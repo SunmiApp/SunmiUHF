@@ -3,6 +3,7 @@ package com.sunmi.uhf
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Gravity
+import android.view.KeyEvent
 import com.sunmi.uhf.base.BaseActivity
 import com.sunmi.uhf.databinding.ActivityMainBinding
 import com.sunmi.uhf.fragment.home.HomeFragment
@@ -68,6 +69,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun onLandScape() {
+    }
+
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == 288) {
+
+            return true;
+        }
+        return super.onKeyUp(keyCode, event)
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == 288) {
+
+            return true;
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
     override fun onBackPressed() {

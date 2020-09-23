@@ -1,2 +1,3 @@
+include ':SunmiRFID-SDK-release'
 include ':app'
-rootProject.name = "Uhf"
+rootProject.name = "SunmiUhf"

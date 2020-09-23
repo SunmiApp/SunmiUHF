@@ -45,10 +45,11 @@ class ListFragment : BaseFragment<FragmentListBinding>() {
         binding.dataRv.layoutManager = LinearLayoutManager(activity)
         binding.dataRv.addItemDecoration(
             RecycleDivider(
-                activity, RecycleDivider.HORIZONTAL_LIST,
+                activity,
+                RecycleDivider.HORIZONTAL_LIST,
                 resources
-                    .getDimensionPixelSize(R.dimen.sunmi_1px)
-                , ContextCompat.getColor(App.mContext, R.color.dividerColor)
+                    .getDimensionPixelSize(R.dimen.sunmi_1px),
+                ContextCompat.getColor(App.mContext, R.color.dividerColor)
             )
         )
         binding.dataRv.adapter = adapter

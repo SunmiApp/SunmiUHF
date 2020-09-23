@@ -56,8 +56,8 @@ class HomeViewMode : BaseViewModel() {
         EventConstant.EVENT_SETTING.publish()
     }
 
+    fun setB() {
 
-
-
+    }
 
 }

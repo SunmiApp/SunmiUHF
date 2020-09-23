@@ -165,7 +165,7 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
     }
 
     /**
-     * fragment调用baseactivity切花framgent
+     * fragment调用baseactivity切换framgent
      */
     fun switchFragment(
         fragment: Fragment,

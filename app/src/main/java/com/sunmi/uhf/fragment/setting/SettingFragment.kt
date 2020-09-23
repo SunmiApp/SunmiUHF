@@ -1,7 +1,12 @@
 package com.sunmi.uhf.fragment.setting
 
 import android.os.Bundle
+import androidx.annotation.NonNull
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import com.sunmi.uhf.App
 import com.sunmi.uhf.R
 import com.sunmi.uhf.base.BaseFragment
 import com.sunmi.uhf.bean.CommonListBean
@@ -30,13 +35,14 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
     }
 
     override fun initView() {
-
+        vm.labelName.value = App.mPreference.getStringParam(Constant.KEY_LABEL)
     }
 
     override fun initData() {
         LiveDataBusEvent.get().with(EventConstant.LABEL_SELECT, CommonListBean::class.java)
             .observe(viewLifecycleOwner, Observer {
                 vm.labelName.value = it.select
+                App.mPreference.setStringParam(Constant.KEY_LABEL, it.select ?: "")
             })
     }
 

@@ -1,6 +1,7 @@
 package com.sunmi.uhf.fragment.home
 
 import android.os.Bundle
+import android.util.TypedValue
 import com.sunmi.uhf.R
 import com.sunmi.uhf.base.BaseFragment
 import com.sunmi.uhf.constants.EventConstant
@@ -89,6 +90,26 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 )
             }
         }
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    private fun calculateLevel(progress: Int): Float {
+        var leftOffest =
+            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6f, resources.displayMetrics)
+        var powerLength =
+            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 36.5f, resources.displayMetrics)
+        var totalLength =
+            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 52.5f, resources.displayMetrics)
+        var level = (leftOffest + powerLength * progress / 100) * 10000 / totalLength
+        return level
     }
 
 

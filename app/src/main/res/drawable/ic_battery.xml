@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 空的电池 -->
+    <item>
+        <bitmap android:src="@drawable/battery_empty" />
+    </item>
+    <!-- 裁剪满的电池图标 -->
+    <item android:id="@+id/clip_drawable">
+        <clip
+            android:clipOrientation="horizontal"
+            android:drawable="@drawable/battery_full"
+            android:gravity="left" />
+    </item>
+</layer-list>

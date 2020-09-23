@@ -119,7 +119,7 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
                     FragmentManager.POP_BACK_STACK_INCLUSIVE
                 )
             }
-            var transaction = supportFragmentManager.beginTransaction()
+            val transaction = supportFragmentManager.beginTransaction()
             transaction.replace(containId, fragment, fragment::class.java.name)
             if (addToBackStack) {
                 transaction.addToBackStack(fragment::class.java.name)
