@@ -55,26 +55,26 @@ class CommonFragment : BaseFragment<FragmentCommonSettingBinding>() {
 
     override fun initView() {
         vm.title.value = resources.getString(R.string.setting_common_text)
-        val index = App.getPref().getParam(Constant.KEY_TYPE, Config.DEF_HANDLE_TYPE)
+        val index = App.getPref().getParam(Config.KEY_HANDLE_TYPE, Config.DEF_HANDLE_TYPE)
         vm.mHandleType.value = resources.getStringArray(R.array.hand_type_array)[index]
-        binding.voiceSw.isChecked = App.getPref().getParam(Constant.KEY_TIP_VOICE, Config.DEF_TIP_VOICE)
-        binding.lightSw.isChecked = App.getPref().getParam(Constant.KEY_TIP_LIGHT, Config.DEF_TIP_LIGHT)
+        binding.voiceSw.isChecked = App.getPref().getParam(Config.KEY_TIP_VOICE, Config.DEF_TIP_VOICE)
+        binding.lightSw.isChecked = App.getPref().getParam(Config.KEY_TIP_LIGHT, Config.DEF_TIP_LIGHT)
     }
 
     override fun initData() {
         LiveDataBusEvent.get().with(EventConstant.LABEL_SELECT, CommonListBean::class.java)
                 .observe(viewLifecycleOwner, Observer {
                     vm.mHandleType.value = it.select
-                    App.getPref().setParam(Constant.KEY_TYPE, it.index ?: Config.DEF_HANDLE_TYPE)
+                    App.getPref().setParam(Config.KEY_HANDLE_TYPE, it.index ?: Config.DEF_HANDLE_TYPE)
                 })
     }
 
     override fun initBus() {
         binding.voiceSw.setOnCheckedChangeListener { _, check ->
-            App.getPref().setParam(Constant.KEY_TIP_VOICE, check)
+            App.getPref().setParam(Config.KEY_TIP_VOICE, check)
         }
         binding.lightSw.setOnCheckedChangeListener { _, check ->
-            App.getPref().setParam(Constant.KEY_TIP_LIGHT, check)
+            App.getPref().setParam(Config.KEY_TIP_LIGHT, check)
         }
     }
 

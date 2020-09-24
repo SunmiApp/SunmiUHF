@@ -33,11 +33,6 @@ object Constant {
     /** 已选择的 名称 */
     const val KEY_SELECT = "key_select"
 
-    /** 提示音 */
-    const val KEY_TIP_VOICE = "key_tip_voice"
-
-    /** 提示灯 */
-    const val KEY_TIP_LIGHT = "key_tip_light"
 
     /** 盘存模式 平衡模式  */
     const val INT_BALANCE_MODE = 1

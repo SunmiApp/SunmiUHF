@@ -2,11 +2,12 @@ package com.sunmi.uhf
 
 import android.util.DisplayMetrics
 import android.util.Log
-import android.view.Gravity
 import android.view.KeyEvent
 import com.sunmi.uhf.base.BaseActivity
+import com.sunmi.uhf.constants.EventConstant
 import com.sunmi.uhf.databinding.ActivityMainBinding
 import com.sunmi.uhf.fragment.home.HomeFragment
+import com.sunmi.uhf.utils.LiveDataBusEvent
 
 
 /**
@@ -18,6 +19,7 @@ import com.sunmi.uhf.fragment.home.HomeFragment
  */
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
+    private var isLoop = false
 
     override fun getLayoutResource() = R.layout.activity_main
 
@@ -42,16 +44,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 //            "xdpi=" + xdpi.toString() + "; ydpi=" + ydpi
 //        )
         Log.e(
-            "  DisplayMetrics",
-            "density=" + density.toString() + "; densityDPI=" + densityDPI
+                "  DisplayMetrics",
+                "density=" + density.toString() + "; densityDPI=" + densityDPI
         )
         Log.e(
-            "  DisplayMetrics",
-            "sw=" + dm.widthPixels + "; sh=" + dm.heightPixels
+                "  DisplayMetrics",
+                "sw=" + dm.widthPixels + "; sh=" + dm.heightPixels
         )
         Log.e(
-            "  DisplayMetrics",
-            "sw=" + resources.displayMetrics.widthPixels + "; sh=" + resources.displayMetrics.heightPixels
+                "  DisplayMetrics",
+                "sw=" + resources.displayMetrics.widthPixels + "; sh=" + resources.displayMetrics.heightPixels
         )
 
 
@@ -62,9 +64,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onPortrait() {
         switchFragment(
-            HomeFragment.newInstance(null),
-            addToBackStack = true,
-            clearStack = true
+                HomeFragment.newInstance(null),
+                addToBackStack = true,
+                clearStack = true
         )
     }
 
@@ -73,16 +75,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == 288) {
-
-            return true;
+            if (!isLoop) {
+                isLoop = true
+                LiveDataBusEvent.get().with(EventConstant.UHF_KEY_EVENT, Int::class.java)
+                        .postValue(EventConstant.EVENT_UHF_KEY_EVENT_UP)
+            }
+            return true
         }
         return super.onKeyUp(keyCode, event)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == 288) {
-
-            return true;
+            if (isLoop) {
+                isLoop = false
+                LiveDataBusEvent.get().with(EventConstant.UHF_KEY_EVENT, Int::class.java)
+                        .postValue(EventConstant.EVENT_UHF_KEY_EVENT_DOWN)
+            }
+            return true
         }
         return super.onKeyDown(keyCode, event)
     }

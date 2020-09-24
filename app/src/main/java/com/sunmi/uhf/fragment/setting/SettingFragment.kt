@@ -32,16 +32,16 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
     }
 
     override fun initView() {
-        var index = App.getPref().getParam(Constant.KEY_LABEL, Config.DEF_LABEL)
+        var index = App.getPref().getParam(Config.KEY_LABEL, Config.DEF_LABEL)
         vm.labelName.value = resources.getStringArray(R.array.label_array)[index]
     }
 
     override fun initData() {
         LiveDataBusEvent.get().with(EventConstant.LABEL_SELECT, CommonListBean::class.java)
-            .observe(viewLifecycleOwner, Observer {
-                vm.labelName.value = it.select
-                App.getPref().setParam(Constant.KEY_LABEL, it.index ?: Config.DEF_LABEL)
-            })
+                .observe(viewLifecycleOwner, Observer {
+                    vm.labelName.value = it.select
+                    App.getPref().setParam(Config.KEY_LABEL, it.index ?: Config.DEF_LABEL)
+                })
     }
 
     override fun onSimpleViewEvent(event: SimpleViewEvent) {
@@ -54,26 +54,26 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
                 //选择标签
                 val args = Bundle().apply {
                     putString(
-                        Constant.KEY_TITLE,
-                        resources.getString(R.string.setting_select_label_text)
+                            Constant.KEY_TITLE,
+                            resources.getString(R.string.setting_select_label_text)
                     )
                     putStringArrayList(
-                        Constant.KEY_LIST,
-                        resources.getStringArray(R.array.label_array)
-                            .toList() as ArrayList<String>
+                            Constant.KEY_LIST,
+                            resources.getStringArray(R.array.label_array)
+                                    .toList() as ArrayList<String>
                     )
                     putParcelable(
-                        Constant.KEY_SELECT,
-                        CommonListBean(
-                            type = EventConstant.EVENT_TARGET_CLICK,
-                            select = vm.labelName.value
-                        )
+                            Constant.KEY_SELECT,
+                            CommonListBean(
+                                    type = EventConstant.EVENT_TARGET_CLICK,
+                                    select = vm.labelName.value
+                            )
                     )
                 }
                 switchFragment(
-                    ListFragment.newInstance(args),
-                    addToBackStack = true,
-                    clearStack = false
+                        ListFragment.newInstance(args),
+                        addToBackStack = true,
+                        clearStack = false
                 )
 
             }
@@ -81,51 +81,51 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
                 // TODO: 20-9-14 手柄选择
                 //区域设置
                 switchFragment(
-                    HandleSelectFragment.newInstance(null),
-                    addToBackStack = true,
-                    clearStack = false
+                        HandleSelectFragment.newInstance(null),
+                        addToBackStack = true,
+                        clearStack = false
                 )
             }
             EventConstant.EVENT_INVENTORY_MODE -> {
                 // TODO: 20-9-14 盘存模式选择
                 //区域设置
                 switchFragment(
-                    InventoryModeFragment.newInstance(null),
-                    addToBackStack = true,
-                    clearStack = false
+                        InventoryModeFragment.newInstance(null),
+                        addToBackStack = true,
+                        clearStack = false
                 )
             }
             EventConstant.EVENT_AREA_SETTING -> {
                 // TODO: 20-9-14 区域设置
                 //区域设置
                 switchFragment(
-                    AreaSettingFragment.newInstance(null),
-                    addToBackStack = true,
-                    clearStack = false
+                        AreaSettingFragment.newInstance(null),
+                        addToBackStack = true,
+                        clearStack = false
                 )
             }
             EventConstant.EVENT_COMMON_SETTING -> {
                 //常规设置
                 switchFragment(
-                    CommonFragment.newInstance(null),
-                    addToBackStack = true,
-                    clearStack = false
+                        CommonFragment.newInstance(null),
+                        addToBackStack = true,
+                        clearStack = false
                 )
             }
             EventConstant.EVENT_ABOUT_DEVICE -> {
                 //  关于设备
                 switchFragment(
-                    AboutDeviceFragment.newInstance(null),
-                    addToBackStack = true,
-                    clearStack = false
+                        AboutDeviceFragment.newInstance(null),
+                        addToBackStack = true,
+                        clearStack = false
                 )
             }
             EventConstant.EVENT_FIRMWARE_UPDATE -> {
                 //  固件升级
                 switchFragment(
-                    FirmwareUpdateFragment.newInstance(null),
-                    addToBackStack = true,
-                    clearStack = false
+                        FirmwareUpdateFragment.newInstance(null),
+                        addToBackStack = true,
+                        clearStack = false
                 )
             }
         }
@@ -134,6 +134,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
 
     companion object {
         fun newInstance(args: Bundle?) = SettingFragment()
-            .apply { arguments = args }
+                .apply { arguments = args }
     }
 }
