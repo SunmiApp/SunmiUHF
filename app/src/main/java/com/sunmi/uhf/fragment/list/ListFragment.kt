@@ -37,7 +37,7 @@ class ListFragment : BaseFragment<FragmentListBinding>() {
     override fun initView() {
         val title = arguments?.getString(Constant.KEY_TITLE, "") ?: ""
         val list = arguments?.getStringArrayList(Constant.KEY_LIST)
-        selectBean = arguments?.getParcelable(Constant.KEY_SELECT) ?: CommonListBean(0, "")
+        selectBean = arguments?.getParcelable(Constant.KEY_SELECT) ?: CommonListBean(type = 0, select = "")
         vm.title.value = title
         val session = arguments?.getString(Constant.KEY_TARGET, "")
         adapter = OperationAdapter(list)
@@ -59,6 +59,7 @@ class ListFragment : BaseFragment<FragmentListBinding>() {
         adapter.setOnItemClickListener { _, _, position ->
             val select = adapter.data[position]
             adapter.selected = select
+            selectBean.index = position
             selectBean.select = select
             adapter.notifyDataSetChanged()
             activity?.supportFragmentManager?.popBackStackImmediate()

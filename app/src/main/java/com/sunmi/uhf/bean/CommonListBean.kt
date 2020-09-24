@@ -13,6 +13,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class CommonListBean(
     var type: Int? = 0,
+    var index: Int? = 0,
     var select: String?
 ) : Parcelable
 
