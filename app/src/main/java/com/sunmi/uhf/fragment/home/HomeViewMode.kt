@@ -12,8 +12,6 @@ import com.sunmi.uhf.constants.EventConstant
  * @UpdateDate: 20-9-8 下午4:31
  */
 class HomeViewMode : BaseViewModel() {
-
-
     /**
      * 快速读取的点击事件
      */
@@ -54,10 +52,6 @@ class HomeViewMode : BaseViewModel() {
      */
     fun onSettingClick() {
         EventConstant.EVENT_SETTING.publish()
-    }
-
-    fun setB() {
-
     }
 
 }

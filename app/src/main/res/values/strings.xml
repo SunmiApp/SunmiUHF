@@ -156,4 +156,12 @@
 
     <string name="handle_type_1_text">UHF Reader1</string>
     <string name="handle_type_2_text">UHF Reader2</string>
+
+    <string name="rfid_please_check_device_connect">请检查UHF设备连接</string>
+    <string name="rfid_un_charge">未充电</string>
+    <string name="rfid_pre_charge">预充电</string>
+    <string name="rfid_fast_charge">快速充电</string>
+    <string name="rfid_charge_done">充电完成</string>
+
+    <string name="rfid_reset_completed">UHF重启完成</string>
 </resources>

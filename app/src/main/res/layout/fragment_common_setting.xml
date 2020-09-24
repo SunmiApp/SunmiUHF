@@ -146,7 +146,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center|left"
-                        android:text="@string/setting_tip_voice_text"
+                        android:text="@string/setting_tip_light_text"
                         android:textColor="@color/majorTextColor"
                         android:textSize="@dimen/sunmi_32ps" />
 

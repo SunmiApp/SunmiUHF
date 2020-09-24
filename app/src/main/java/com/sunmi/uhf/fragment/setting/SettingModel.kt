@@ -31,7 +31,6 @@ class SettingModel : BaseViewModel() {
     /* 手柄触发方式 */
     val mHandleType = MutableLiveData<String>()
 
-
     /* 固件路劲 */
     val mBinPath = MutableLiveData<String>()
 
