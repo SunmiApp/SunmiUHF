@@ -31,8 +31,8 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
     lateinit var binding: T
     lateinit var dialog: Dialog
     private val handler = Handler()
-    val isPadFlag = isPad()
-    private val mainScope = MainScope()
+    protected val isPadFlag = isPad()
+    protected val mainScope = MainScope()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

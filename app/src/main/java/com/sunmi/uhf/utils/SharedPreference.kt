@@ -12,7 +12,7 @@ import java.io.*
  */
 class SharedPreference {
     companion object {
-        val instance: SharedPreference by lazy { SharedPreference() }
+        private val instance: SharedPreference by lazy { SharedPreference() }
         fun get() = instance
     }
 
@@ -29,7 +29,7 @@ class SharedPreference {
      * @param key
      * @param obj
      */
-    fun setParam(key: String?, obj: Any) = with(sp.edit()) {
+    fun <A> setParam(key: String?, obj: A) = with(sp.edit()) {
         when (obj) {
             is Long -> putLong(key, obj)
             is String -> putString(key, obj)
@@ -46,7 +46,7 @@ class SharedPreference {
      * @param defaultObject
      * @return
      */
-    fun getParam(key: String?, defaultObject: Any): Any? = with(sp) {
+    fun <A> getParam(key: String?, defaultObject: A): A = with(sp) {
         return when (defaultObject) {
             is Long -> getLong(key, defaultObject)
             is String -> getString(key, defaultObject) ?: ""
@@ -54,7 +54,7 @@ class SharedPreference {
             is Boolean -> getBoolean(key, defaultObject)
             is Float -> getFloat(key, defaultObject)
             else -> deSerialization(getString(key, serialize(defaultObject)) ?: "")
-        }
+        } as A
     }
 
     fun setStringParam(key: String?, obj: String?) {

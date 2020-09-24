@@ -17,6 +17,8 @@ import androidx.lifecycle.ViewModelStoreOwner
 import com.sunmi.uhf.event.LoadingDialogEvent
 import com.sunmi.uhf.event.SimpleViewEvent
 import com.sunmi.uhf.event.ViewEvent
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 
 
 /**
@@ -27,7 +29,7 @@ import com.sunmi.uhf.event.ViewEvent
 abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
 
     private var dataBinding: T? = null
-
+    protected val mainScope = MainScope()
     protected val handler = Handler()
     val binding: T
         get() {
@@ -62,6 +64,7 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
         hideDialog()
         dataBinding = null
         handler.removeCallbacksAndMessages(null)
+        mainScope.cancel()
     }
 
     fun <T : BaseViewModel> getViewModel(modelClass: Class<T>): T {

@@ -1,7 +1,6 @@
 package com.sunmi.uhf
 
 import android.app.Application
-import android.util.Log
 import com.sunmi.rfid.RFIDManager
 import com.sunmi.uhf.utils.SharedPreference
 import com.sunmi.widget.util.ToastUtils
@@ -31,8 +30,8 @@ class App : Application() {
 
     companion object {
         lateinit var mContext: Application
-        lateinit var mPreference: SharedPreference
+        private lateinit var mPreference: SharedPreference
+        fun getPref() = mPreference
     }
-
 
 }

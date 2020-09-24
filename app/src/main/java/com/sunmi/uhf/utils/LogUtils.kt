@@ -2,9 +2,7 @@ package com.sunmi.uhf.utils
 
 import android.text.format.DateFormat
 import android.util.Log
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.sunmi.uhf.BuildConfig
 import java.util.*
 
 
@@ -26,6 +24,15 @@ object LogUtils {
     fun i(tag: String, msg: String, isStatistics: Boolean = false) {
         if (isTagLoggable(tag, Log.INFO)) {
             Log.i(tag, msg)
+        }
+        if (isStatistics) {
+            onCommitEvent(tag, msg)
+        }
+    }
+
+    fun w(tag: String, msg: String, isStatistics: Boolean = false) {
+        if (isTagLoggable(tag, Log.WARN)) {
+            Log.w(tag, msg)
         }
         if (isStatistics) {
             onCommitEvent(tag, msg)
@@ -68,7 +75,7 @@ object LogUtils {
      * @return true 表示允许输出，false表示不允许输出
      */
     private fun isTagLoggable(tag: String, level: Int): Boolean {
-        return Log.isLoggable(tag, level)
+        return BuildConfig.DEBUG || Log.isLoggable(tag, level)
     }
 
     fun getCurTimeStr(): String? {
