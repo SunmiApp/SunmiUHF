@@ -131,7 +131,6 @@
             android:layout_marginTop="@dimen/sunmi_10px"
             android:paddingLeft="@dimen/sunmi_10px"
             android:text="@{String.valueOf(vm.speed)}"
-
             android:textColor="@color/majorTextColor"
             android:textSize="@dimen/sunmi_56ps"
             app:layout_constraintHorizontal_chainStyle="packed"
