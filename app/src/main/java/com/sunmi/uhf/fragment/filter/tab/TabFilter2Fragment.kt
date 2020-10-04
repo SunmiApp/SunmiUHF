@@ -65,7 +65,7 @@ class TabFilter2Fragment : BaseFragment<LayoutTabFilterBinding>() {
                     )
                     putStringArrayList(
                         Constant.KEY_LIST,
-                        resources.getStringArray(R.array.area_array).toList() as ArrayList<String>
+                        resources.getStringArray(R.array.area_read_write_array).toList() as ArrayList<String>
                     )
                     putParcelable(
                         Constant.KEY_SELECT,

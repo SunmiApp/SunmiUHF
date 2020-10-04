@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string-array name="area_array">
+    <!--读写标签操作区域:0x00:Password, 0x01:EPC, 0x02:TID, 0x03:User-->
+    <string-array name="area_read_write_array">
         <item>None</item>
         <item>EPC</item>
         <item>TID</item>
         <item>User</item>
     </string-array>
-
+    <!--锁操作数据区域:0x01:User, 0x02:TID, 0x03:EPC, 0x04:Access Password, 0x05:Kill Password-->
+    <string-array name="area_lock_array">
+        <item>User</item>
+        <item>TID</item>
+        <item>EPC</item>
+        <item>Access Password</item>
+        <item>Kill Password</item>
+    </string-array>
+    <!--锁操作类型:0x00:开放，0x01:锁定，0x02:永久开放，0x03:永久锁定-->
     <string-array name="type_array">
         <item>开放</item>
-        <item>永久开放</item>
         <item>锁定</item>
+        <item>永久开放</item>
         <item>永久锁定</item>
     </string-array>
 

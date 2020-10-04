@@ -222,7 +222,7 @@ class TabReadFragment : BaseFragment<TabReadWriteBinding>() {
                     )
                     putStringArrayList(
                         Constant.KEY_LIST,
-                        resources.getStringArray(R.array.area_array)
+                        resources.getStringArray(R.array.area_read_write_array)
                             .toList() as ArrayList<String>
                     )
                     putParcelable(
