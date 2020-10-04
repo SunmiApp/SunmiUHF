@@ -44,7 +44,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             LogUtils.d("BroadcastReceiver", "HomeFragment-receiver:${intent.action ?: ""}")
             when (intent.action) {
                 ParamCts.BROADCAST_ON_LOST_CONNECT -> {
-                    ToastUtils.showShort(R.string.rfid_please_check_device_connect)
+                    ToastUtils.showShort(R.string.hint_please_check_device_connect)
                 }
                 ParamCts.BROADCAST_BATTERY_REMAINING_PERCENTAGE -> {
                     val elec = intent.getIntExtra(ParamCts.BATTERY_REMAINING_PERCENT, 100)
@@ -54,10 +54,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 ParamCts.BROADCAST_BATTER_CHARGING -> {
                     val chargingState =
                             when (intent.getByteExtra(ParamCts.BATTERY_CHARGING, 0.toByte())) {
-                                0x00.toByte() -> getString(R.string.rfid_un_charge)
-                                0x01.toByte() -> getString(R.string.rfid_pre_charge)
-                                0x02.toByte() -> getString(R.string.rfid_fast_charge)
-                                0x03.toByte() -> getString(R.string.rfid_charge_done)
+                                0x00.toByte() -> getString(R.string.un_charge)
+                                0x01.toByte() -> getString(R.string.pre_charge)
+                                0x02.toByte() -> getString(R.string.fast_charge)
+                                0x03.toByte() -> getString(R.string.charge_done)
                                 else -> ""
                             }
                     LogUtils.d("BroadcastReceiver", "HomeFragment-chargingState:$chargingState")

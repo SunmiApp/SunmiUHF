@@ -39,7 +39,7 @@ class CommonFragment : BaseFragment<FragmentCommonSettingBinding>() {
             if (intent?.action == ParamCts.BROADCAST_READER_BOOT) {
                 LogUtils.w(javaClass.simpleName, "reader boot.")
                 hideDialog()
-                ToastUtils.showShort(R.string.rfid_reset_completed)
+                ToastUtils.showShort(R.string.hint_reset_completed)
             }
         }
 
