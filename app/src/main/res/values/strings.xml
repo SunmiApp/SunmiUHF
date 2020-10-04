@@ -157,11 +157,21 @@
     <string name="handle_type_1_text">UHF Reader1</string>
     <string name="handle_type_2_text">UHF Reader2</string>
 
-    <string name="rfid_please_check_device_connect">请检查UHF设备连接</string>
-    <string name="rfid_un_charge">未充电</string>
-    <string name="rfid_pre_charge">预充电</string>
-    <string name="rfid_fast_charge">快速充电</string>
-    <string name="rfid_charge_done">充电完成</string>
+    <string name="un_charge">未充电</string>
+    <string name="pre_charge">预充电</string>
+    <string name="fast_charge">快速充电</string>
+    <string name="charge_done">充电完成</string>
 
-    <string name="rfid_reset_completed">UHF重启完成</string>
+    <string name="hint_reset_completed">UHF重启完成</string>
+    <string name="hint_please_check_device_connect">请检查UHF设备连接</string>
+    <string name="hint_not_found_tag">未匹配到标签</string>
+    <string name="hint_please_select_opt_area">请选择操作区域</string>
+    <string name="hint_tag_read_error">读取标签操作失败，代码：0x%1$x，信息：%2$s</string>
+    <string name="hint_tag_write_error">写入标签操作失败，代码：0x%1$x，信息：%2$s</string>
+    <string name="hint_tag_operation_success">标签操作成功</string>
+    <string name="hint_unknow_error">未知的错误</string>
+
+    <string name="param_start_address_error">起始地址格式错误</string>
+    <string name="param_data_len_error">数据长度格式错误</string>
+    <string name="param_data_error">写入数据格式错误</string>
 </resources>

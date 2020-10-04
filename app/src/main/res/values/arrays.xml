@@ -3,9 +3,9 @@
 
     <string-array name="area_array">
         <item>None</item>
-        <item>User</item>
-        <item>TID</item>
         <item>EPC</item>
+        <item>TID</item>
+        <item>User</item>
     </string-array>
 
     <string-array name="type_array">

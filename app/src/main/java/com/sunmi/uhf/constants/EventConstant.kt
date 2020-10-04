@@ -43,6 +43,17 @@ object EventConstant {
     /** 点击操作类型 */
     const val EVENT_OPERATION_TYPE = 1009
 
+    /** 读取数据 */
+    const val EVENT_OPERATION_READ_DATA = 1010
+
+    /** 写入数据 */
+    const val EVENT_OPERATION_WRITE_DATA = 1011
+
+    /** 锁标签 */
+    const val EVENT_OPERATION_LOCK_TAG = 1012
+
+    /** 销毁标签 */
+    const val EVENT_OPERATION_DESTROY_TAG = 1013
 
     /** area name */
     const val LABEL_OPERATION_AREA = "label_operation_area"

@@ -14,46 +14,46 @@ object LogUtils {
 
     fun v(tag: String, msg: String, isStatistics: Boolean = false) {
         if (isTagLoggable(tag, Log.VERBOSE)) {
-            Log.v(tag, msg)
+            Log.v(tag, createLog(msg))
         }
         if (isStatistics) {
-            onCommitEvent(tag, msg)
+            onCommitEvent(tag, createLog(msg))
         }
     }
 
     fun i(tag: String, msg: String, isStatistics: Boolean = false) {
         if (isTagLoggable(tag, Log.INFO)) {
-            Log.i(tag, msg)
+            Log.i(tag, createLog(msg))
         }
         if (isStatistics) {
-            onCommitEvent(tag, msg)
+            onCommitEvent(tag, createLog(msg))
         }
     }
 
     fun w(tag: String, msg: String, isStatistics: Boolean = false) {
         if (isTagLoggable(tag, Log.WARN)) {
-            Log.w(tag, msg)
+            Log.w(tag, createLog(msg))
         }
         if (isStatistics) {
-            onCommitEvent(tag, msg)
+            onCommitEvent(tag, createLog(msg))
         }
     }
 
     fun e(tag: String, msg: String, isStatistics: Boolean = false) {
         if (isTagLoggable(tag, Log.ERROR)) {
-            Log.e(tag, msg)
+            Log.e(tag, createLog(msg))
         }
         if (isStatistics) {
-            onCommitEvent(tag, msg)
+            onCommitEvent(tag, createLog(msg))
         }
     }
 
     fun d(tag: String, msg: String, isStatistics: Boolean = false) {
         if (isTagLoggable(tag, Log.DEBUG)) {
-            Log.d(tag, msg)
+            Log.d(tag, createLog(msg))
         }
         if (isStatistics) {
-            onCommitEvent(tag, msg)
+            onCommitEvent(tag, createLog(msg))
         }
     }
 
@@ -79,8 +79,33 @@ object LogUtils {
     }
 
     fun getCurTimeStr(): String? {
-        return DateFormat.format("yyyy-MM-dd HH:mm:ss", Date())
-            .toString()
+        return DateFormat.format("yyyy-MM-dd HH:mm:ss", Date()).toString()
+    }
+
+    private fun createLog(msg: String): String {
+        var targetStackTraceElement: StackTraceElement? = null
+        val stackTrace = Thread.currentThread().stackTrace
+        var isTrace = false
+        for (stackTraceElement in stackTrace) {
+            val isLogMethod = stackTraceElement.className == LogUtils::class.java.name
+            if (isTrace && !isLogMethod) {
+                targetStackTraceElement = stackTraceElement
+            }
+            isTrace = isLogMethod
+        }
+
+        //使用StringBuffer因为是线程安全的
+        val stringBuffer = StringBuffer()
+        stringBuffer
+            .append("[(")
+            .append(targetStackTraceElement?.fileName ?: "unknow")
+            .append(":")
+            .append(targetStackTraceElement?.lineNumber ?: 0)
+            .append(")#")
+            .append(targetStackTraceElement?.methodName ?: "unknow")
+            .append("]")
+            .append(msg)
+        return stringBuffer.toString()
     }
 
 }
