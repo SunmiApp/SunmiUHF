@@ -73,6 +73,9 @@ object LogUtils {
      * @param tag   官方：the tag to check
      * @param level 官方：the level to check
      * @return true 表示允许输出，false表示不允许输出
+     * 命令: adb shell setprop log.tag.<YOUR_LOG_TAG>  <LEVEL>
+     * 例如: adb shell setprop log.tag.darren VERBOSE 只打印我们定义的tag为volley且level是VERBOSE的log
+     * LEVEL 的值可以是VERBOSE, DEBUG, INFO, WARN, ERROR, ASSERT, 或者SUPPRESS，SUPPRESS会禁止打印所有日志。
      */
     private fun isTagLoggable(tag: String, level: Int): Boolean {
         return BuildConfig.DEBUG || Log.isLoggable(tag, level)

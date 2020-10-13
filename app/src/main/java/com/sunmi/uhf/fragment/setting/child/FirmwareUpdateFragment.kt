@@ -56,7 +56,8 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
     // 调用系统文件管理器
     private fun chooseFile() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.setType("application/bin").addCategory(Intent.CATEGORY_OPENABLE).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        intent.setType("application/bin").addCategory(Intent.CATEGORY_OPENABLE)
+            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         try {
             startActivityForResult(Intent.createChooser(intent, "Choose File"), CHOOSE_FILE_CODE)
         } catch (e: ActivityNotFoundException) {
@@ -73,8 +74,8 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
     ) {
         super.onActivityResult(requestCode, resultCode, data)
         if (data == null || data.data == null) return
-        if (resultCode === Activity.RESULT_OK && requestCode === CHOOSE_FILE_CODE) {
-            val uri: Uri = data!!.data!!
+        if (resultCode == Activity.RESULT_OK && requestCode == CHOOSE_FILE_CODE) {
+            val uri: Uri = data.data!!
             vm.mBinPath.value = getPath(App.mContext, uri)
         }
     }

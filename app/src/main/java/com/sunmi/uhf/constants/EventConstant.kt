@@ -128,6 +128,17 @@ object EventConstant {
     /** 盘存模式 射频link 点击 */
     const val EVENT_SESSION_SELECT = 1024
 
+
+    /** 区域设置 - 国家设置 */
+    const val EVENT_AREA_COUNTRY = 1025
+
+    /** 区域设置 - 开始频率 */
+    const val EVENT_AREA_RF_START = 1026
+
+    /** 区域设置 - 结束频率 */
+    const val EVENT_AREA_RF_END = 1027
+
+
     /** 盘存底座 KeyEvent UP 事件 */
     const val EVENT_UHF_KEY_EVENT_UP = 9001
 

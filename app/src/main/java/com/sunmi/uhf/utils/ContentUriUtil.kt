@@ -41,7 +41,7 @@ object ContentUriUtil {
                     return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
                 }
 
-                // TODO handle non-primary volumes
+                // handle non-primary volumes
             } else if (isDownloadsDocument(uri)) {
                 val id = DocumentsContract.getDocumentId(uri)
                 val contentUri: Uri = ContentUris.withAppendedId(
@@ -102,7 +102,7 @@ object ContentUriUtil {
             column
         )
         try {
-            if (uri!=null){
+            if (uri != null) {
                 cursor = context.contentResolver.query(
                     uri, projection, selection, selectionArgs,
                     null

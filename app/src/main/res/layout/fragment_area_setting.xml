@@ -86,6 +86,7 @@
                         android:textSize="@dimen/sunmi_32ps" />
 
                     <TextView
+                        android:id="@+id/module_name_tv"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -104,6 +105,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sunmi_100px"
                     android:gravity="center_vertical"
+                    android:onClick="@{()-> vm.onAreaCountryClick()}"
                     android:orientation="horizontal"
                     android:paddingTop="@dimen/sunmi_20px"
                     android:paddingBottom="@dimen/sunmi_20px">
@@ -118,6 +120,7 @@
                         android:textSize="@dimen/sunmi_32ps" />
 
                     <TextView
+                        android:id="@+id/area_country_tv"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -140,6 +143,7 @@
                     android:layout_height="@dimen/sunmi_100px"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
+                    android:onClick="@{()-> vm.onRFStartClick()}"
                     android:paddingTop="@dimen/sunmi_20px"
                     android:paddingBottom="@dimen/sunmi_20px">
 
@@ -153,6 +157,7 @@
                         android:textSize="@dimen/sunmi_32ps" />
 
                     <TextView
+                        android:id="@+id/rf_start_tv"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -175,6 +180,7 @@
                     android:layout_height="@dimen/sunmi_100px"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
+                    android:onClick="@{()-> vm.onRFEndClick()}"
                     android:paddingTop="@dimen/sunmi_20px"
                     android:paddingBottom="@dimen/sunmi_20px">
 
@@ -188,6 +194,7 @@
                         android:textSize="@dimen/sunmi_32ps" />
 
                     <TextView
+                        android:id="@+id/rf_end_tv"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"

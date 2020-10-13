@@ -124,6 +124,12 @@
     <string name="current_degree_text">当前温度</string>
     <string name="handle_battery_text">手柄电池信息</string>
 
+    <string name="module_type_inner">内置版本</string>
+    <string name="module_type_china">中国版</string>
+    <string name="module_type_america">美版</string>
+    <string name="module_type_europe">欧版</string>
+    <string name="x_mhz">%d MHz</string>
+
     <string name="battery_voltage_text">电池电压</string>
     <string name="battery_rate_text">电池百分比</string>
     <string name="battery_circle_count_text">电池循环次数</string>
@@ -165,8 +171,15 @@
     <string name="hint_reset_completed">UHF重启完成</string>
     <string name="hint_please_check_device_connect">请检查UHF设备连接</string>
     <string name="hint_not_found_tag">未匹配到标签</string>
+    <string name="hint_please_select">请选择</string>
     <string name="hint_please_select_opt_area">请选择操作区域</string>
     <string name="hint_please_select_opt_type">请选择操作类型</string>
+    <string name="hint_please_select_opt_area_country">请选择区域国家</string>
+    <string name="hint_please_select_opt_start_rf">请选择起始频率</string>
+    <string name="hint_please_select_opt_end_rf">请选择截止频率</string>
+
+    <string name="hint_operation_failed">操作失败，类型：0x%1$x，代码：0x%2$x，信息：%3$s</string>
+    <string name="hint_operation_success">操作成功</string>
     <string name="hint_tag_read_error">读取标签操作失败，代码：0x%1$x，信息：%2$s</string>
     <string name="hint_tag_write_error">写入标签操作失败，代码：0x%1$x，信息：%2$s</string>
     <string name="hint_tag_operation_failed">标签操作失败，代码：0x%1$x，信息：%2$s</string>

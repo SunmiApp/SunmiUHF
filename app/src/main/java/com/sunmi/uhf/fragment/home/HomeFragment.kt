@@ -37,33 +37,32 @@ import kotlinx.coroutines.launch
  * @UpdateDate: 20-9-7 下午3:27
  */
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
-    private val TAG = HomeFragment::class.java.simpleName
     lateinit var vm: HomeViewMode
     private val br = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
-            LogUtils.d("BroadcastReceiver", "HomeFragment-receiver:${intent.action ?: ""}")
+            LogUtils.d("darren", "BroadcastReceiver HomeFragment-receiver:${intent.action ?: ""}")
             when (intent.action) {
                 ParamCts.BROADCAST_ON_LOST_CONNECT -> {
                     ToastUtils.showShort(R.string.hint_please_check_device_connect)
                 }
                 ParamCts.BROADCAST_BATTERY_REMAINING_PERCENTAGE -> {
                     val elec = intent.getIntExtra(ParamCts.BATTERY_REMAINING_PERCENT, 100)
-                    LogUtils.d("BroadcastReceiver", "HomeFragment-battery-remaining-percent:$elec%")
+                    LogUtils.d("darren", "BroadcastReceiver HomeFragment-battery-remaining-percent:$elec%")
                     setCalculateLevel(elec)
                 }
                 ParamCts.BROADCAST_BATTER_CHARGING -> {
                     val chargingState =
-                            when (intent.getByteExtra(ParamCts.BATTERY_CHARGING, 0.toByte())) {
-                                0x00.toByte() -> getString(R.string.un_charge)
-                                0x01.toByte() -> getString(R.string.pre_charge)
-                                0x02.toByte() -> getString(R.string.fast_charge)
-                                0x03.toByte() -> getString(R.string.charge_done)
-                                else -> ""
-                            }
-                    LogUtils.d("BroadcastReceiver", "HomeFragment-chargingState:$chargingState")
+                        when (intent.getByteExtra(ParamCts.BATTERY_CHARGING, 0.toByte())) {
+                            0x00.toByte() -> getString(R.string.un_charge)
+                            0x01.toByte() -> getString(R.string.pre_charge)
+                            0x02.toByte() -> getString(R.string.fast_charge)
+                            0x03.toByte() -> getString(R.string.charge_done)
+                            else -> ""
+                        }
+                    LogUtils.d("darren", "BroadcastReceiver HomeFragment-chargingState:$chargingState")
                 }
                 else -> {
-                    LogUtils.d("BroadcastReceiver", "HomeFragment-receiver:${intent.action}")
+                    LogUtils.d("darren", "BroadcastReceiver HomeFragment-receiver:${intent.action}")
                 }
             }
         }
@@ -88,49 +87,49 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             EventConstant.EVENT_FAST_READ_WRITE -> {
                 //快速读取
                 switchFragment(
-                        ReadWriteFragment.newInstance(null),
-                        addToBackStack = true,
-                        clearStack = false
+                    ReadWriteFragment.newInstance(null),
+                    addToBackStack = true,
+                    clearStack = false
                 )
             }
             EventConstant.EVENT_TAKE_INVENTORY -> {
                 //盘存
                 switchFragment(
-                        TakeInventoryFragment.newInstance(null),
-                        addToBackStack = true,
-                        clearStack = false
+                    TakeInventoryFragment.newInstance(null),
+                    addToBackStack = true,
+                    clearStack = false
                 )
             }
             EventConstant.EVENT_LABEL_OPERATION -> {
                 //标签操作存页
                 switchFragment(
-                        LabelOperationFragment.newInstance(null),
-                        addToBackStack = true,
-                        clearStack = false
+                    LabelOperationFragment.newInstance(null),
+                    addToBackStack = true,
+                    clearStack = false
                 )
             }
             EventConstant.EVENT_LABEL_LOCATION -> {
                 //标签定位
                 switchFragment(
-                        LabelLocationFragment.newInstance(null),
-                        addToBackStack = true,
-                        clearStack = false
+                    LabelLocationFragment.newInstance(null),
+                    addToBackStack = true,
+                    clearStack = false
                 )
             }
             EventConstant.EVENT_LABEL_FILTER -> {
                 //标签过滤
                 switchFragment(
-                        LabelFilterFragment.newInstance(null),
-                        addToBackStack = true,
-                        clearStack = false
+                    LabelFilterFragment.newInstance(null),
+                    addToBackStack = true,
+                    clearStack = false
                 )
             }
             EventConstant.EVENT_SETTING -> {
                 //setting
                 switchFragment(
-                        SettingFragment.newInstance(null),
-                        addToBackStack = true,
-                        clearStack = false
+                    SettingFragment.newInstance(null),
+                    addToBackStack = true,
+                    clearStack = false
                 )
             }
         }
@@ -157,7 +156,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         mainScope.launch(Dispatchers.IO) {
             while (isActive) {
                 if (lifecycle.currentState != Lifecycle.State.RESUMED) {
-                    LogUtils.d(TAG, "get battery Remaining Percent >> stop")
+                    LogUtils.d("darren", "get battery Remaining Percent >> stop")
                     break
                 }
                 RFIDManager.getInstance().apply {
@@ -166,7 +165,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         helper.getBatteryChargeState()
                     }
                 }
-                LogUtils.d(TAG, "get battery Remaining Percent")
+                LogUtils.d("darren", "get battery Remaining Percent")
                 delay(3000)
             }
         }
@@ -190,6 +189,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     companion object {
         fun newInstance(args: Bundle?) = HomeFragment()
-                .apply { arguments = args }
+            .apply { arguments = args }
     }
 }

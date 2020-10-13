@@ -7,6 +7,7 @@ import com.sunmi.rfid.ReaderCall
 import com.sunmi.rfid.constant.CMD
 import com.sunmi.rfid.constant.ParamCts
 import com.sunmi.rfid.entity.DataParameter
+import com.sunmi.uhf.BuildConfig
 import com.sunmi.uhf.R
 import com.sunmi.uhf.base.BaseFragment
 import com.sunmi.uhf.bean.CommonListBean
@@ -42,8 +43,8 @@ class TabReadFragment : BaseFragment<TabReadWriteBinding>() {
     private val clearEpcCall = object : ReaderCall() {
         override fun onSuccess(cmd: Byte, params: DataParameter?) {
             LogUtils.i(
-                javaClass.simpleName,
-                String.format("CMD: 0x%02X, params info:", cmd, params?.toString() ?: "")
+                "darren",
+                String.format("CMD: 0x%02X, params info: %s", cmd, params?.toString() ?: "")
             )
             mainScope.launch(Dispatchers.IO) {
                 RFIDManager.getInstance().apply {
@@ -57,9 +58,9 @@ class TabReadFragment : BaseFragment<TabReadWriteBinding>() {
             // nope
         }
 
-        override fun onFiled(cmd: Byte, errorCode: Byte, msg: String?) {
+        override fun onFailed(cmd: Byte, errorCode: Byte, msg: String?) {
             LogUtils.e(
-                javaClass.simpleName,
+                "darren",
                 String.format("CMD: 0x%02X, Error Code: 0x%02X, msg info: %s", cmd, errorCode, msg)
             )
             RFIDManager.getInstance().helper.unregisterReaderCall()
@@ -71,9 +72,9 @@ class TabReadFragment : BaseFragment<TabReadWriteBinding>() {
     }
     private val optCall = object : ReaderCall() {
         override fun onSuccess(cmd: Byte, params: DataParameter?) {
-            LogUtils.i(
-                javaClass.simpleName,
-                String.format("CMD: 0x%02X, params info:", cmd, params?.toString() ?: "")
+            if (BuildConfig.DEBUG) LogUtils.i(
+                "darren",
+                String.format("CMD: 0x%02X, params info: %s", cmd, params?.toString() ?: "")
             )
             when (cmd) {
                 CMD.SET_ACCESS_EPC_MATCH -> {
@@ -112,9 +113,9 @@ class TabReadFragment : BaseFragment<TabReadWriteBinding>() {
             // nope
         }
 
-        override fun onFiled(cmd: Byte, errorCode: Byte, msg: String?) {
-            LogUtils.e(
-                javaClass.simpleName,
+        override fun onFailed(cmd: Byte, errorCode: Byte, msg: String?) {
+            if (BuildConfig.DEBUG) LogUtils.e(
+                "darren",
                 String.format("CMD: 0x%02X, Error Code: 0x%02X, msg info: %s", cmd, errorCode, msg)
             )
             RFIDManager.getInstance().helper.unregisterReaderCall()
@@ -179,7 +180,7 @@ class TabReadFragment : BaseFragment<TabReadWriteBinding>() {
         }
         // operation
         RFIDManager.getInstance().apply {
-            if (isConnect) {
+            if (isConnect && helper.scanModel != RFIDManager.NONE) {
                 helper.registerReaderCall(clearEpcCall)
                 helper.cancelAccessEpcMatch()
             }

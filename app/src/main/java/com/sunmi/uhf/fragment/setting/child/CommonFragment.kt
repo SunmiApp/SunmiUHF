@@ -37,7 +37,7 @@ class CommonFragment : BaseFragment<FragmentCommonSettingBinding>() {
     val br = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action == ParamCts.BROADCAST_READER_BOOT) {
-                LogUtils.w(javaClass.simpleName, "reader boot.")
+                LogUtils.w("darren", "reader boot.")
                 hideDialog()
                 ToastUtils.showShort(R.string.hint_reset_completed)
             }

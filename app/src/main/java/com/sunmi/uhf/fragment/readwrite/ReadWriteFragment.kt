@@ -127,7 +127,7 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
                             isLoop = true
                         }
                         else -> {
-                            LogUtils.e("darren-ReadWriteFragment", "error label index")
+                            LogUtils.e("darren", "error label index")
                         }
                     }
                 }
@@ -163,7 +163,7 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
                 }
             }
             else -> {
-                LogUtils.d(javaClass.simpleName, "other success.")
+                LogUtils.d("darren", "other success.")
             }
         }
     }
@@ -176,7 +176,7 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
                 // 6C标签盘存
                 allCount++
                 val epc = tag.getString(ParamCts.TAG_EPC) ?: ""
-                LogUtils.i(javaClass.simpleName, "found tag:$epc")
+                LogUtils.i("darren", "found tag:$epc")
                 val index = tidList.indexOf(epc)
                 if (index != -1) {
                     tagList[index] = tag
@@ -189,7 +189,7 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
             CMD.ISO18000_6B_INVENTORY -> {
                 allCount++
                 val uid = tag.getString(ParamCts.TAG_UID) ?: ""
-                LogUtils.i(javaClass.simpleName, "found tag:$uid")
+                LogUtils.i("darren", "found tag:$uid")
                 val index: Int = tidList.indexOf(uid)
                 if (index != -1) {
                     tagList[index] = tag
@@ -200,7 +200,7 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
                 notifyTagDataChange()
             }
             else -> {
-                LogUtils.d(javaClass.simpleName, "other found tag.")
+                LogUtils.d("darren", "other found tag.")
             }
         }
     }
@@ -220,7 +220,7 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
                 }
             }
             else -> {
-                LogUtils.d(javaClass.simpleName, "other failed.")
+                LogUtils.d("darren", "other failed.")
             }
         }
     }
@@ -240,6 +240,6 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
 
     companion object {
         fun newInstance(args: Bundle?) = ReadWriteFragment()
-                .apply { arguments = args }
+            .apply { arguments = args }
     }
 }

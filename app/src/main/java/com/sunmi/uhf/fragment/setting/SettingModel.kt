@@ -19,15 +19,6 @@ class SettingModel : BaseViewModel() {
     /* 标签名字 */
     val labelName = MutableLiveData<String>()
 
-    /* 标签列表 */
-    val mLabelList = MutableLiveData<MutableList<String>>()
-
-    /* 射频链路列表 */
-    val mRFLinkList = MutableLiveData<MutableList<String>>()
-
-    /* 手柄触发方式列表 */
-    val mHandleTypeList = MutableLiveData<MutableList<String>>()
-
     /* 手柄触发方式 */
     val mHandleType = MutableLiveData<String>()
 
@@ -76,6 +67,27 @@ class SettingModel : BaseViewModel() {
      */
     fun onAreaSettingClick() {
         EventConstant.EVENT_AREA_SETTING.publish()
+    }
+
+    /**
+     * 区域设置 - 国家
+     */
+    fun onAreaCountryClick() {
+        EventConstant.EVENT_AREA_COUNTRY.publish()
+    }
+
+    /**
+     * 区域设置 - 开始频率
+     */
+    fun onRFStartClick() {
+        EventConstant.EVENT_AREA_RF_START.publish()
+    }
+
+    /**
+     * 区域设置 - 结束频率
+     */
+    fun onRFEndClick() {
+        EventConstant.EVENT_AREA_RF_END.publish()
     }
 
     /**

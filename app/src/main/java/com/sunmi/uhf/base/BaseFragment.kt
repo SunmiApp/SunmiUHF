@@ -64,6 +64,10 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
         hideDialog()
         dataBinding = null
         handler.removeCallbacksAndMessages(null)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         mainScope.cancel()
     }
 
