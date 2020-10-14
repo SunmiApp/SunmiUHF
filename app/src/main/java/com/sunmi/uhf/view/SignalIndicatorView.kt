@@ -93,13 +93,8 @@ class SignalIndicatorView @JvmOverloads constructor(
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         var mWidth = getSize(defaultSize, widthMeasureSpec)
         var mHeight = getSize(defaultSize, heightMeasureSpec)
-        Log.i("xcfdsaf","1 mWidth=$mWidth,mHeight:$mHeight,defaultSize:$defaultSize")
         if (mHeight > defaultSize) mHeight = defaultSize
-        if (mWidth > defaultSize) mWidth = defaultSize
-        mWidth = mWidth.coerceAtMost(mHeight)
-        mHeight = mWidth
-        Log.i("xcfdsaf","2 mWidth=$mWidth,mHeight:$mHeight")
-        setMeasuredDimension(mWidth, mHeight);
+        setMeasuredDimension(mWidth, mHeight)
     }
 
     private fun getSize(defaultSize: Int, measureSpec: Int): Int {
