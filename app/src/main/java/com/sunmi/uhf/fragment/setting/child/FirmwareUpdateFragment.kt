@@ -1,11 +1,13 @@
 package com.sunmi.uhf.fragment.setting.child
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
-import android.content.Intent
+import android.content.*
 import android.net.Uri
 import android.os.Bundle
 import androidx.annotation.Nullable
+import com.sunmi.rfid.FirmwareUpdateCall
+import com.sunmi.rfid.RFIDManager
+import com.sunmi.rfid.constant.ParamCts
 import com.sunmi.uhf.App
 import com.sunmi.uhf.R
 import com.sunmi.uhf.base.BaseFragment
@@ -14,6 +16,9 @@ import com.sunmi.uhf.databinding.FragmentFirmwareUpdateBinding
 import com.sunmi.uhf.event.SimpleViewEvent
 import com.sunmi.uhf.fragment.setting.SettingModel
 import com.sunmi.uhf.utils.ContentUriUtil.getPath
+import com.sunmi.uhf.utils.LogUtils
+import com.sunmi.widget.util.ToastUtils
+import kotlinx.coroutines.launch
 
 
 /**
@@ -25,6 +30,23 @@ import com.sunmi.uhf.utils.ContentUriUtil.getPath
  */
 class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
     lateinit var vm: SettingModel
+    var elec = 100
+    val br = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            when (intent?.action) {
+                ParamCts.BROADCAST_BATTERY_REMAINING_PERCENTAGE -> {
+                    elec = intent.getIntExtra(ParamCts.BATTERY_REMAINING_PERCENT, 100)
+                    LogUtils.d("darren", "BroadcastReceiver HomeFragment-battery-remaining-percent:$elec%")
+                }
+                ParamCts.BROADCAST_BATTER_LOW_ELEC -> {
+                    elec = intent.getIntExtra(ParamCts.BATTERY_REMAINING_PERCENT, 100)
+                    LogUtils.d("darren", "BroadcastReceiver HomeFragment-battery-remaining-percent:$elec%")
+                }
+            }
+        }
+
+    }
+
     override fun getLayoutResource() = R.layout.fragment_firmware_update
 
     override fun initVM() {
@@ -37,6 +59,11 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
     }
 
     override fun initData() {
+        RFIDManager.getInstance().apply {
+            if (isConnect) {
+                helper.getBatteryRemainingPercent()
+            }
+        }
     }
 
     override fun onSimpleViewEvent(event: SimpleViewEvent) {
@@ -48,15 +75,30 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
             EventConstant.EVENT_CHOICE_FILE -> {
                 chooseFile()
             }
-
+            EventConstant.EVENT_FIRMWARE_UPDATE_UPGRADE -> {
+                upgrade()
+            }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        context?.registerReceiver(br, IntentFilter().apply {
+            addAction(ParamCts.BROADCAST_BATTERY_REMAINING_PERCENTAGE)
+            addAction(ParamCts.BROADCAST_BATTER_LOW_ELEC)
+        })
+    }
+
+    override fun onStop() {
+        super.onStop()
+        context?.unregisterReceiver(br)
     }
 
     // 打开系统的文件选择器
     // 调用系统文件管理器
     private fun chooseFile() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.setType("application/bin").addCategory(Intent.CATEGORY_OPENABLE)
+        intent.setType("application/*").addCategory(Intent.CATEGORY_OPENABLE)
             .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         try {
             startActivityForResult(Intent.createChooser(intent, "Choose File"), CHOOSE_FILE_CODE)
@@ -80,6 +122,47 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
         }
     }
 
+    private fun upgrade() {
+        if (vm.updating.value == true) return
+        LogUtils.i("darren", "update file: ${vm.mBinPath.value}")
+        if (elec <= 10) {
+            ToastUtils.showShort(resources.getString(R.string.hint_please_charge, elec))
+        }
+        RFIDManager.getInstance().apply {
+            if (isConnect && helper.scanModel == RFIDManager.UHF_R2000) {
+                vm.updating.value = true
+                vm.updateProgress.value = 0
+                helper.firmwareUpdate(vm.mBinPath.value, object : FirmwareUpdateCall() {
+                    override fun onSuccess() {
+                        LogUtils.d("darren", "onSuccess")
+                        mainScope.launch {
+                            ToastUtils.showShort(R.string.update_success)
+                            binding.root.postDelayed({
+                                vm.updating.value = false
+                            }, 2000)
+                        }
+                    }
+
+                    override fun onProgress(progress: Int) {
+                        LogUtils.d("darren", "onProgress: $progress")
+                        mainScope.launch {
+                            vm.updateProgress.value = progress
+                        }
+                    }
+
+                    override fun onFailed(code: Int, msg: String?) {
+                        LogUtils.d("darren", "onProgress: $code => $msg")
+                        mainScope.launch {
+                            ToastUtils.showShort(R.string.update_failed, code, msg)
+                            binding.root.postDelayed({
+                                vm.updating.value = false
+                            }, 2000)
+                        }
+                    }
+                })
+            }
+        }
+    }
 
     companion object {
         fun newInstance(args: Bundle?) = FirmwareUpdateFragment()

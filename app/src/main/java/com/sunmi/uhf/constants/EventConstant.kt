@@ -138,6 +138,9 @@ object EventConstant {
     /** 区域设置 - 结束频率 */
     const val EVENT_AREA_RF_END = 1027
 
+    /** 固件升级 点击升级 */
+    const val EVENT_FIRMWARE_UPDATE_UPGRADE = 1028
+
 
     /** 盘存底座 KeyEvent UP 事件 */
     const val EVENT_UHF_KEY_EVENT_UP = 9001

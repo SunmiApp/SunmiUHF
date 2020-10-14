@@ -190,6 +190,10 @@
     <string name="param_data_len_error">数据长度格式错误</string>
     <string name="param_data_error">写入数据格式错误</string>
 
-    <string name="update_progress_text">%d&#037;</string>
+    <string name="update_progress_text">%d%%</string>
     <string name="update_progress_ing_text">正在升级</string>
+    <string name="update_success">升级成功</string>
+    <string name="update_failed">升级失败，代码：0x%1$x，信息：%2$s</string>
+
+    <string name="hint_please_charge">电量过低，请充电（%d%%）</string>
 </resources>

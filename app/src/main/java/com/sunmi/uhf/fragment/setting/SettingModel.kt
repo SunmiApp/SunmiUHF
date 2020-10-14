@@ -166,7 +166,7 @@ class SettingModel : BaseViewModel() {
      * 固件 升级
      */
     fun onFileUpdateClick() {
-
+        EventConstant.EVENT_FIRMWARE_UPDATE_UPGRADE.publish()
     }
 
     fun getFileName(path: String?) = path?.let {
