@@ -34,6 +34,13 @@ class SettingModel : BaseViewModel() {
     /* 盘存模式  自定义 模式 */
     val mSession = MutableLiveData<String>()
 
+
+    /* 固件更新中 */
+    val updating = MutableLiveData<Boolean>(false)
+
+    /* 固件更新进度 */
+    val updateProgress = MutableLiveData<Int>(0)
+
     /**
      * 返回点击事件
      */

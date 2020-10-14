@@ -8,6 +8,8 @@
 
         <import type="android.text.TextUtils" />
 
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.sunmi.uhf.fragment.setting.SettingModel" />
@@ -64,6 +66,7 @@
                 android:layout_height="@dimen/sunmi_88px"
                 android:layout_margin="@dimen/sunmi_30px"
                 android:background="@drawable/btn_stoke_shape"
+                android:visibility="@{vm.updating?View.GONE:View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -97,16 +100,43 @@
                     android:textSize="@dimen/sunmi_28ps" />
             </FrameLayout>
 
+            <TextView
+                android:id="@+id/update_progress_value_tv"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_160px"
+                android:gravity="center"
+                android:text="@{@string/update_progress_text(vm.updateProgress)}"
+                android:textColor="#FF333C4F"
+                android:textSize="@dimen/sunmi_56ps"
+                android:visibility="@{vm.updating?View.VISIBLE:View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_line"
+                tools:text="50%" />
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/sunmi_8px"
+                android:max="100"
+                android:progressDrawable="@drawable/progressbar_horizontal"
+                android:visibility="@{vm.updating?View.VISIBLE:View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@id/update_progress_value_tv"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:progress="50" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="@dimen/sunmi_88px"
             android:layout_margin="@dimen/sunmi_30px"
-            android:background="@{TextUtils.isEmpty(vm.mBinPath)?@color/lightColorAccent:@color/colorAccent}"
+            android:background="@{vm.updating?@color/colorAccent:(TextUtils.isEmpty(vm.mBinPath)?@color/lightColorAccent:@color/colorAccent)}"
             android:gravity="center"
-            android:text="@string/update_text"
             android:onClick="@{()->vm.onFileUpdateClick()}"
+            android:text="@{vm.updating?@string/update_progress_ing_text:@string/update_text}"
             android:textColor="@color/white"
             android:textSize="@dimen/sunmi_32ps"
             sunmi:outline="@{`10`}" />
