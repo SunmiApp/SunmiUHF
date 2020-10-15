@@ -34,10 +34,7 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
     val br = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             when (intent?.action) {
-                ParamCts.BROADCAST_BATTERY_REMAINING_PERCENTAGE -> {
-                    elec = intent.getIntExtra(ParamCts.BATTERY_REMAINING_PERCENT, 100)
-                    LogUtils.d("darren", "BroadcastReceiver HomeFragment-battery-remaining-percent:$elec%")
-                }
+                ParamCts.BROADCAST_BATTERY_REMAINING_PERCENTAGE,
                 ParamCts.BROADCAST_BATTER_LOW_ELEC -> {
                     elec = intent.getIntExtra(ParamCts.BATTERY_REMAINING_PERCENT, 100)
                     LogUtils.d("darren", "BroadcastReceiver HomeFragment-battery-remaining-percent:$elec%")

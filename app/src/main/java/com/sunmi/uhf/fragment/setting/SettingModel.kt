@@ -41,6 +41,34 @@ class SettingModel : BaseViewModel() {
     /* 固件更新进度 */
     val updateProgress = MutableLiveData<Int>(0)
 
+    /* 设备 SN */
+    val sn = MutableLiveData<String>()
+
+    /* UHF 固件版本 */
+    val uhfVer = MutableLiveData<String>()
+
+    /* UHF 模块固件版本 */
+    val moduleVer = MutableLiveData<String>()
+
+    /* UHF 模块类型 */
+    val moduleType = MutableLiveData<String>()
+
+    /* UHF 模块温度 */
+    val moduleTemplate = MutableLiveData<Int>(0)
+
+    /* UHF 电压mV */
+    val batteryVoltage = MutableLiveData<Int>(0)
+
+    /* UHF 电量 */
+    val batteryRate = MutableLiveData<Int>(0)
+
+    /* UHF 电池循环次数 */
+    val batteryTimes = MutableLiveData<Int>(0)
+
+    /* UHF 充电状态 */
+    val batteryCharge = MutableLiveData<String>()
+
+
     /**
      * 返回点击事件
      */

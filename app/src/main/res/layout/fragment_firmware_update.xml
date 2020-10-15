@@ -105,7 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/sunmi_160px"
                 android:gravity="center"
-                android:text="@{@string/update_progress_text(vm.updateProgress)}"
+                android:text="@{@string/percentage_x(vm.updateProgress)}"
                 android:textColor="#FF333C4F"
                 android:textSize="@dimen/sunmi_56ps"
                 android:visibility="@{vm.updating?View.VISIBLE:View.GONE}"

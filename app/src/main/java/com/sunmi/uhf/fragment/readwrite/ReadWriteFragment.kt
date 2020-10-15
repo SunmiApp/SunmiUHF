@@ -86,6 +86,8 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
 
     private fun startStop(en: Boolean) {
         if (en) {
+            tidList.clear()
+            tagList.clear()
             allCount = 0
             vm.labelNum.value = 0
             vm.totalLabelNum.value = 0

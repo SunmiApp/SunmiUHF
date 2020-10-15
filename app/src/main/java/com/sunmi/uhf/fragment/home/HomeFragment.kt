@@ -166,7 +166,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
                 }
                 LogUtils.d("darren", "get battery Remaining Percent")
-                delay(3000)
+                delay(30000)
             }
         }
     }
