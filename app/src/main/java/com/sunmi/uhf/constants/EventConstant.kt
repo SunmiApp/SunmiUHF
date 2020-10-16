@@ -141,6 +141,17 @@ object EventConstant {
     /** 固件升级 点击升级 */
     const val EVENT_FIRMWARE_UPDATE_UPGRADE = 1028
 
+    /** 盘存 复制EPC */
+    const val EVENT_INVENTORY_COPY_EPC = 1029
+
+    /** 盘存 分享 */
+    const val EVENT_INVENTORY_SHARE = 1030
+
+    /** 盘存 导出Excel*/
+    const val EVENT_INVENTORY_EXPORT_EXCEL = 1031
+
+    /** 盘存 导出All Excel*/
+    const val EVENT_INVENTORY_EXPORT_EXCEL_ALL = 1032
 
     /** 盘存底座 KeyEvent UP 事件 */
     const val EVENT_UHF_KEY_EVENT_UP = 9001

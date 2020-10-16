@@ -14,6 +14,9 @@ import com.sunmi.uhf.constants.EventConstant
  */
 class TakeInventoryModel : BaseViewModel() {
 
+    /* 是否开始读取 */
+    val start = MutableLiveData<Boolean>(false)
+
     /* 是否处于编辑模式 */
     val editModel = MutableLiveData<Boolean>(false)
 
@@ -51,6 +54,14 @@ class TakeInventoryModel : BaseViewModel() {
     }
 
     /**
+     * 开始/停止按钮
+     */
+    fun onBtnClick() {
+        val flag = start.value ?: false
+        start.value = !flag
+    }
+
+    /**
      * 盘存点击编辑
      */
     fun onEditAbleClick() {
@@ -78,12 +89,32 @@ class TakeInventoryModel : BaseViewModel() {
         EventConstant.EVENT_TAKE_MODEL_SEARCH.publish()
     }
 
-    fun createData(): MutableList<LabelInfoBean> {
-        val list = mutableListOf<LabelInfoBean>()
-        for (i in 1..2) {
-            list.add(LabelInfoBean("EXX1001212", "XX", 5, "55db", "55hz"))
-        }
-        return list
+    /**
+     * 复制 EPC
+     */
+    fun onCopyEpcClick() {
+        EventConstant.EVENT_INVENTORY_COPY_EPC.publish()
+    }
+
+    /**
+     * 分享
+     */
+    fun onShareClick() {
+        EventConstant.EVENT_INVENTORY_SHARE.publish()
+    }
+
+    /**
+     * 导出Excel
+     */
+    fun onExportExcelClick() {
+        EventConstant.EVENT_INVENTORY_EXPORT_EXCEL.publish()
+    }
+
+    /**
+     * 导出 All Excel
+     */
+    fun onExportAllExcelClick() {
+        EventConstant.EVENT_INVENTORY_EXPORT_EXCEL_ALL.publish()
     }
 
     fun createModel(): MutableList<String> {

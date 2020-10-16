@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sunmi.uhf.R
 import com.sunmi.uhf.adapter.LabelInfoAdapter
 import com.sunmi.uhf.base.BaseFragment
+import com.sunmi.uhf.bean.LabelInfoBean
 import com.sunmi.uhf.constants.EventConstant
 import com.sunmi.uhf.databinding.FragmentSearchBinding
 import com.sunmi.uhf.event.SimpleViewEvent
@@ -20,8 +21,8 @@ import com.sunmi.uhf.event.SimpleViewEvent
 class SearchModelFragment : BaseFragment<FragmentSearchBinding>() {
 
     lateinit var vm: TakeInventoryModel
-
     lateinit var adapter: LabelInfoAdapter
+    private val list = mutableListOf<LabelInfoBean>()
 
     override fun getLayoutResource() = R.layout.fragment_search
 
@@ -37,7 +38,7 @@ class SearchModelFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     override fun initData() {
-        vm.filterLabelList.value = vm.createData()
+        vm.filterLabelList.value = list
         vm.filterLabelList.observe(viewLifecycleOwner, Observer {
             adapter.setNewInstance(it)
         })

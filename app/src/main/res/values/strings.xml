@@ -23,6 +23,7 @@
     <string name="total_number_text">累计读取</string>
     <string name="take_inventory_model_text">盘存模式</string>
     <string name="start_take_inventory_text">开始盘存</string>
+    <string name="stop_take_inventory_text">停止盘存</string>
     <string name="copy_text">复制EPC</string>
     <string name="share_text">分享</string>
     <string name="import_excel_text">导出Excel</string>
