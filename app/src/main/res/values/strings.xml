@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Uhf</string>
+    <string name="app_name">UHF</string>
     <string name="home_title_text">首页</string>
     <string name="home_power_text">手柄电量</string>
     <string name="fast_read_write_text">快速读取</string>
