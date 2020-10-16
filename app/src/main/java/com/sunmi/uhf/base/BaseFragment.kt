@@ -193,7 +193,6 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
 
     fun performBackClick() {
         handler.post { activity?.supportFragmentManager?.popBackStackImmediate() }
-
     }
 
     fun showDialog() {

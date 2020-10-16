@@ -60,7 +60,10 @@ object ExcelUtils {
         var workbook: WritableWorkbook? = null
         try {
             val file = File(fileName)
-            if (!file.exists()) {
+            if (file.exists()) {
+                file.deleteOnExit()
+                file.createNewFile()
+            } else {
                 file.createNewFile()
             }
             workbook = Workbook.createWorkbook(file)

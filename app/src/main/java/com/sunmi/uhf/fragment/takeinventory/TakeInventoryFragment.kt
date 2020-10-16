@@ -1,19 +1,13 @@
 package com.sunmi.uhf.fragment.takeinventory
 
 import android.Manifest
-import android.app.Activity
-import android.content.ActivityNotFoundException
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.os.SystemClock
-import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
-import androidx.annotation.Nullable
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,11 +26,7 @@ import com.sunmi.uhf.constants.EventConstant
 import com.sunmi.uhf.databinding.FragmentTakeInventoryBinding
 import com.sunmi.uhf.event.SimpleViewEvent
 import com.sunmi.uhf.fragment.ReadBaseFragment
-import com.sunmi.uhf.fragment.setting.child.FirmwareUpdateFragment
-import com.sunmi.uhf.utils.ContentUriUtil
-import com.sunmi.uhf.utils.ExcelUtils
-import com.sunmi.uhf.utils.LiveDataBusEvent
-import com.sunmi.uhf.utils.LogUtils
+import com.sunmi.uhf.utils.*
 import com.sunmi.widget.dialog.InputDialog
 import com.sunmi.widget.util.ToastUtils
 import kotlinx.coroutines.Dispatchers
@@ -178,14 +168,42 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
      * 复制EPC到剪贴板
      */
     private fun copyEpcToClipboard() {
-
+        mainScope.launch(Dispatchers.IO) {
+            if (adapter.selectData.size == 0) {
+                mainScope.launch { ToastUtils.showLong(getString(R.string.please_take_select_before_proceeding)) }
+                return@launch
+            }
+            val info = StringBuffer()
+            for (epc in adapter.selectData.keys) {
+                if (info.isNotEmpty()) {
+                    info.append("\n")
+                }
+                info.append(epc)
+            }
+            LogUtils.i("darren", "copy to clipboard: $info")
+            mainScope.launch {
+                ClipboardUtils.copyStrToClipboard(context, info.toString())
+                ToastUtils.showLong(getString(R.string.hint_copy_epc_clipboard))
+            }
+        }
     }
 
     /**
      * 分享到其他App
      */
     private fun shareToApp() {
-
+        mainScope.launch(Dispatchers.IO) {
+            if (adapter.selectData.size == 0) {
+                mainScope.launch { ToastUtils.showLong(getString(R.string.please_take_select_before_proceeding)) }
+                return@launch
+            }
+            var dir = App.mContext.externalCacheDir ?: App.mContext.cacheDir
+            val data = ArrayList<LabelInfoBean>(adapter.selectData.values)
+            var file = ExcelUtils.writeTagToExcel("${dir.absolutePath}/tagList", data)
+            mainScope.launch {
+                ShareUtils.shareFile(App.mContext, file)
+            }
+        }
     }
 
     /**
@@ -227,7 +245,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                         dialog.inputError()
                         return
                     } else {
-                        exportExcelToSD(text, Environment.getExternalStorageDirectory().absolutePath)
+                        exportExcel(text, Environment.getExternalStorageDirectory().absolutePath)
                         dialog.dismiss()
                     }
                 } else {
@@ -241,17 +259,20 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
     /**
      * 保存Excel文件到SD卡
      */
-    private fun exportExcelToSD(fileName: String, path: String) {
+    private fun exportExcel(fileName: String, path: String) {
         mainScope.launch(Dispatchers.IO) {
+            LogUtils.i("darren", "export Excel dir:$path")
             val file = "$path/$fileName"
             val data = ArrayList<LabelInfoBean>()
+            var resTips = R.string.please_take_inventory_before_proceeding
             if (exportExcelType == 0) {
                 data.addAll(list)
             } else if (exportExcelType == 1) {
                 data.addAll(adapter.selectData.values)
+                resTips = R.string.please_take_select_before_proceeding
             }
             if (data.size == 0) {
-                mainScope.launch { ToastUtils.showLong(getString(R.string.please_take_inventory_before_proceeding)) }
+                mainScope.launch { ToastUtils.showLong(getString(resTips)) }
                 return@launch
             }
             ExcelUtils.writeTagToExcel(file, data)
