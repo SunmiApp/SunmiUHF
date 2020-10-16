@@ -1,10 +1,14 @@
 package com.sunmi.uhf.adapter
 
+import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import com.sunmi.uhf.R
 import com.sunmi.uhf.bean.LabelInfoBean
+import com.sunmi.uhf.constants.EventConstant
 import com.sunmi.uhf.databinding.LayoutTakeInventoryItemInfoBinding
+import com.sunmi.uhf.fragment.takeinventory.TakeInventoryFragment
+import com.sunmi.uhf.utils.LiveDataBusEvent
 
 /**
  * @ClassName: LabelInfoAdapter
@@ -18,7 +22,9 @@ class LabelInfoAdapter :
         R.layout.layout_take_inventory_item_info
     ) {
 
-    var editable: Boolean? = false
+    var editable: Boolean = false
+    var selectAll: Boolean = false
+    val selectData = HashMap<String, LabelInfoBean>()
 
     override fun convert(
         holder: BaseDataBindingHolder<LayoutTakeInventoryItemInfoBinding>,
@@ -27,9 +33,31 @@ class LabelInfoAdapter :
         var binding = holder.dataBinding
         binding?.let {
             it.bean = item
-            it.editAble = editable ?: false
+            it.editAble = editable
             it.index = getItemPosition(item)
+            it.check = selectData.containsKey(item.epc) || selectAll
+            it.itemCheckIv.setOnClickListener { _ ->
+                if (selectData.containsKey(item.epc)) {
+                    selectData.remove(item.epc)
+                    it.check = false
+                    if (selectAll) {
+                        selectAll = false
+                        LiveDataBusEvent.get().with(EventConstant.SELECT_ALL_TAG, Boolean::class.java)
+                            .postValue(selectAll)
+                    }
+                } else {
+                    selectData[item.epc!!] = item
+                    it.check = true
+                    if (!selectAll && data.size == selectData.size) {
+                        selectAll = true
+                        LiveDataBusEvent.get().with(EventConstant.SELECT_ALL_TAG, Boolean::class.java)
+                            .postValue(selectAll)
+                    }
+                }
+                it.executePendingBindings()
+            }
             it.executePendingBindings()
         }
     }
+
 }

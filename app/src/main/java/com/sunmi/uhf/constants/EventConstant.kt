@@ -79,6 +79,9 @@ object EventConstant {
     /** 盘存底座 KeyEvent 事件 */
     const val UHF_KEY_EVENT = "uhf_key_event"
 
+    /** 盘存底座 adapter select All 事件 */
+    const val SELECT_ALL_TAG = "select_all_tag"
+
     /** 过滤器 读取区域 点击 */
     const val EVENT_BLOCK_CLICK = 1010
 
@@ -147,11 +150,15 @@ object EventConstant {
     /** 盘存 分享 */
     const val EVENT_INVENTORY_SHARE = 1030
 
-    /** 盘存 导出Excel*/
+    /** 盘存 导出Excel */
     const val EVENT_INVENTORY_EXPORT_EXCEL = 1031
 
-    /** 盘存 导出All Excel*/
+    /** 盘存 导出All Excel */
     const val EVENT_INVENTORY_EXPORT_EXCEL_ALL = 1032
+
+    /** 盘存 标签信息 点击选择 */
+    const val EVENT_TAKE_LABEL_INFO = 1032
+
 
     /** 盘存底座 KeyEvent UP 事件 */
     const val EVENT_UHF_KEY_EVENT_UP = 9001

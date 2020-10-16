@@ -207,4 +207,10 @@
     <string name="module_template">%d°C</string>
     <string name="battery_voltage">%dmV</string>
     <string name="times_x">%d次</string>
+
+    <string name="please_allow_read_write_sd_card">请允许读写SD卡，用于导出Excel</string>
+    <string name="please_input_file_name">请输入文件名</string>
+    <string name="please_take_inventory_before_proceeding">请先盘存后，再进行操作</string>
+    <string name="hint_excel_save_to_sd">已导出Excel到SD卡</string>
+
 </resources>

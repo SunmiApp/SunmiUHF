@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -13,6 +14,10 @@
 
         <variable
             name="editAble"
+            type="Boolean" />
+
+        <variable
+            name="check"
             type="Boolean" />
 
         <import type="android.text.TextUtils" />
@@ -34,10 +39,11 @@
             android:id="@+id/item_check_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{editAble?View.VISIBLE:View.GONE}"
             android:paddingTop="@dimen/sunmi_10px"
             android:paddingBottom="@dimen/sunmi_10px"
-            android:src="@drawable/not_check_icon" />
+            android:src="@{check?@drawable/checked_icon:@drawable/not_check_icon}"
+            android:visibility="@{editAble?View.VISIBLE:View.GONE}"
+            tools:src="@drawable/not_check_icon" />
 
         <TextView
             android:id="@+id/item_id_iv"

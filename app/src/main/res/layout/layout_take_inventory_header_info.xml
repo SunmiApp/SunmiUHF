@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
-            name="editAble"
-            type="Boolean" />
+            name="vm"
+            type="com.sunmi.uhf.fragment.takeinventory.TakeInventoryModel" />
 
         <import type="android.view.View" />
     </data>
@@ -23,10 +24,12 @@
             android:id="@+id/all_check_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{editAble?View.VISIBLE:View.GONE}"
             android:paddingTop="@dimen/sunmi_10px"
             android:paddingBottom="@dimen/sunmi_10px"
-            android:src="@drawable/not_check_icon" />
+            android:onClick="@{()->vm.onSelectAllClick()}"
+            android:src="@{vm.selectAll?@drawable/checked_icon:@drawable/not_check_icon}"
+            android:visibility="@{vm.editModel?View.VISIBLE:View.GONE}"
+            tools:src="@drawable/not_check_icon" />
 
         <TextView
             android:layout_width="@dimen/sunmi_103px"

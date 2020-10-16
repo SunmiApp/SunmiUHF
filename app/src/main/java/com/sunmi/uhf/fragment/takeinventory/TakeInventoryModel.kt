@@ -17,6 +17,9 @@ class TakeInventoryModel : BaseViewModel() {
     /* 是否开始读取 */
     val start = MutableLiveData<Boolean>(false)
 
+    /* 选择所有 */
+    val selectAll = MutableLiveData<Boolean>(false)
+
     /* 是否处于编辑模式 */
     val editModel = MutableLiveData<Boolean>(false)
 
@@ -62,6 +65,14 @@ class TakeInventoryModel : BaseViewModel() {
     }
 
     /**
+     * 选择 全选
+     */
+    fun onSelectAllClick() {
+        val flag = selectAll.value ?: false
+        selectAll.value = !flag
+    }
+
+    /**
      * 盘存点击编辑
      */
     fun onEditAbleClick() {
@@ -80,6 +91,13 @@ class TakeInventoryModel : BaseViewModel() {
      */
     fun onTakeModelClick() {
         EventConstant.EVENT_TAKE_MODEL.publish()
+    }
+
+    /**
+     * 标签信息 点击选择
+     */
+    fun onTakeInfoClick() {
+        EventConstant.EVENT_TAKE_LABEL_INFO.publish()
     }
 
     /**
