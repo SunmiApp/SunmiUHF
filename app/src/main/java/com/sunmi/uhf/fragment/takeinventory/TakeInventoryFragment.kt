@@ -24,6 +24,7 @@ import com.sunmi.uhf.bean.LabelInfoBean
 import com.sunmi.uhf.constants.Config
 import com.sunmi.uhf.constants.EventConstant
 import com.sunmi.uhf.databinding.FragmentTakeInventoryBinding
+import com.sunmi.uhf.dialog.SureBackDialog
 import com.sunmi.uhf.event.SimpleViewEvent
 import com.sunmi.uhf.fragment.ReadBaseFragment
 import com.sunmi.uhf.utils.*
@@ -40,7 +41,7 @@ import kotlinx.coroutines.launch
  * @UpdateDate: 20-9-9 下午1:38
  */
 class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
-
+    private var dialog: SureBackDialog? = null
     lateinit var vm: TakeInventoryModel
     private var isLoop = false
     private var allCount = 0
@@ -102,7 +103,11 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
         super.onSimpleViewEvent(event)
         when (event.event) {
             EventConstant.EVENT_BACK -> {
-                performBackClick()
+                if (isLoop) {
+                    showSureDialog()
+                } else {
+                    performBackClick()
+                }
             }
             EventConstant.EVENT_TAKE_MODEL -> {
                 showModelPopupWindow()
@@ -293,8 +298,37 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
         }
     }
 
+    /**
+     * 点击返回健后，弹出二次确认弹窗
+     * 点击退出 ，退出页面
+     */
+    private fun showSureDialog() {
+        val showing = (dialog?.isAdded ?: false || dialog?.dialog?.isShowing ?: false)
+        if (showing) dialog?.dismiss()
+        if (dialog == null) {
+            dialog = SureBackDialog.newInstance(null)
+        }
+        dialog?.listener = object : (() -> Unit) {
+            override fun invoke() {
+                dialog?.dismiss()
+                stop()
+                handler.post(Runnable { performBackClick() })
+            }
+        }
+        dialog?.show(parentFragmentManager, SureBackDialog::class.java.name)
+    }
+
+    override fun onBackPress(): Boolean {
+        if (isLoop) {
+            showSureDialog()
+            return true
+        }
+        return super.onBackPress()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+        dialog?.dismiss()
         takeModelPw?.dismiss()
     }
 

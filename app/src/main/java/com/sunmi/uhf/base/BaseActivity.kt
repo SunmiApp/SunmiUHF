@@ -193,6 +193,22 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        val backStackEntryCount: Int = supportFragmentManager.backStackEntryCount
+        if (backStackEntryCount <= 1) {
+            finish()
+            return
+        }
+        val fragment = supportFragmentManager.findFragmentById(getContainId())
+        if (fragment is BaseFragment<*>) {
+            if (!fragment.onBackPress()) {
+                super.onBackPressed()
+            }
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacksAndMessages(null)

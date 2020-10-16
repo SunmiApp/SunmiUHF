@@ -97,13 +97,4 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         return super.onKeyDown(keyCode, event)
     }
 
-    override fun onBackPressed() {
-        val backStackEntryCount: Int = supportFragmentManager.backStackEntryCount
-        if (backStackEntryCount <= 1) {
-            finish()
-            return
-        }
-        super.onBackPressed()
-    }
-
 }

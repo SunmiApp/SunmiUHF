@@ -190,6 +190,7 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
 
     }
 
+    open fun onBackPress(): Boolean = false
 
     fun performBackClick() {
         handler.post { activity?.supportFragmentManager?.popBackStackImmediate() }

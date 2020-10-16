@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
  * @UpdateDate: 20-9-8 下午4:30
  */
 class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
-    var dialog: SureBackDialog? = null
+    private var dialog: SureBackDialog? = null
     lateinit var vm: ReadWriteViewModel
     private var isLoop = false
     private var allCount = 0
@@ -54,10 +54,13 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
         super.onSimpleViewEvent(event)
         when (event.event) {
             EventConstant.EVENT_BACK -> {
-                showSureDialog()
+                if (isLoop) {
+                    showSureDialog()
+                } else {
+                    performBackClick()
+                }
             }
         }
-
     }
 
     /**
@@ -73,10 +76,19 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
         dialog?.listener = object : (() -> Unit) {
             override fun invoke() {
                 dialog?.dismiss()
-                performBackClick()
+                stop()
+                handler.post(Runnable { performBackClick() })
             }
         }
         dialog?.show(parentFragmentManager, SureBackDialog::class.java.name)
+    }
+
+    override fun onBackPress(): Boolean {
+        if (isLoop) {
+            showSureDialog()
+            return true
+        }
+        return super.onBackPress()
     }
 
     override fun onDestroyView() {
