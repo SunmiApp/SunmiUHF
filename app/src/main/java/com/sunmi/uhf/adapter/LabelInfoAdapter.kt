@@ -24,6 +24,7 @@ class LabelInfoAdapter :
 
     var editable: Boolean = false
     var selectAll: Boolean = false
+    var selectAllCall: ((Boolean) -> Unit)? = null
     val selectData = HashMap<String, LabelInfoBean>()
 
     override fun convert(
@@ -42,16 +43,14 @@ class LabelInfoAdapter :
                     it.check = false
                     if (selectAll) {
                         selectAll = false
-                        LiveDataBusEvent.get().with(EventConstant.SELECT_ALL_TAG, Boolean::class.java)
-                            .postValue(selectAll)
+                        selectAllCall?.invoke(selectAll)
                     }
                 } else {
                     selectData[item.epc!!] = item
                     it.check = true
                     if (!selectAll && data.size == selectData.size) {
                         selectAll = true
-                        LiveDataBusEvent.get().with(EventConstant.SELECT_ALL_TAG, Boolean::class.java)
-                            .postValue(selectAll)
+                        selectAllCall?.invoke(selectAll)
                     }
                 }
                 it.executePendingBindings()

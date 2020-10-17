@@ -1,15 +1,19 @@
 package com.sunmi.uhf.fragment.takeinventory
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sunmi.uhf.R
 import com.sunmi.uhf.adapter.LabelInfoAdapter
 import com.sunmi.uhf.base.BaseFragment
 import com.sunmi.uhf.bean.LabelInfoBean
+import com.sunmi.uhf.constants.Constant
 import com.sunmi.uhf.constants.EventConstant
 import com.sunmi.uhf.databinding.FragmentSearchBinding
 import com.sunmi.uhf.event.SimpleViewEvent
+import kotlinx.coroutines.launch
 
 /**
  * @ClassName: SearchModelFragment
@@ -19,10 +23,10 @@ import com.sunmi.uhf.event.SimpleViewEvent
  * @UpdateDate: 20-9-10 下午1:57
  */
 class SearchModelFragment : BaseFragment<FragmentSearchBinding>() {
-
     lateinit var vm: TakeInventoryModel
     lateinit var adapter: LabelInfoAdapter
-    private val list = mutableListOf<LabelInfoBean>()
+    private val allList = mutableListOf<LabelInfoBean>()
+    private val curList = mutableListOf<LabelInfoBean>()
 
     override fun getLayoutResource() = R.layout.fragment_search
 
@@ -35,10 +39,39 @@ class SearchModelFragment : BaseFragment<FragmentSearchBinding>() {
         adapter = LabelInfoAdapter()
         binding.labelRv.layoutManager = LinearLayoutManager(activity)
         binding.labelRv.adapter = adapter
+        binding.searchEt.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                mainScope.launch {
+                    binding.searchEt.text?.toString()?.toUpperCase()?.let {
+                        if (it.isNotEmpty()) {
+                            curList.clear()
+                            for (bean in allList) {
+                                if (bean.epc?.contains(it) == true) {
+                                    curList.add(bean)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        })
     }
 
     override fun initData() {
-        vm.filterLabelList.value = list
+        arguments?.let {
+            it.getParcelableArrayList<LabelInfoBean>(Constant.KEY_TAG_LIST)
+                ?.let { al ->
+                    allList.addAll(al)
+                    curList.addAll(al)
+                }
+        }
+        vm.filterLabelList.value = curList
         vm.filterLabelList.observe(viewLifecycleOwner, Observer {
             adapter.setNewInstance(it)
         })
@@ -46,6 +79,27 @@ class SearchModelFragment : BaseFragment<FragmentSearchBinding>() {
             adapter?.editable = it
             adapter?.notifyDataSetChanged()
         })
+        vm.selectAll.observe(viewLifecycleOwner, Observer {
+            if (adapter.selectAll == it) return@Observer
+            adapter.selectAll = it
+            if (it) {
+                if (curList.size != adapter.selectData.size) {
+                    for (b in curList) {
+                        adapter.selectData[b.epc!!] = b
+                    }
+                }
+            } else {
+                adapter.selectData.clear()
+            }
+            adapter.notifyDataSetChanged()
+        })
+        adapter.selectAllCall = object : ((Boolean) -> Unit) {
+            override fun invoke(en: Boolean) {
+                if (isVisible) {
+                    vm.selectAll.value = en
+                }
+            }
+        }
     }
 
     override fun onSimpleViewEvent(event: SimpleViewEvent) {

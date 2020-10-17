@@ -22,6 +22,7 @@ import com.sunmi.uhf.adapter.LabelInfoAdapter
 import com.sunmi.uhf.adapter.TakeModelAdapter
 import com.sunmi.uhf.bean.LabelInfoBean
 import com.sunmi.uhf.constants.Config
+import com.sunmi.uhf.constants.Constant
 import com.sunmi.uhf.constants.EventConstant
 import com.sunmi.uhf.databinding.FragmentTakeInventoryBinding
 import com.sunmi.uhf.dialog.SureBackDialog
@@ -91,12 +92,13 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
             }
             adapter.notifyDataSetChanged()
         })
-        LiveDataBusEvent.get().with(EventConstant.SELECT_ALL_TAG, Boolean::class.java)
-            .observe(viewLifecycleOwner, Observer {
+        adapter.selectAllCall = object : ((Boolean) -> Unit) {
+            override fun invoke(en: Boolean) {
                 if (isVisible) {
-                    vm.selectAll.value = it
+                    vm.selectAll.value = en
                 }
-            })
+            }
+        }
     }
 
     override fun onSimpleViewEvent(event: SimpleViewEvent) {
@@ -113,8 +115,11 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                 showModelPopupWindow()
             }
             EventConstant.EVENT_TAKE_MODEL_SEARCH -> {
+                val bundle = Bundle().apply {
+                    putParcelableArrayList(Constant.KEY_TAG_LIST, ArrayList<LabelInfoBean>(list))
+                }
                 switchFragment(
-                    SearchModelFragment.newInstance(null),
+                    SearchModelFragment.newInstance(bundle),
                     addToBackStack = true,
                     clearStack = false
                 )

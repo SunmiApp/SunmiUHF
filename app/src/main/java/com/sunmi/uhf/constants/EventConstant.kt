@@ -58,10 +58,8 @@ object EventConstant {
     /** area name */
     const val LABEL_OPERATION_AREA = "label_operation_area"
 
-
     /** area type */
     const val LABEL_OPERATION_TYPE = "label_operation_type"
-
 
     /** rule type */
     const val LABEL_RULE_INDEX = "label_rule_index"
@@ -78,9 +76,6 @@ object EventConstant {
 
     /** 盘存底座 KeyEvent 事件 */
     const val UHF_KEY_EVENT = "uhf_key_event"
-
-    /** 盘存底座 adapter select All 事件 */
-    const val SELECT_ALL_TAG = "select_all_tag"
 
     /** 过滤器 读取区域 点击 */
     const val EVENT_BLOCK_CLICK = 1010

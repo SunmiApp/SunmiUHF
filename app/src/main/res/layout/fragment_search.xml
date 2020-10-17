@@ -53,6 +53,7 @@
 
 
             <EditText
+                android:id="@+id/search_et"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginLeft="@dimen/sunmi_10px"
