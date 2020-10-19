@@ -35,6 +35,9 @@ class SettingModel : BaseViewModel() {
     /* 盘存模式  自定义 模式 */
     val mSession = MutableLiveData<String>()
 
+    /* 盘存模式  标志 A/B */
+    val mFlag = MutableLiveData<String>()
+
 
     /* 固件更新中 */
     val updating = MutableLiveData<Boolean>(false)
@@ -189,6 +192,14 @@ class SettingModel : BaseViewModel() {
      */
     fun onCustomSessionClick() {
         EventConstant.EVENT_SESSION_SELECT.publish()
+    }
+
+
+    /**
+     * 盘存设置 自定义 A/B标志 选择
+     */
+    fun onCustomFlagClick() {
+        EventConstant.EVENT_TAKE_BABEL_FLAG.publish()
     }
 
     /**

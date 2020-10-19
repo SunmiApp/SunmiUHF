@@ -30,6 +30,11 @@
         <item>S3</item>
     </string-array>
 
+    <string-array name="flag_array">
+        <item>A</item>
+        <item>B</item>
+    </string-array>
+
     <string-array name="link_array">
         <item>Tari 25us; FM0 40K</item>
         <item>Tari 25us; Miller4 250KHz</item>

@@ -42,6 +42,8 @@ class LabelLocationFragment : ReadBaseFragment<FragmentLabelLocationBinding>() {
     }
 
     override fun initView() {
+        binding.voiceSw.isChecked = App.getPref().getParam(Config.KEY_TIP_VOICE, Config.DEF_TIP_VOICE)
+        binding.lightSw.isChecked = App.getPref().getParam(Config.KEY_TIP_LIGHT, Config.DEF_TIP_LIGHT)
         binding.epcTv.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
@@ -53,6 +55,12 @@ class LabelLocationFragment : ReadBaseFragment<FragmentLabelLocationBinding>() {
                 targetId = binding.epcTv.text.toString().replace(" ", "").toUpperCase()
             }
         })
+        binding.voiceSw.setOnClickListener {
+            App.getPref().setParam(Config.KEY_TIP_VOICE, binding.voiceSw.isChecked)
+        }
+        binding.lightSw.setOnClickListener {
+            App.getPref().setParam(Config.KEY_TIP_LIGHT, binding.lightSw.isChecked)
+        }
     }
 
     override fun initData() {

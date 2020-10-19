@@ -151,6 +151,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/sunmi_100px"
                 android:gravity="center_vertical"
+                android:onClick="@{()->vm.onCustomFlagClick()}"
                 android:orientation="horizontal">
 
                 <TextView
@@ -167,6 +168,7 @@
                     android:drawableRight="@drawable/right_arrow_icon"
                     android:drawablePadding="@dimen/sunmi_10px"
                     android:gravity="center|right"
+                    android:text="@{vm.mFlag}"
                     android:textColor="@color/color_FF858A95"
                     android:textSize="@dimen/sunmi_24ps"
                     tools:text="30" />

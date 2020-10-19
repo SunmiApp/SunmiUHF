@@ -1,6 +1,10 @@
 package com.sunmi.uhf.fragment.takeinventory
 
 import android.Manifest
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
@@ -33,6 +37,7 @@ import com.sunmi.widget.dialog.InputDialog
 import com.sunmi.widget.util.ToastUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.math.min
 
 /**
  * @ClassName: TakeInventoryFragment
@@ -51,6 +56,33 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
     private var takeModelPw: PopupWindow? = null
     private var modelAdapter: TakeModelAdapter? = null
     private var exportExcelType = 0
+    private var mode = Constant.INT_BALANCE_MODE
+    private var tagFocus = Config.DEF_TAKE_TAG_FOCUS
+    private var seesion = Config.DEF_TAKE_SESSION
+    private var tagFlag = Config.DEF_TAKE_FLAG
+    private var link = Config.DEF_TAKE_LINK
+    private var power = 30
+    private var autoPower = Config.DEF_TAKE_AUTO_POWER
+    private val br = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            when (intent?.action) {
+                ParamCts.BROADCAST_SN -> {
+                    val sn = intent.getStringExtra(ParamCts.SN)
+                    handleSN(sn)
+                }
+                ParamCts.BROADCAST_BATTERY_REMAINING_PERCENTAGE,
+                ParamCts.BROADCAST_BATTER_LOW_ELEC -> {
+                    val elec = intent.getIntExtra(ParamCts.BATTERY_REMAINING_PERCENT, 100)
+                    LogUtils.d("darren", "BroadcastReceiver battery-remaining-percent:$elec%")
+                    ToastUtils.showShort(getString(R.string.hint_please_charge, elec))
+                }
+                ParamCts.BROADCAST_ON_CONNECT,
+                ParamCts.BROADCAST_READER_BOOT -> {
+                    handleData()
+                }
+            }
+        }
+    }
 
     override fun getLayoutResource() = R.layout.fragment_take_inventory
 
@@ -99,6 +131,17 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                 }
             }
         }
+        registerBr()
+        App.getPref().apply {
+            mode = getParam(Config.KEY_TAKE_MODE, Config.DEF_TAKE_MODE)
+            tagFocus = getParam(Config.KEY_TAKE_TAG_FOCUS, Config.DEF_TAKE_TAG_FOCUS)
+            seesion = getParam(Config.KEY_TAKE_SESSION, Config.DEF_TAKE_SESSION)
+            tagFlag = getParam(Config.KEY_TAKE_FLAG, Config.DEF_TAKE_FLAG)
+            link = getParam(Config.KEY_TAKE_LINK, Config.DEF_TAKE_LINK)
+            autoPower = getParam(Config.KEY_TAKE_AUTO_POWER, Config.DEF_TAKE_AUTO_POWER)
+            handleData()
+        }
+        vm.selectModel.value = vm.modelList[mode - 1]
     }
 
     override fun onSimpleViewEvent(event: SimpleViewEvent) {
@@ -164,6 +207,10 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                 recyclerView.adapter = modelAdapter
                 modelAdapter?.setOnItemClickListener { _, _, position ->
                     vm.selectModel.value = modelAdapter?.data?.get(position)
+                    if (position in 0..3) {
+                        mode = position + 1
+                        handleData()
+                    }
                     dismiss()
                 }
             }
@@ -331,10 +378,28 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
         return super.onBackPress()
     }
 
+    private fun registerBr() {
+        context?.registerReceiver(br, IntentFilter().apply {
+            addAction(ParamCts.BROADCAST_SN)
+            addAction(ParamCts.BROADCAST_BATTERY_REMAINING_PERCENTAGE)
+            addAction(ParamCts.BROADCAST_BATTER_LOW_ELEC)
+            addAction(ParamCts.BROADCAST_ON_CONNECT)
+            addAction(ParamCts.BROADCAST_READER_BOOT)
+        })
+        RFIDManager.getInstance().apply {
+            if (isConnect) helper.getReaderSN()
+        }
+    }
+
+    private fun unregisterBr() {
+        context?.unregisterReceiver(br)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         dialog?.dismiss()
         takeModelPw?.dismiss()
+        unregisterBr()
     }
 
 
@@ -357,6 +422,15 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
         }
     }
 
+    private fun getPowerSave(): Byte {
+        val time = (SystemClock.elapsedRealtime() - binding.basicLl.timeValueTv.base) / 1000 / 60
+        return if (autoPower && time > 10) {
+            min((time - 10) * 5, 100).toByte()
+        } else {
+            0.toByte()
+        }
+    }
+
     override fun handleBottomStart() {
         vm.start.value = true
     }
@@ -374,7 +448,41 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                         0 -> {
                             // 6C标签盘存
                             registerReaderCall(call)
-                            realTimeInventory(20)
+                            when (mode) {
+                                Constant.INT_BALANCE_MODE -> {
+                                    customizedSessionTargetInventory(
+                                        0x01.toByte(),
+                                        0x00.toByte(),
+                                        0x00.toByte(),
+                                        0x00.toByte(),
+                                        getPowerSave(),
+                                        20
+                                    )
+                                }
+                                Constant.INT_SPEED_MODE -> {
+                                    realTimeInventory(20)
+                                }
+                                Constant.INT_ITERATOR_MODE -> {
+                                    customizedSessionTargetInventory(
+                                        0x02.toByte(),
+                                        0x00.toByte(),
+                                        0x00.toByte(),
+                                        0x00.toByte(),
+                                        getPowerSave(),
+                                        20
+                                    )
+                                }
+                                Constant.INT_CUSTOM_MODE -> {
+                                    customizedSessionTargetInventory(
+                                        seesion.toByte(),
+                                        tagFlag.toByte(),
+                                        0x00.toByte(),
+                                        0x00.toByte(),
+                                        getPowerSave(),
+                                        20
+                                    )
+                                }
+                            }
                             isLoop = true
                         }
                         /*1 -> {
@@ -407,7 +515,8 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
 
     override fun onCallSuccess(cmd: Byte, params: DataParameter?) {
         when (cmd) {
-            CMD.REAL_TIME_INVENTORY -> {
+            CMD.REAL_TIME_INVENTORY,
+            CMD.CUSTOMIZED_SESSION_TARGET_INVENTORY -> {
                 isLoop = false
                 if (state) {
                     start()
@@ -419,6 +528,15 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                     start()
                 }
             }*/
+            CMD.SET_OUTPUT_POWER -> {
+                LogUtils.i("darren", "set out power success.")
+            }
+            CMD.SET_AND_SAVE_IMPINJ_FAST_TID_TAG_FOCUS -> {
+                LogUtils.i("darren", "set tag focus success.")
+            }
+            CMD.SET_RF_LINK_PROFILE -> {
+                LogUtils.i("darren", "set rf link profile success.")
+            }
             else -> {
                 LogUtils.d("darren", "other success.")
             }
@@ -429,7 +547,8 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
         if (tag == null) return
         playTips()
         when (cmd) {
-            CMD.REAL_TIME_INVENTORY -> {
+            CMD.REAL_TIME_INVENTORY,
+            CMD.CUSTOMIZED_SESSION_TARGET_INVENTORY -> {
                 // 6C标签盘存
                 allCount++
                 // ANT_ID、TAG_PC、TAG_EPC、TAG_RSSI、TAG_READ_COUNT、TAG_FREQ、TAG_TIME
@@ -472,7 +591,8 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
 
     override fun onCallFailed(cmd: Byte, errorCode: Byte, msg: String?) {
         when (cmd) {
-            CMD.REAL_TIME_INVENTORY -> {
+            CMD.REAL_TIME_INVENTORY,
+            CMD.CUSTOMIZED_SESSION_TARGET_INVENTORY -> {
                 isLoop = false
                 if (state) {
                     start()
@@ -484,11 +604,59 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                     start()
                 }
             }*/
+            CMD.SET_OUTPUT_POWER -> {
+                LogUtils.i("darren", "set out power failed.")
+            }
+            CMD.SET_AND_SAVE_IMPINJ_FAST_TID_TAG_FOCUS -> {
+                LogUtils.i("darren", "set tag focus failed.")
+            }
+            CMD.SET_RF_LINK_PROFILE -> {
+                LogUtils.i("darren", "set rf link profile failed.")
+            }
             else -> {
                 LogUtils.d("darren", "other failed.")
             }
         }
     }
+
+    private fun handleSN(sn: String?) {
+        val rfBand = ParamCts.getRFFrequencyBand(sn)
+        when (rfBand[3]) {
+            1 -> {
+                power = 30
+            }
+            2 -> {
+                power = 28
+            }
+            3 -> {
+                power = 29
+            }
+        }
+        RFIDManager.getInstance().apply {
+            if (isConnect && rfBand[0] == 1) {
+                helper.setOutputAllPower(power.toByte())
+            }
+        }
+    }
+
+    private fun handleData() {
+        RFIDManager.getInstance().apply {
+            if (isConnect) {
+                helper.registerReaderCall(call)
+                when (mode) {
+                    Constant.INT_CUSTOM_MODE -> {
+                        helper.setRfLinkProfile((0xD0 + link).toByte())
+                        helper.setImpinjSaveTagFocus(seesion == 1 && tagFocus)
+                    }
+                    else -> {
+                        helper.setRfLinkProfile(0xD1.toByte())
+                        helper.setImpinjSaveTagFocus(mode == Constant.INT_BALANCE_MODE)
+                    }
+                }
+            }
+        }
+    }
+
 
     private fun notifyTagDataChange() {
         mainScope.launch {

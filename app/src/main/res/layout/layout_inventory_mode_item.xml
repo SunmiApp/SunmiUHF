@@ -120,6 +120,7 @@
                 android:background="@color/dividerColor" />
 
             <LinearLayout
+                android:id="@+id/session_ll"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/sunmi_100px"
                 android:gravity="center_vertical"
@@ -144,11 +145,13 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/session_ll_v"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/sunmi_1px"
                 android:background="@color/dividerColor" />
 
             <FrameLayout
+                android:id="@+id/power_sw_fl"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/sunmi_100px"
                 android:orientation="horizontal">
@@ -170,6 +173,7 @@
             </FrameLayout>
 
             <View
+                android:id="@+id/power_sw_fl_v"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/sunmi_1px"
                 android:background="@color/dividerColor" />

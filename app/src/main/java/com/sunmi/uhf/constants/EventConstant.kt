@@ -154,7 +154,10 @@ object EventConstant {
     const val EVENT_INVENTORY_EXPORT_EXCEL_ALL = 1032
 
     /** 盘存 标签信息 点击选择 */
-    const val EVENT_TAKE_LABEL_INFO = 1032
+    const val EVENT_TAKE_LABEL_INFO = 1033
+
+    /** 盘存 标签信息 点击选择 */
+    const val EVENT_TAKE_BABEL_FLAG = 1034
 
 
     /** 盘存底座 KeyEvent UP 事件 */

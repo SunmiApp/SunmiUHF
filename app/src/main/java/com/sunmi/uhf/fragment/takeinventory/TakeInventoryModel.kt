@@ -137,8 +137,9 @@ class TakeInventoryModel : BaseViewModel() {
 
     fun createModel(): MutableList<String> {
         val list = mutableListOf<String>()
-        list.add("快速")
         list.add("平衡")
+        list.add("快速")
+        list.add("遍历")
         list.add("自定义")
         return list
     }

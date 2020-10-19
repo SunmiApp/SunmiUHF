@@ -62,10 +62,9 @@
             android:onClick="@{()-> vm.onTakeInfoClick()}"
             android:paddingLeft="@dimen/sunmi_24px"
             android:paddingRight="@dimen/sunmi_24px"
-            android:text='@{TextUtils.isEmpty(vm.labelInfo)?"":vm.labelInfo}'
+            android:text='@{TextUtils.isEmpty(vm.labelInfo)?"EPC":vm.labelInfo}'
             android:textColor="@color/majorTextColor"
             android:textSize="@dimen/sunmi_28ps"
-            android:visibility="gone"
             app:layout_constraintBaseline_toBaselineOf="@id/take_inventory_model_tv"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/label_info_tv"
@@ -84,7 +83,6 @@
             android:text="@string/label_info_text"
             android:textColor="@color/majorTextColor"
             android:textSize="@dimen/sunmi_28ps"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/take_inventory_model_value_tv"
             app:layout_constraintRight_toLeftOf="@id/label_info_value_tv"
