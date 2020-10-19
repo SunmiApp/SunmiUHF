@@ -36,7 +36,6 @@ object Constant {
     /** 已选择的 名称 */
     const val KEY_TAG_LIST = "key_tag_list"
 
-
     /** 盘存模式 平衡模式  */
     const val INT_BALANCE_MODE = 1
 

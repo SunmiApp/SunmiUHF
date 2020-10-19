@@ -86,7 +86,7 @@ dependencies {
     //TabLayout等组件
     implementation 'com.google.android.material:material:1.2.1'
     // UHF
-    implementation 'com.sunmi:rfidlibrary:1.1.1'
+    implementation 'com.sunmi:rfidlibrary:1.1.2'
     // Excel
     implementation 'net.sourceforge.jexcelapi:jxl:2.6.12'
 }

@@ -25,6 +25,7 @@ class SettingModel : BaseViewModel() {
     /* 固件路劲 */
     val mBinPath = MutableLiveData<String>()
 
+
     /* 选择的 盘存模式 */
     val mInventoryMode = MutableLiveData<Int>()
 

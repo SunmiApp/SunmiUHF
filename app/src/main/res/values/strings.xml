@@ -40,6 +40,7 @@
     <string name="light_text">指示灯</string>
     <string name="voice_text">蜂鸣器</string>
     <string name="location_text">定位</string>
+    <string name="location_doing_text">定位中</string>
     <string name="input_epc_text">请输入标签EPC信息进行查找。</string>
 
     <string name="strong_text">强</string>
@@ -50,6 +51,7 @@
     <string name="lock_text">锁定</string>
     <string name="destory_text">销毁</string>
     <string name="edit_epc_text">请输入标签EPC信息</string>
+    <string name="edit_label_text">请输入标签信息</string>
     <string name="operation_area_text">操作区域</string>
     <string name="get_pwd_text">访问密码</string>
     <string name="edit_pwd_text">请输入密码信息</string>

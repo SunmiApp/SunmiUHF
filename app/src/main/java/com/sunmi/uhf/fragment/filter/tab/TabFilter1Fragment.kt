@@ -1,11 +1,21 @@
 package com.sunmi.uhf.fragment.filter.tab
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 
 import androidx.lifecycle.Observer
+import com.sunmi.rfid.RFIDManager
+import com.sunmi.rfid.ReaderCall
+import com.sunmi.rfid.constant.CMD
+import com.sunmi.rfid.constant.ParamCts
+import com.sunmi.rfid.entity.DataParameter
+import com.sunmi.uhf.App
+import com.sunmi.uhf.BuildConfig
 import com.sunmi.uhf.R
 import com.sunmi.uhf.base.BaseFragment
 import com.sunmi.uhf.bean.CommonListBean
+import com.sunmi.uhf.constants.Config
 import com.sunmi.uhf.constants.Constant
 import com.sunmi.uhf.constants.EventConstant
 import com.sunmi.uhf.databinding.LayoutTabFilterBinding
@@ -14,6 +24,10 @@ import com.sunmi.uhf.fragment.filter.LabelFilterModel
 import com.sunmi.uhf.fragment.filter.select.FilterRuleFragment
 import com.sunmi.uhf.fragment.list.ListFragment
 import com.sunmi.uhf.utils.LiveDataBusEvent
+import com.sunmi.uhf.utils.LogUtils
+import com.sunmi.uhf.utils.StrUtils
+import com.sunmi.widget.util.ToastUtils
+import kotlinx.coroutines.launch
 
 /**
  * @ClassName: TabFilter1Fragment
@@ -25,6 +39,40 @@ import com.sunmi.uhf.utils.LiveDataBusEvent
 class TabFilter1Fragment : BaseFragment<LayoutTabFilterBinding>() {
 
     lateinit var vm: LabelFilterModel
+    private val optCall = object : ReaderCall() {
+        override fun onSuccess(cmd: Byte, params: DataParameter?) {
+            if (BuildConfig.DEBUG) LogUtils.d("darren", String.format("CMD: 0x%02X, params info: %s", cmd, params?.toString() ?: ""))
+            when (cmd) {
+                CMD.OPERATE_TAG_MASK -> {
+                    mainScope.launch {
+                        ToastUtils.showShort(getString(R.string.hint_tag_operation_success))
+                    }
+                }
+            }
+        }
+
+        override fun onTag(cmd: Byte, state: Byte, tag: DataParameter?) {
+            if (BuildConfig.DEBUG) LogUtils.d(
+                "darren",
+                "found tag cmd:" + String.format("%%02X", cmd) + ", state: " + String.format("%%02X", state)
+                        + ("params info: " + tag?.toString() ?: "")
+            )
+        }
+
+        override fun onFailed(cmd: Byte, errorCode: Byte, msg: String?) {
+            if (BuildConfig.DEBUG) LogUtils.d(
+                "darren",
+                "failed cmd: ${String.format("%02X", cmd)}, errorCode: ${String.format("%02X", errorCode)}, msg: $msg"
+            )
+            mainScope.launch {
+                when (cmd) {
+                    CMD.OPERATE_TAG_MASK -> {
+                        ToastUtils.showShort(getString(R.string.hint_tag_operation_failed, errorCode, msg))
+                    }
+                }
+            }
+        }
+    }
 
     override fun getLayoutResource() = R.layout.layout_tab_filter
 
@@ -34,23 +82,84 @@ class TabFilter1Fragment : BaseFragment<LayoutTabFilterBinding>() {
     }
 
     override fun initView() {
-        vm.mBlockData.value = "EPC"
-        vm.mFilterRuleData.value = "0"
-        vm.mTargetData.value = "S0"
+        vm.mEpcData.value = App.getPref().getParam(Config.KEY_FILTER_INFO_1, Config.DEF_FILTER_INFO)
+        vm.mBlockData.value = resources.getStringArray(R.array.area_read_write_array)[
+                App.getPref().getParam(Config.KEY_FILTER_AREA_1, Config.DEF_FILTER_AREA)]
+        vm.mOffSetData.value = App.getPref().getParam(Config.KEY_FILTER_START_ADD_1, Config.DEF_FILTER_START_ADD).toString()
+        vm.mFilterRuleData.value = App.getPref().getParam(Config.KEY_FILTER_RULE_1, Config.DEF_FILTER_RULE).toInt().toString()
+        val list = resources.getStringArray(R.array.session_array).toList() as ArrayList<String>
+        list.add("SL")
+        vm.mTargetData.value = list[App.getPref().getParam(Config.KEY_FILTER_TARGET_1, Config.DEF_FILTER_TARGET)]
+        vm.isStartFlag.value = App.getPref().getParam(Config.KEY_FILTER_ENABLE_1, Config.DEF_FILTER_ENABLE)
+        binding.epcEt.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val maskValue = StrUtils.stringToByteArray(binding.epcEt.text.toString())
+                val maskStr = StrUtils.byteArrayToString(maskValue, 0, maskValue.size)
+                App.getPref().setParam(Config.KEY_FILTER_INFO_1, maskStr)
+            }
+        })
+        binding.startAddEt.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val startAdd = binding.startAddEt.text.toString().toInt()
+                App.getPref().setParam(Config.KEY_FILTER_START_ADD_1, startAdd)
+            }
+        })
     }
 
     override fun initData() {
         LiveDataBusEvent.get().with(EventConstant.LABEL_RULE_INDEX, String::class.java)
             .observe(viewLifecycleOwner, Observer {
-                vm.mFilterRuleData.value = it
+                if (isVisible) {
+                    vm.mFilterRuleData.value = it
+                    App.getPref().setParam(Config.KEY_FILTER_RULE_1, it.toInt())
+                }
             })
         LiveDataBusEvent.get().with(EventConstant.LABEL_SELECT, CommonListBean::class.java)
             .observe(viewLifecycleOwner, Observer {
-                when(it.type){
-                    EventConstant.EVENT_BLOCK_CLICK ->      vm.mBlockData.value = it.select
-                    EventConstant.EVENT_TARGET_CLICK ->      vm.mTargetData.value = it.select
+                if (isVisible) {
+                    when (it.type) {
+                        EventConstant.EVENT_BLOCK_CLICK -> {
+                            vm.mBlockData.value = it.select
+                            App.getPref().setParam(Config.KEY_FILTER_AREA_1, it.index)
+                        }
+                        EventConstant.EVENT_TARGET_CLICK -> {
+                            vm.mTargetData.value = it.select
+                            App.getPref().setParam(Config.KEY_FILTER_TARGET_1, it.index)
+                        }
+                    }
                 }
             })
+        LiveDataBusEvent.get().with(EventConstant.LABEL_FILTER_DATA, DataParameter::class.java)
+            .observe(viewLifecycleOwner, Observer {
+                if (it.containsKey(ParamCts.MASK_ID) && it.getByte(ParamCts.MASK_ID) == 0x01.toByte()) {
+                    LogUtils.i("darren", "receive-1:${it}")
+                    val maskValue = it.getByteArray(ParamCts.MASK_VALUE)
+                    val maskStr = StrUtils.byteArrayToString(maskValue, 0, maskValue.size)
+                    App.getPref().setParam(Config.KEY_FILTER_INFO_1, maskStr)
+                    val area = it.getByte(ParamCts.MASK_MEMBANK, Config.DEF_FILTER_AREA.toByte())
+                    App.getPref().setParam(Config.KEY_FILTER_AREA_1, area)
+                    val startAdd = it.getByte(ParamCts.MASK_START_ADD)
+                    App.getPref().setParam(Config.KEY_FILTER_START_ADD_1, startAdd)
+                    val rule = it.getByte(ParamCts.MASK_ACTION)
+                    App.getPref().setParam(Config.KEY_FILTER_RULE_1, rule)
+                    val target = it.getByte(ParamCts.MASK_TARGET)
+                    App.getPref().setParam(Config.KEY_FILTER_TARGET_1, target)
+                    initView()
+                }
+            })
+        vm.isStartFlag.observe(viewLifecycleOwner, Observer { setMaskTag(it) })
     }
 
     override fun onSimpleViewEvent(event: SimpleViewEvent) {
@@ -59,10 +168,7 @@ class TabFilter1Fragment : BaseFragment<LayoutTabFilterBinding>() {
             EventConstant.EVENT_BLOCK_CLICK -> {
                 //操作区域
                 val args = Bundle().apply {
-                    putString(
-                        Constant.KEY_TITLE,
-                        resources.getString(R.string.select_operation_area_text)
-                    )
+                    putString(Constant.KEY_TITLE, resources.getString(R.string.select_operation_area_text))
                     putStringArrayList(
                         Constant.KEY_LIST,
                         resources.getStringArray(R.array.area_read_write_array).toList() as ArrayList<String>
@@ -95,17 +201,17 @@ class TabFilter1Fragment : BaseFragment<LayoutTabFilterBinding>() {
             EventConstant.EVENT_TARGET_CLICK -> {
                 //目标 session
                 val args = Bundle().apply {
+                    val list = resources.getStringArray(R.array.session_array)
+                        .toList() as ArrayList<String>
+                    list.add("SL")
                     putString(Constant.KEY_TITLE, resources.getString(R.string.select_session_text))
-                    putStringArrayList(
-                        Constant.KEY_LIST,
-                        resources.getStringArray(R.array.session_array)
-                            .toList() as ArrayList<String>
-                    )
+                    putStringArrayList(Constant.KEY_LIST, list)
                     putParcelable(
                         Constant.KEY_SELECT,
                         CommonListBean(
                             type = EventConstant.EVENT_TARGET_CLICK,
-                            select = vm.mTargetData.value)
+                            select = vm.mTargetData.value
+                        )
                     )
                 }
                 switchFragment(
@@ -117,6 +223,44 @@ class TabFilter1Fragment : BaseFragment<LayoutTabFilterBinding>() {
         }
     }
 
+    private fun setMaskTag(en: Boolean) {
+        if (App.getPref().getParam(Config.KEY_FILTER_ENABLE_1, false) == en) return
+        App.getPref().setParam(Config.KEY_FILTER_ENABLE_1, en)
+        RFIDManager.getInstance().apply {
+            if (isConnect) {
+                helper.registerReaderCall(optCall)
+                if (en) {
+                    val info = App.getPref().getParam(Config.KEY_FILTER_INFO_1, Config.DEF_FILTER_INFO)
+                    val area = App.getPref().getParam(Config.KEY_FILTER_AREA_1, Config.DEF_FILTER_AREA)
+                    val startAdd = App.getPref().getParam(Config.KEY_FILTER_START_ADD_1, Config.DEF_FILTER_START_ADD)
+                    val rule = App.getPref().getParam(Config.KEY_FILTER_RULE_1, Config.DEF_FILTER_RULE)
+                    val target = App.getPref().getParam(Config.KEY_FILTER_TARGET_1, Config.DEF_FILTER_TARGET)
+                    val infoList = StrUtils.stringToStringArray(info, 2)
+                    val maskValue = StrUtils.stringArrayToByteArray(infoList, infoList?.size ?: 0)
+                    helper.setTagMask(
+                        0x01,
+                        target.toByte(),
+                        rule.toByte(),
+                        area.toByte(),
+                        startAdd.toByte(),
+                        maskValue?.size?.toByte() ?: 0,
+                        maskValue
+                    )
+                }
+            } else {
+                helper.clearTagMask(0x01)
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        RFIDManager.getInstance().apply {
+            if (isConnect) {
+                helper.unregisterReaderCall()
+            }
+        }
+    }
 
     companion object {
         fun newInstance(args: Bundle?) = TabFilter1Fragment()

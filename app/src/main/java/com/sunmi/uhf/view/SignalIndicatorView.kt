@@ -176,6 +176,7 @@ class SignalIndicatorView @JvmOverloads constructor(
      * 设置 信号强度值  范围 （0~100）
      */
     fun setSignal(signal: Float) {
+        mSignal = signal
         if (signal > 100) mSignal = 100f
         if (signal < 0) mSignal = 0f
         invalidate()

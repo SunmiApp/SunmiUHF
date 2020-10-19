@@ -86,7 +86,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/sunmi_60px"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
 
             <LinearLayout
@@ -104,6 +105,7 @@
                     android:textSize="@dimen/sunmi_32ps" />
 
                 <TextView
+                    android:id="@+id/power_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center|right"
@@ -132,6 +134,7 @@
                     android:textSize="@dimen/sunmi_32ps" />
 
                 <TextView
+                    android:id="@+id/session_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center|right"

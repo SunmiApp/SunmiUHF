@@ -83,11 +83,11 @@
                         android:textColor="@color/majorTextColor"
                         android:textSize="@dimen/sunmi_32ps" />
 
+                    <!--android:drawableRight="@drawable/right_arrow_icon"-->
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:drawableRight="@drawable/right_arrow_icon"
                         android:drawablePadding="@dimen/sunmi_10px"
                         android:gravity="center|right"
                         android:onClick="@{()->vm.onSelectLabelClick()}"
@@ -106,19 +106,21 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sunmi_100px"
-                    android:drawableRight="@drawable/right_arrow_icon"
                     android:drawableLeft="@drawable/handle_icon"
+                    android:drawableRight="@drawable/right_arrow_icon"
                     android:drawablePadding="@dimen/sunmi_20px"
                     android:gravity="center|left"
                     android:onClick="@{()->vm.onSelectHandleClick()}"
                     android:text="@string/setting_select_handle_text"
                     android:textColor="@color/majorTextColor"
-                    android:textSize="@dimen/sunmi_32ps" />
+                    android:textSize="@dimen/sunmi_32ps"
+                    android:visibility="gone" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sunmi_1px"
-                    android:background="@color/dividerColor" />
+                    android:background="@color/dividerColor"
+                    android:visibility="gone" />
                 <!--  盘存模式 -->
 
                 <TextView

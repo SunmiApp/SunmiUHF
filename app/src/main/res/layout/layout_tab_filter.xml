@@ -27,7 +27,7 @@
                 android:background="@drawable/btn_stoke_shape"
                 android:ellipsize="end"
                 android:gravity="center|left"
-                android:hint="@string/edit_epc_text"
+                android:hint="@string/edit_label_text"
                 android:paddingLeft="@dimen/sunmi_24px"
                 android:paddingRight="@dimen/sunmi_24px"
                 android:singleLine="true"
@@ -88,7 +88,7 @@
                 android:textSize="@dimen/sunmi_24ps" />
 
             <EditText
-                android:id="@+id/pwd_et"
+                android:id="@+id/start_add_et"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/sunmi_88px"
                 android:layout_marginTop="@dimen/sunmi_10px"

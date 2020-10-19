@@ -49,7 +49,7 @@
                 android:textSize="@dimen/sunmi_24ps" />
 
             <EditText
-                android:id="@+id/pwd_et"
+                android:id="@+id/start_add_et"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/sunmi_88px"
                 android:layout_marginTop="@dimen/sunmi_10px"

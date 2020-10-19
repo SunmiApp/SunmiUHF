@@ -53,7 +53,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
             }
             EventConstant.EVENT_SELECT_LABEL -> {
                 //选择标签
-                val args = Bundle().apply {
+                /*val args = Bundle().apply {
                     putString(
                             Constant.KEY_TITLE,
                             resources.getString(R.string.setting_select_label_text)
@@ -75,8 +75,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
                         ListFragment.newInstance(args),
                         addToBackStack = true,
                         clearStack = false
-                )
-
+                )*/
             }
             EventConstant.EVENT_SELECT_HANDLE -> {
                 // TODO: 20-9-14 手柄选择

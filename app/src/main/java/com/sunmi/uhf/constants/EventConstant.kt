@@ -70,6 +70,8 @@ object EventConstant {
     /** label name */
     const val LABEL_NAME = "label_name"
 
+    /** 过滤数据 */
+    const val LABEL_FILTER_DATA = "label_filter_data"
 
     /** list select 选中 label */
     const val LABEL_SELECT = "label_select"
