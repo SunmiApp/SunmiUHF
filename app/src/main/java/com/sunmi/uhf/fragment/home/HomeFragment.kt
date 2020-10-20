@@ -13,6 +13,7 @@ import com.sunmi.rfid.RFIDManager
 import com.sunmi.rfid.constant.ParamCts
 import com.sunmi.uhf.R
 import com.sunmi.uhf.base.BaseFragment
+import com.sunmi.uhf.constants.Config
 import com.sunmi.uhf.constants.EventConstant
 import com.sunmi.uhf.databinding.FragmentHomeBinding
 import com.sunmi.uhf.event.SimpleViewEvent
@@ -45,10 +46,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 ParamCts.BROADCAST_ON_LOST_CONNECT -> {
                     ToastUtils.showShort(R.string.hint_please_check_device_connect)
                 }
+                ParamCts.BROADCAST_BATTER_LOW_ELEC,
                 ParamCts.BROADCAST_BATTERY_REMAINING_PERCENTAGE -> {
                     val elec = intent.getIntExtra(ParamCts.BATTERY_REMAINING_PERCENT, 100)
                     LogUtils.d("darren", "BroadcastReceiver HomeFragment-battery-remaining-percent:$elec%")
                     setCalculateLevel(elec)
+                    if (elec <= Config.LOW_ELEC) {
+                        ToastUtils.showShort(getString(R.string.hint_please_charge, elec))
+                    }
                 }
                 ParamCts.BROADCAST_BATTER_CHARGING -> {
                     val chargingState =
@@ -142,6 +147,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             addAction(ParamCts.BROADCAST_ON_LOST_CONNECT)
             addAction(ParamCts.BROADCAST_BATTERY_REMAINING_PERCENTAGE)
             addAction(ParamCts.BROADCAST_BATTER_CHARGING)
+            addAction(ParamCts.BROADCAST_BATTER_LOW_ELEC)
         }
         context?.registerReceiver(br, filter)
         getBatteryRemainingPercent()

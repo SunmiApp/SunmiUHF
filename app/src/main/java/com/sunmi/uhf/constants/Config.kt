@@ -5,7 +5,6 @@ package com.sunmi.uhf.constants;
  */
 object Config {
 
-
     /** 操作标签类型 0：6C，1：6B */
     const val KEY_LABEL = "key_label"
     const val DEF_LABEL = 0
@@ -81,4 +80,6 @@ object Config {
     const val KEY_FILTER_ENABLE_2 = "key_filter_enable_2"
     const val DEF_FILTER_ENABLE = false
 
+    /** 低电量 阈值 */
+    const val LOW_ELEC = 10
 }

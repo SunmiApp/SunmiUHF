@@ -11,6 +11,7 @@ import com.sunmi.rfid.constant.ParamCts
 import com.sunmi.uhf.App
 import com.sunmi.uhf.R
 import com.sunmi.uhf.base.BaseFragment
+import com.sunmi.uhf.constants.Config
 import com.sunmi.uhf.constants.EventConstant
 import com.sunmi.uhf.databinding.FragmentFirmwareUpdateBinding
 import com.sunmi.uhf.event.SimpleViewEvent
@@ -38,6 +39,9 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
                 ParamCts.BROADCAST_BATTER_LOW_ELEC -> {
                     elec = intent.getIntExtra(ParamCts.BATTERY_REMAINING_PERCENT, 100)
                     LogUtils.d("darren", "BroadcastReceiver HomeFragment-battery-remaining-percent:$elec%")
+                    if (elec <= Config.LOW_ELEC) {
+                        ToastUtils.showShort(getString(R.string.hint_please_charge, elec))
+                    }
                 }
             }
         }

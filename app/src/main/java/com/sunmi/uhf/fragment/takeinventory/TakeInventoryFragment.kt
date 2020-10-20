@@ -74,7 +74,9 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                 ParamCts.BROADCAST_BATTER_LOW_ELEC -> {
                     val elec = intent.getIntExtra(ParamCts.BATTERY_REMAINING_PERCENT, 100)
                     LogUtils.d("darren", "BroadcastReceiver battery-remaining-percent:$elec%")
-                    ToastUtils.showShort(getString(R.string.hint_please_charge, elec))
+                    if (elec <= Config.LOW_ELEC) {
+                        ToastUtils.showShort(getString(R.string.hint_please_charge, elec))
+                    }
                 }
                 ParamCts.BROADCAST_ON_CONNECT,
                 ParamCts.BROADCAST_READER_BOOT -> {
@@ -676,7 +678,6 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
         fun newInstance(args: Bundle?) = TakeInventoryFragment()
             .apply { arguments = args }
 
-        const val CHOOSE_FILE_CODE = 100
         const val REQUEST_PERMISSION_ID = 101
     }
 }
