@@ -86,30 +86,29 @@ class LabelFilterModel : BaseViewModel() {
     fun createRuleList() {
         val list = mutableListOf<String>()
         list.add(
-            "(匹配)确认 SL 标志或已盘标志 0 → A\n(不匹配)取消确认 SL 标志或已盘标志 → B"
+            "(匹配)确认 SL 标志或已盘标志 → A\n(不匹配)取消确认 SL 标志或已盘标志 → B"
         )
         list.add(
-            "(匹配)确认 SL 标志或已盘标志 1 → A\n(不匹配)取消确认 SL 标志或已盘标志 → B"
+            "(匹配)确认 SL 标志或已盘标志 → A"
         )
         list.add(
-            "(匹配)确认 SL 标志或已盘标志 2 → A\n(不匹配)取消确认 SL 标志或已盘标志 → B"
+            "(不匹配)取消确认 SL 标志或已盘标志 → B"
         )
         list.add(
-            "(匹配)确认 SL 标志或已盘标志 3 → A\n(不匹配)取消确认 SL 标志或已盘标志 → B"
+            "(匹配)否定 SL 标志或已盘标志 A → B，B → A"
         )
         list.add(
-            "(匹配)确认 SL 标志或已盘标志 4 → A\n(不匹配)取消确认 SL 标志或已盘标志 → B"
+            "(匹配)取消确认 SL 标志或已盘标志 → B\n(不匹配)确认 SL 标志或已盘标志 → A"
         )
         list.add(
-            "(匹配)确认 SL 标志或已盘标志 5 → A\n(不匹配)取消确认 SL 标志或已盘标志 → B"
+            "(匹配)取消确认 SL 标志或已盘标志 → B"
         )
         list.add(
-            "(匹配)确认 SL 标志或已盘标志 6 → A\n(不匹配)取消确认 SL 标志或已盘标志 → B"
+            "(不匹配)确认 SL 标志或已盘标志 → A"
         )
         list.add(
-            "(匹配)确认 SL 标志或已盘标志 7 → A\n(不匹配)取消确认 SL 标志或已盘标志 → B"
+            "(不匹配)否定 SL 标志或已盘标志 A → B，B → A"
         )
         mRuleList.value = list
     }
-
 }
