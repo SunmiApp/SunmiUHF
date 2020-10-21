@@ -38,7 +38,7 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
                 ParamCts.BROADCAST_BATTERY_REMAINING_PERCENTAGE,
                 ParamCts.BROADCAST_BATTER_LOW_ELEC -> {
                     elec = intent.getIntExtra(ParamCts.BATTERY_REMAINING_PERCENT, 100)
-                    LogUtils.d("darren", "BroadcastReceiver HomeFragment-battery-remaining-percent:$elec%")
+                    LogUtils.d("darren", "BroadcastReceiver battery-remaining-percent:$elec%")
                     if (elec <= Config.LOW_ELEC) {
                         ToastUtils.showShort(getString(R.string.hint_please_charge, elec))
                     }
@@ -126,8 +126,9 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
     private fun upgrade() {
         if (vm.updating.value == true) return
         LogUtils.i("darren", "update file: ${vm.mBinPath.value}")
-        if (elec <= 10) {
+        if (elec <= 20) {
             ToastUtils.showShort(resources.getString(R.string.hint_please_charge, elec))
+            return
         }
         RFIDManager.getInstance().apply {
             if (isConnect && helper.scanModel == RFIDManager.UHF_R2000) {

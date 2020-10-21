@@ -89,25 +89,25 @@ class LabelFilterModel : BaseViewModel() {
             "(匹配)确认 SL 标志或已盘标志 → A\n(不匹配)取消确认 SL 标志或已盘标志 → B"
         )
         list.add(
-            "(匹配)确认 SL 标志或已盘标志 → A"
+            "(匹配)确认 SL 标志或已盘标志 → A\n(不匹配)无作为"
         )
         list.add(
-            "(不匹配)取消确认 SL 标志或已盘标志 → B"
+            "(匹配)无作为\n(不匹配)取消确认 SL 标志或已盘标志 → B"
         )
         list.add(
-            "(匹配)否定 SL 标志或已盘标志 A → B，B → A"
+            "(匹配)否定 SL 标志或已盘标志 A → B，B → A\n(不匹配)无作为"
         )
         list.add(
             "(匹配)取消确认 SL 标志或已盘标志 → B\n(不匹配)确认 SL 标志或已盘标志 → A"
         )
         list.add(
-            "(匹配)取消确认 SL 标志或已盘标志 → B"
+            "(匹配)取消确认 SL 标志或已盘标志 → B\n(不匹配)无作为"
         )
         list.add(
-            "(不匹配)确认 SL 标志或已盘标志 → A"
+            "(匹配)无作为\n(不匹配)确认 SL 标志或已盘标志 → A"
         )
         list.add(
-            "(不匹配)否定 SL 标志或已盘标志 A → B，B → A"
+            "(匹配)无作为\n(不匹配)否定 SL 标志或已盘标志 A → B，B → A"
         )
         mRuleList.value = list
     }
