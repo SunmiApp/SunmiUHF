@@ -5,11 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.text.TextUtils
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.sunmi.rfid.RFIDManager
 import com.sunmi.rfid.ReaderCall
@@ -30,7 +25,6 @@ import com.sunmi.uhf.utils.LiveDataBusEvent
 import com.sunmi.uhf.utils.LogUtils
 import com.sunmi.widget.util.ToastUtils
 import kotlinx.coroutines.launch
-import java.util.*
 import kotlin.collections.ArrayList
 
 /**
@@ -272,7 +266,7 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                             when (getRFRegion()) {
                                 //FCC
                                 0x01 -> {
-                                    res = R.array.area_country_america
+                                    res = R.array.area_country_america_array
                                     binding.moduleNameTv.text = getString(R.string.module_type_america)
                                     if (rfBand[0] != 1) {
                                         rfBand[0] = 1
@@ -283,7 +277,7 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                                 }
                                 //ETSI
                                 0x02 -> {
-                                    res = R.array.area_country_europe
+                                    res = R.array.area_country_europe_array
                                     binding.moduleNameTv.text = getString(R.string.module_type_europe)
                                     if (rfBand[0] != 1) {
                                         rfBand[0] = 1
@@ -294,7 +288,7 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                                 }
                                 //CHN
                                 0x03 -> {
-                                    res = R.array.area_country_china
+                                    res = R.array.area_country_china_array
                                     binding.moduleNameTv.text = getString(R.string.module_type_china)
                                     if (rfBand[0] != 1) {
                                         rfBand[0] = 1
@@ -304,7 +298,7 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                                     }
                                 }
                                 else -> {
-                                    res = R.array.area_country_america
+                                    res = R.array.area_country_america_array
                                     binding.moduleNameTv.text = ""
                                     if (rfBand[0] != 1) {
                                         rfBand[0] = 1

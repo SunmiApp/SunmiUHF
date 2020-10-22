@@ -85,30 +85,7 @@ class LabelFilterModel : BaseViewModel() {
      */
     fun createRuleList() {
         val list = mutableListOf<String>()
-        list.add(
-            "(匹配)确认 SL 标志或已盘标志 → A\n(不匹配)取消确认 SL 标志或已盘标志 → B"
-        )
-        list.add(
-            "(匹配)确认 SL 标志或已盘标志 → A\n(不匹配)无作为"
-        )
-        list.add(
-            "(匹配)无作为\n(不匹配)取消确认 SL 标志或已盘标志 → B"
-        )
-        list.add(
-            "(匹配)否定 SL 标志或已盘标志 A → B，B → A\n(不匹配)无作为"
-        )
-        list.add(
-            "(匹配)取消确认 SL 标志或已盘标志 → B\n(不匹配)确认 SL 标志或已盘标志 → A"
-        )
-        list.add(
-            "(匹配)取消确认 SL 标志或已盘标志 → B\n(不匹配)无作为"
-        )
-        list.add(
-            "(匹配)无作为\n(不匹配)确认 SL 标志或已盘标志 → A"
-        )
-        list.add(
-            "(匹配)无作为\n(不匹配)否定 SL 标志或已盘标志 A → B，B → A"
-        )
+        list.addAll(App.mContext.resources.getStringArray(R.array.filter_rules_array).toList())
         mRuleList.value = list
     }
 }
