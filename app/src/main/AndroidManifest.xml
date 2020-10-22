@@ -18,6 +18,7 @@
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|mcc|mnc|screenSize|fontScale"
+            android:windowSoftInputMode="adjustPan"
             android:resizeableActivity="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
