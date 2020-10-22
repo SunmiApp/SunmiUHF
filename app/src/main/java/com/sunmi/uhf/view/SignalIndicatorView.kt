@@ -160,7 +160,7 @@ class SignalIndicatorView @JvmOverloads constructor(
             //绘制信号强度
             if (mSignal > 0) {
                 val mSignalHeight = mSignal * unitSignalHeight
-                val angle = 42.0
+                val angle = 40.5
                 val mSignalWidth = (tan(Math.toRadians(angle)) * mSignalHeight).toFloat()
                 canvas?.drawArc(
                     width / 2f - mSignalWidth,
