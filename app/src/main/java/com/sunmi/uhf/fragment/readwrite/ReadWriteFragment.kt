@@ -91,12 +91,19 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
         return super.onBackPress()
     }
 
+    override fun onPause() {
+        super.onPause()
+        startStop(false)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         dialog?.dismiss()
     }
 
     private fun startStop(en: Boolean) {
+        if (isLoop == en) return
+        vm.start.postValue(en)
         if (en) {
             tidList.clear()
             tagList.clear()

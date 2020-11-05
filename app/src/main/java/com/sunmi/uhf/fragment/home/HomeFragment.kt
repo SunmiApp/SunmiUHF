@@ -7,10 +7,12 @@ import android.content.IntentFilter
 import android.graphics.drawable.ClipDrawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
+import android.os.RemoteException
 import android.util.TypedValue
 import androidx.lifecycle.Lifecycle
 import com.sunmi.rfid.RFIDManager
 import com.sunmi.rfid.constant.ParamCts
+import com.sunmi.uhf.App
 import com.sunmi.uhf.R
 import com.sunmi.uhf.base.BaseFragment
 import com.sunmi.uhf.constants.Config
@@ -39,6 +41,7 @@ import kotlinx.coroutines.launch
  */
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     lateinit var vm: HomeViewMode
+    private var chargingState: Byte = 0
     private val br = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
             LogUtils.d("darren", "BroadcastReceiver HomeFragment-receiver:${intent.action ?: ""}")
@@ -49,22 +52,29 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 ParamCts.BROADCAST_BATTER_LOW_ELEC,
                 ParamCts.BROADCAST_BATTERY_REMAINING_PERCENTAGE -> {
                     val elec = intent.getIntExtra(ParamCts.BATTERY_REMAINING_PERCENT, 100)
-                    LogUtils.d("darren", "BroadcastReceiver HomeFragment-battery-remaining-percent:$elec%")
+                    LogUtils.d(
+                        "darren",
+                        "BroadcastReceiver HomeFragment-battery-remaining-percent:$elec%"
+                    )
                     setCalculateLevel(elec)
-                    if (elec <= Config.LOW_ELEC) {
+                    if (elec <= Config.LOW_ELEC && chargingState == 0x00.toByte()) {
                         ToastUtils.showShort(getString(R.string.hint_please_charge, elec))
                     }
                 }
                 ParamCts.BROADCAST_BATTER_CHARGING -> {
+                    chargingState = intent.getByteExtra(ParamCts.BATTERY_CHARGING, 0.toByte())
                     val chargingState =
-                        when (intent.getByteExtra(ParamCts.BATTERY_CHARGING, 0.toByte())) {
+                        when (chargingState) {
                             0x00.toByte() -> getString(R.string.un_charge)
                             0x01.toByte() -> getString(R.string.pre_charge)
                             0x02.toByte() -> getString(R.string.fast_charge)
                             0x03.toByte() -> getString(R.string.charge_done)
                             else -> ""
                         }
-                    LogUtils.d("darren", "BroadcastReceiver HomeFragment-chargingState:$chargingState")
+                    LogUtils.d(
+                        "darren",
+                        "BroadcastReceiver HomeFragment-chargingState:$chargingState"
+                    )
                 }
                 else -> {
                     LogUtils.d("darren", "BroadcastReceiver HomeFragment-receiver:${intent.action}")
@@ -160,24 +170,41 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun getBatteryRemainingPercent() {
         mainScope.launch(Dispatchers.IO) {
+            var flag: Boolean
             while (isActive) {
+                flag = false
                 if (lifecycle.currentState != Lifecycle.State.RESUMED) {
                     LogUtils.d("darren", "get battery Remaining Percent >> stop")
                     break
                 }
                 RFIDManager.getInstance().apply {
-                    if (isConnect) {
-                        helper.getBatteryRemainingPercent()
-                        helper.getBatteryChargeState()
+                    try {
+                        if (isConnect) {
+                            helper.getBatteryRemainingPercent()
+                            helper.getBatteryChargeState()
+                            flag = true
+                        }
+                    } catch (e: RemoteException) {
+                        connect(App.mContext)
+                        e.printStackTrace()
+                    } catch (e: Exception) {
+                        connect(App.mContext)
+                        LogUtils.e("darren", "get battery info error")
+                        e.printStackTrace()
                     }
                 }
                 LogUtils.d("darren", "get battery Remaining Percent")
-                delay(30000)
+                if (flag) {
+                    delay(30000)
+                } else {
+                    delay(500)
+                }
             }
         }
     }
 
     private fun setCalculateLevel(elec: Int) {
+        binding.powerStatusTv.text = "${getString(R.string.home_power_text)}$elec%"
         val calculateLevel = calculateLevel(elec)
         val layerDrawable = binding.powerStatusIv.drawable as LayerDrawable
         val clipDrawable = layerDrawable.findDrawableByLayerId(R.id.clip_drawable) as ClipDrawable
@@ -185,9 +212,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun calculateLevel(progress: Int): Float {
-        val leftOffest = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5f, resources.displayMetrics)
-        val powerLength = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 37.2f, resources.displayMetrics)
-        val totalLength = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 52.5f, resources.displayMetrics)
+        val leftOffest =
+            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5f, resources.displayMetrics)
+        val powerLength =
+            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 37.2f, resources.displayMetrics)
+        val totalLength =
+            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 52.5f, resources.displayMetrics)
         val level = (leftOffest + powerLength * progress / 100) * 10000 / totalLength
         return level
     }

@@ -31,7 +31,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun initView() {
-        StatusBar.setStatusBarBackgroundColor(window, ContextCompat.getColor(App.mContext, R.color.white))
+        StatusBar.setStatusBarBackgroundColor(window, ContextCompat.getColor(App.mContext, R.color.statusBarColor))
         StatusBar.setStatusBarTextColor(window, true)
         val dm = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(dm)

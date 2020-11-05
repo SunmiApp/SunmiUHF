@@ -40,7 +40,7 @@
     <string name="light_text">指示灯</string>
     <string name="voice_text">蜂鸣器</string>
     <string name="location_text">定位</string>
-    <string name="location_doing_text">定位中</string>
+    <string name="location_doing_text">停止定位</string>
     <string name="input_epc_text">请输入标签EPC信息进行查找。</string>
 
     <string name="strong_text">强</string>
@@ -122,11 +122,11 @@
     <string name="basic_info_text">基本信息</string>
 
     <string name="device_sn_text">设备SN</string>
-    <string name="firmware_version_text">固件版本号</string>
-    <string name="module_info_text">模块信息</string>
+    <string name="firmware_version_text">固件版本</string>
+    <string name="module_info_text">模块版本</string>
     <string name="module_type_text">模块类型</string>
-    <string name="current_degree_text">当前温度</string>
-    <string name="handle_battery_text">手柄电池信息</string>
+    <string name="current_degree_text">模块温度</string>
+    <string name="handle_battery_text">电量信息</string>
 
     <string name="module_type_inner">内置版本</string>
     <string name="module_type_china">中国版</string>
@@ -135,9 +135,9 @@
     <string name="x_mhz">%d MHz</string>
 
     <string name="battery_voltage_text">电池电压</string>
-    <string name="battery_rate_text">电池百分比</string>
-    <string name="battery_circle_count_text">电池循环次数</string>
-    <string name="battery_charging_status_text">电池充电状态</string>
+    <string name="battery_rate_text">电池电量</string>
+    <string name="battery_circle_count_text">循环次数</string>
+    <string name="battery_charging_status_text">充电状态</string>
     <string name="hint_bin_file_text">请选择文件，仅支持.bin file文件</string>
     <string name="retry_choice_text">重新选择</string>
     <string name="update_text">升级</string>
@@ -176,6 +176,7 @@
     <string name="hint_please_check_device_connect">请检查UHF设备连接</string>
     <string name="hint_not_found_tag">未匹配到标签</string>
     <string name="hint_please_select">请选择</string>
+    <string name="hint_please_auto_set">自定义</string>
     <string name="hint_please_select_opt_area">请选择操作区域</string>
     <string name="hint_please_select_opt_type">请选择操作类型</string>
     <string name="hint_please_select_opt_area_country">请选择区域国家</string>
@@ -217,5 +218,7 @@
     <string name="please_take_select_before_proceeding">请先选择后，再进行操作</string>
     <string name="hint_excel_save_to_sd">已导出Excel到SD卡</string>
     <string name="hint_copy_epc_clipboard">已经复制到剪贴板</string>
+    
+    <string name="hint_filter_offset_len">请输入正确偏移位置(0~255)</string>
 
 </resources>

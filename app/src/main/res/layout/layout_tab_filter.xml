@@ -97,6 +97,7 @@
                 android:gravity="center|left"
                 android:hint="@string/hint_offset_text"
                 android:inputType="number"
+                android:maxLength="3"
                 android:paddingLeft="@dimen/sunmi_24px"
                 android:paddingRight="@dimen/sunmi_24px"
                 android:singleLine="true"

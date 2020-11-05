@@ -44,7 +44,13 @@ class LabelLocationFragment : ReadBaseFragment<FragmentLabelLocationBinding>() {
     override fun initView() {
         binding.voiceSw.isChecked = App.getPref().getParam(Config.KEY_TIP_VOICE, Config.DEF_TIP_VOICE)
         binding.lightSw.isChecked = App.getPref().getParam(Config.KEY_TIP_LIGHT, Config.DEF_TIP_LIGHT)
-        binding.epcTv.addTextChangedListener(object : TextWatcher {
+        binding.voiceSw.setOnClickListener {
+            App.getPref().setParam(Config.KEY_TIP_VOICE, binding.voiceSw.isChecked)
+        }
+        binding.lightSw.setOnClickListener {
+            App.getPref().setParam(Config.KEY_TIP_LIGHT, binding.lightSw.isChecked)
+        }
+        binding.epcEt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
@@ -52,15 +58,9 @@ class LabelLocationFragment : ReadBaseFragment<FragmentLabelLocationBinding>() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                targetId = binding.epcTv.text.toString().replace(" ", "").toUpperCase()
+                targetId = binding.epcEt.text?.toString()?.replace(" ", "")?.toUpperCase() ?: ""
             }
         })
-        binding.voiceSw.setOnClickListener {
-            App.getPref().setParam(Config.KEY_TIP_VOICE, binding.voiceSw.isChecked)
-        }
-        binding.lightSw.setOnClickListener {
-            App.getPref().setParam(Config.KEY_TIP_LIGHT, binding.lightSw.isChecked)
-        }
     }
 
     override fun initData() {
@@ -78,10 +78,12 @@ class LabelLocationFragment : ReadBaseFragment<FragmentLabelLocationBinding>() {
     }
 
     private fun startStop(en: Boolean) {
+        if (isLoop == en) return
         if (TextUtils.isEmpty(targetId)) {
             ToastUtils.showShort(R.string.input_epc_text)
             return
         }
+        vm.start.postValue(en)
         if (en) {
             tidList.clear()
             tagList.clear()
@@ -93,11 +95,17 @@ class LabelLocationFragment : ReadBaseFragment<FragmentLabelLocationBinding>() {
     }
 
     override fun handleBottomStart() {
+        if (TextUtils.isEmpty(targetId)) {
+            ToastUtils.showShort(R.string.input_epc_text)
+            return
+        }
         vm.start.value = true
     }
 
     override fun handleBottomStop() {
-        vm.start.value = false
+        if (vm.start.value == true) {
+            vm.start.value = false
+        }
     }
 
     override fun start() {

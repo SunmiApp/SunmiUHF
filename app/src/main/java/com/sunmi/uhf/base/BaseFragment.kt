@@ -3,20 +3,19 @@ package com.sunmi.uhf.base
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.*
 import com.sunmi.uhf.event.LoadingDialogEvent
 import com.sunmi.uhf.event.SimpleViewEvent
 import com.sunmi.uhf.event.ViewEvent
+import com.sunmi.widget.util.ToastUtils
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 
@@ -58,12 +57,42 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
         initBus()
     }
 
+    fun showShort(@StringRes resStr: Int) {
+        if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
+            ToastUtils.showShort(resStr)
+        }
+    }
+
+    fun showShort(str: String) {
+        if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
+            ToastUtils.showShort(str)
+        }
+    }
+
+    fun showLong(@StringRes resStr: Int) {
+        if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
+            ToastUtils.showLong(resStr)
+        }
+    }
+
+    fun showLong(str: String) {
+        if (viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
+            ToastUtils.showLong(str)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        ToastUtils.cancel()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         viewModels.clear()
         hideDialog()
         dataBinding = null
         handler.removeCallbacksAndMessages(null)
+        ToastUtils.cancel()
     }
 
     override fun onDestroy() {

@@ -3,7 +3,6 @@ package com.sunmi.uhf.fragment.list
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.sunmi.uhf.App
 import com.sunmi.uhf.R
 import com.sunmi.uhf.adapter.OperationAdapter

@@ -23,7 +23,7 @@ object Config {
 
     /** 盘存模式 1：平衡模式 (8B+S1+TagFocus)，2：高速模式(89+射频链路)，3：遍历模式(8B+S2)，4：自定义模式(8B) */
     const val KEY_TAKE_MODE = "key_take_mode"
-    const val DEF_TAKE_MODE = Constant.INT_BALANCE_MODE
+    const val DEF_TAKE_MODE = Constant.INT_SPEED_MODE
 
     /** 盘存session 00：S0，01：S1，02：S2，03：S3 */
     const val KEY_TAKE_SESSION = "key_take_session"

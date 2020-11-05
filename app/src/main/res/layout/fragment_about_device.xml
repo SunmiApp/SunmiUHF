@@ -76,6 +76,13 @@
                     android:textColor="@color/color_FF858A95"
                     android:textSize="@dimen/sunmi_24ps" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_1px"
+                    android:layout_marginLeft="@dimen/sunmi_30px"
+                    android:layout_marginRight="@dimen/sunmi_30px"
+                    android:background="@color/dividerColor" />
+
                 <!--  设备sn -->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -268,9 +275,16 @@
                     android:gravity="center|left"
                     android:paddingLeft="@dimen/sunmi_30px"
                     android:paddingRight="@dimen/sunmi_30px"
-                    android:text="@string/basic_info_text"
+                    android:text="@string/handle_battery_text"
                     android:textColor="#FF858A95"
                     android:textSize="@dimen/sunmi_24ps" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_1px"
+                    android:layout_marginLeft="@dimen/sunmi_30px"
+                    android:layout_marginRight="@dimen/sunmi_30px"
+                    android:background="@color/dividerColor" />
                 <!--  电池电压 -->
                 <LinearLayout
                     android:layout_width="match_parent"

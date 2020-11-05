@@ -33,6 +33,7 @@ class SharedPreference {
         when (obj) {
             is Long -> putLong(key, obj)
             is String -> putString(key, obj)
+            is Byte -> putInt(key, obj.toInt())
             is Int -> putInt(key, obj)
             is Boolean -> putBoolean(key, obj)
             is Float -> putFloat(key, obj)
@@ -51,6 +52,7 @@ class SharedPreference {
             is Long -> getLong(key, defaultObject)
             is String -> getString(key, defaultObject) ?: ""
             is Int -> getInt(key, defaultObject)
+            is Byte -> getInt(key, defaultObject.toInt())
             is Boolean -> getBoolean(key, defaultObject)
             is Float -> getFloat(key, defaultObject)
             else -> deSerialization(getString(key, serialize(defaultObject)) ?: "")

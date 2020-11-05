@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.google.android.material.tabs.TabLayoutMediator
-import com.sunmi.rfid.RFIDHelper
 import com.sunmi.rfid.RFIDManager
 import com.sunmi.rfid.ReaderCall
 import com.sunmi.rfid.constant.CMD

@@ -37,11 +37,11 @@ import kotlin.collections.ArrayList
 class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
     lateinit var vm: SettingModel
     private var rfBand: IntArray = intArrayOf(-1, -1, -1, -1)
-    private var rfRegion: Int = 0
-    private var rfStart: Int = 0
-    private var rfEnd: Int = 0
-    private var rfInterval: Int = 0
-    private var rfQuantity: Int = 0
+    private var rfRegion: Int = -1
+    private var rfStart: Int = -1
+    private var rfEnd: Int = -1
+    private var rfInterval: Int = -1
+    private var rfQuantity: Int = -1
     private var countryList: ArrayList<String> = ArrayList()
     private var sn: String = ""
     private val br = object : BroadcastReceiver() {
@@ -314,7 +314,7 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                             countryList.clear()
                             countryList.addAll(resources.getStringArray(res).toList())
 
-                            if (rfStart == 0 || rfEnd == 0) {
+                            if (rfStart == -1 || rfEnd == -1) {
                                 binding.rfStartTv.text = ""
                                 binding.rfEndTv.text = ""
                             } else {

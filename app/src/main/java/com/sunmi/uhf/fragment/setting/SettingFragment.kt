@@ -7,14 +7,11 @@ import com.sunmi.uhf.R
 import com.sunmi.uhf.base.BaseFragment
 import com.sunmi.uhf.bean.CommonListBean
 import com.sunmi.uhf.constants.Config
-import com.sunmi.uhf.constants.Constant
 import com.sunmi.uhf.constants.EventConstant
 import com.sunmi.uhf.databinding.FragmentSettingBinding
 import com.sunmi.uhf.event.SimpleViewEvent
-import com.sunmi.uhf.fragment.list.ListFragment
 import com.sunmi.uhf.fragment.setting.child.*
 import com.sunmi.uhf.utils.LiveDataBusEvent
-import com.sunmi.uhf.utils.LogUtils
 
 /**
  * @ClassName: LabelFilterFragmentLabelFilter

@@ -25,7 +25,6 @@ import com.sunmi.uhf.fragment.list.ListFragment
 import com.sunmi.uhf.utils.LiveDataBusEvent
 import com.sunmi.uhf.utils.LogUtils
 import com.sunmi.uhf.utils.StrUtils
-import com.sunmi.widget.util.ToastUtils
 import kotlinx.coroutines.launch
 
 /**
@@ -44,7 +43,7 @@ class TabFilter2Fragment : BaseFragment<LayoutTabFilterBinding>() {
             when (cmd) {
                 CMD.OPERATE_TAG_MASK -> {
                     mainScope.launch {
-                        ToastUtils.showShort(getString(R.string.hint_tag_operation_success))
+                        showShort(getString(R.string.hint_tag_operation_success))
                     }
                 }
             }
@@ -66,7 +65,7 @@ class TabFilter2Fragment : BaseFragment<LayoutTabFilterBinding>() {
             mainScope.launch {
                 when (cmd) {
                     CMD.OPERATE_TAG_MASK -> {
-                        ToastUtils.showShort(getString(R.string.hint_tag_operation_failed, errorCode, msg))
+                        showShort(getString(R.string.hint_tag_operation_failed, errorCode, msg))
                     }
                 }
             }
@@ -111,9 +110,16 @@ class TabFilter2Fragment : BaseFragment<LayoutTabFilterBinding>() {
             }
 
             override fun afterTextChanged(s: Editable?) {
+                if (binding.startAddEt.text.isNullOrEmpty()) {
+                    showShort(R.string.hint_filter_offset_len)
+                }
                 try {
                     val v = binding.startAddEt.text.toString()
-                    val startAdd = v.toInt()
+                    var startAdd = if (v.isNullOrEmpty()) 0 else v.toInt()
+                    if (startAdd > 255) {
+                        showShort(R.string.hint_filter_offset_len)
+                        startAdd = 255
+                    }
                     App.getPref().setParam(Config.KEY_FILTER_START_ADD_2, startAdd)
                 } catch (e: Exception) {
                     e.printStackTrace()

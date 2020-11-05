@@ -19,7 +19,6 @@ import com.sunmi.uhf.fragment.operation.LabelOperationModel
 import com.sunmi.uhf.utils.LiveDataBusEvent
 import com.sunmi.uhf.utils.LogUtils
 import com.sunmi.uhf.utils.StrUtils
-import com.sunmi.widget.util.ToastUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -61,7 +60,7 @@ class LockFragment : BaseFragment<TabLockBinding>() {
             )
             RFIDManager.getInstance().helper.unregisterReaderCall()
             mainScope.launch {
-                ToastUtils.showShort(R.string.hint_not_found_tag)
+                showShort(R.string.hint_not_found_tag)
             }
         }
     }
@@ -81,13 +80,13 @@ class LockFragment : BaseFragment<TabLockBinding>() {
                 }
                 CMD.LOCK_TAG -> {
                     mainScope.launch {
-                        ToastUtils.showShort(R.string.hint_tag_operation_success)
+                        showShort(R.string.hint_tag_operation_success)
                     }
                 }
                 else -> {
                     RFIDManager.getInstance().helper.unregisterReaderCall()
                     mainScope.launch {
-                        ToastUtils.showShort(R.string.hint_unknow_error)
+                        showShort(R.string.hint_unknow_error)
                     }
                 }
             }
@@ -106,10 +105,10 @@ class LockFragment : BaseFragment<TabLockBinding>() {
             mainScope.launch {
                 when (cmd) {
                     CMD.SET_ACCESS_EPC_MATCH -> {
-                        ToastUtils.showShort(R.string.hint_not_found_tag)
+                        showShort(R.string.hint_not_found_tag)
                     }
                     CMD.LOCK_TAG -> {
-                        ToastUtils.showShort(
+                        showShort(
                             getString(
                                 R.string.hint_tag_operation_failed,
                                 errorCode,
@@ -118,7 +117,7 @@ class LockFragment : BaseFragment<TabLockBinding>() {
                         )
                     }
                     else -> {
-                        ToastUtils.showShort(R.string.hint_unknow_error)
+                        showShort(R.string.hint_unknow_error)
                     }
                 }
             }
@@ -217,21 +216,29 @@ class LockFragment : BaseFragment<TabLockBinding>() {
             }
             EventConstant.EVENT_OPERATION_LOCK_TAG -> {
                 // epc data
-                val epc = StrUtils.strToByteArray(vm.epc.value, R.string.edit_epc_text)
+                val epc = StrUtils.strToByteArray(str = vm.epc.value, tip = object : (() -> Unit) {
+                    override fun invoke() {
+                        showShort(R.string.edit_epc_text)
+                    }
+                })
                 if (epc == null || epc.isEmpty()) return
                 this.optEpc = epc
                 // optArea
                 if (optArea < 0x01 || optArea > 0x05) {
-                    ToastUtils.showShort(R.string.hint_please_select_opt_area)
+                    showShort(R.string.hint_please_select_opt_area)
                     return
                 }
                 // pwd data
-                val pwd = StrUtils.strToByteArray(vm.pwd.value, R.string.edit_pwd_text, 4)
+                val pwd = StrUtils.strToByteArray(vm.pwd.value, 4, object : (() -> Unit) {
+                    override fun invoke() {
+                        showShort(R.string.edit_pwd_text)
+                    }
+                })
                 if (pwd == null || pwd.isEmpty()) return
                 this.pwd = pwd
                 // optType
                 if (optType < 0x00 || optType > 0x03) {
-                    ToastUtils.showShort(R.string.hint_please_select_opt_type)
+                    showShort(R.string.hint_please_select_opt_type)
                     return
                 }
                 // operation

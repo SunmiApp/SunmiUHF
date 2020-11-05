@@ -159,6 +159,10 @@ object EventConstant {
     /** 盘存 标签信息 点击选择 */
     const val EVENT_TAKE_BABEL_FLAG = 1034
 
+    /** 标签定位 点击 */
+    const val EVENT_LABEL_LOCATION_CLICK = 1035
+
+
 
     /** 盘存底座 KeyEvent UP 事件 */
     const val EVENT_UHF_KEY_EVENT_UP = 9001

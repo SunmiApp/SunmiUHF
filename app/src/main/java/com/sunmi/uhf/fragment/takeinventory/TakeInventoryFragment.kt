@@ -177,10 +177,18 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
             }
             EventConstant.EVENT_INVENTORY_EXPORT_EXCEL -> {
                 exportExcelType = 1
+                if (adapter.selectData.size == 0) {
+                    mainScope.launch { ToastUtils.showShort(getString(R.string.please_take_select_before_proceeding)) }
+                    return
+                }
                 exportExcel()
             }
             EventConstant.EVENT_INVENTORY_EXPORT_EXCEL_ALL -> {
                 exportExcelType = 0
+                if (list.size == 0) {
+                    mainScope.launch { ToastUtils.showShort(getString(R.string.please_take_inventory_before_proceeding)) }
+                    return
+                }
                 exportExcel()
             }
             EventConstant.EVENT_TAKE_LABEL_INFO -> {
@@ -229,7 +237,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
     private fun copyEpcToClipboard() {
         mainScope.launch(Dispatchers.IO) {
             if (adapter.selectData.size == 0) {
-                mainScope.launch { ToastUtils.showLong(getString(R.string.please_take_select_before_proceeding)) }
+                mainScope.launch { ToastUtils.showShort(getString(R.string.please_take_select_before_proceeding)) }
                 return@launch
             }
             val info = StringBuffer()
@@ -242,7 +250,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
             LogUtils.i("darren", "copy to clipboard: $info")
             mainScope.launch {
                 ClipboardUtils.copyStrToClipboard(context, info.toString())
-                ToastUtils.showLong(getString(R.string.hint_copy_epc_clipboard))
+                ToastUtils.showShort(getString(R.string.hint_copy_epc_clipboard))
             }
         }
     }
@@ -253,7 +261,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
     private fun shareToApp() {
         mainScope.launch(Dispatchers.IO) {
             if (adapter.selectData.size == 0) {
-                mainScope.launch { ToastUtils.showLong(getString(R.string.please_take_select_before_proceeding)) }
+                mainScope.launch { ToastUtils.showShort(getString(R.string.please_take_select_before_proceeding)) }
                 return@launch
             }
             var dir = App.mContext.externalCacheDir ?: App.mContext.cacheDir
@@ -323,20 +331,17 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
             LogUtils.i("darren", "export Excel dir:$path")
             val file = "$path/$fileName"
             val data = ArrayList<LabelInfoBean>()
-            var resTips = R.string.please_take_inventory_before_proceeding
             if (exportExcelType == 0) {
                 data.addAll(list)
             } else if (exportExcelType == 1) {
                 data.addAll(adapter.selectData.values)
-                resTips = R.string.please_take_select_before_proceeding
             }
             if (data.size == 0) {
-                mainScope.launch { ToastUtils.showLong(getString(resTips)) }
                 return@launch
             }
             ExcelUtils.writeTagToExcel(file, data)
             mainScope.launch {
-                ToastUtils.showLong(getString(R.string.hint_excel_save_to_sd))
+                ToastUtils.showShort(getString(R.string.hint_excel_save_to_sd))
             }
         }
     }
@@ -397,6 +402,11 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
         context?.unregisterReceiver(br)
     }
 
+    override fun onPause() {
+        super.onPause()
+        startStop(false)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         dialog?.dismiss()
@@ -406,6 +416,8 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
 
 
     private fun startStop(en: Boolean) {
+        if (isLoop == en) return
+        vm.start.postValue(en)
         if (en) {
             tidList.clear()
             tagList.clear()
@@ -425,12 +437,17 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
     }
 
     private fun getPowerSave(): Byte {
-        val time = (SystemClock.elapsedRealtime() - binding.basicLl.timeValueTv.base) / 1000 / 60
-        return if (autoPower && time > 10) {
-            min((time - 10) * 5, 100).toByte()
-        } else {
-            0.toByte()
+        try {
+            val time = (SystemClock.elapsedRealtime() - binding.basicLl.timeValueTv.base) / 1000 / 60
+            return if (autoPower && time > 10) {
+                min((time - 10) * 5, 100).toByte()
+            } else {
+                0.toByte()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+        return 0.toByte()
     }
 
     override fun handleBottomStart() {

@@ -50,7 +50,7 @@
             app:layout_constraintTop_toBottomOf="@id/back_iv" />
 
         <EditText
-            android:id="@+id/epc_tv"
+            android:id="@+id/epc_et"
             android:layout_width="0dp"
             android:layout_height="@dimen/sunmi_88px"
             android:layout_marginLeft="@dimen/sunmi_30px"
@@ -59,7 +59,7 @@
             android:background="@drawable/btn_stoke_shape"
             android:ellipsize="end"
             android:gravity="center|left"
-            android:hint="@string/id_text"
+            android:hint="@string/epc_text"
             android:paddingLeft="@dimen/sunmi_24px"
             android:paddingRight="@dimen/sunmi_24px"
             android:singleLine="true"
@@ -84,9 +84,9 @@
             android:textColor="@color/majorTextColor"
             android:textSize="@dimen/sunmi_28ps"
             app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintLeft_toLeftOf="@id/epc_tv"
+            app:layout_constraintLeft_toLeftOf="@id/epc_et"
             app:layout_constraintRight_toLeftOf="@id/voice_vv"
-            app:layout_constraintTop_toBottomOf="@id/epc_tv" />
+            app:layout_constraintTop_toBottomOf="@id/epc_et" />
 
         <TextView
             android:id="@+id/voice_vv"
@@ -100,7 +100,7 @@
             android:textSize="@dimen/sunmi_28ps"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintLeft_toRightOf="@id/light_vv"
-            app:layout_constraintRight_toRightOf="@id/epc_tv"
+            app:layout_constraintRight_toRightOf="@id/epc_et"
             app:layout_constraintTop_toTopOf="@id/light_vv" />
 
         <Switch
@@ -134,8 +134,8 @@
             android:textColor="@color/white"
             android:textSize="@dimen/sunmi_32px"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="@id/epc_tv"
-            app:layout_constraintRight_toRightOf="@id/epc_tv"
+            app:layout_constraintLeft_toLeftOf="@id/epc_et"
+            app:layout_constraintRight_toRightOf="@id/epc_et"
             sunmi:outline="@{`10`}"
             tools:text="@string/location_text" />
 
@@ -163,10 +163,9 @@
             android:text="@string/input_epc_text"
             android:textColor="@color/color_FF858A95"
             android:textSize="@dimen/sunmi_28ps"
-
             app:layout_constraintBottom_toTopOf="@id/location_btn"
-            app:layout_constraintLeft_toLeftOf="@id/epc_tv"
-            app:layout_constraintRight_toRightOf="@id/epc_tv"
+            app:layout_constraintLeft_toLeftOf="@id/epc_et"
+            app:layout_constraintRight_toRightOf="@id/epc_et"
             app:layout_constraintTop_toBottomOf="@id/signal_vv" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

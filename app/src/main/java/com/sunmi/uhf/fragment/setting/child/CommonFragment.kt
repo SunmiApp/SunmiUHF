@@ -22,7 +22,6 @@ import com.sunmi.uhf.fragment.list.ListFragment
 import com.sunmi.uhf.fragment.setting.SettingModel
 import com.sunmi.uhf.utils.LiveDataBusEvent
 import com.sunmi.uhf.utils.LogUtils
-import com.sunmi.widget.util.ToastUtils
 
 /**
  * @ClassName: CommonFragment
@@ -39,7 +38,7 @@ class CommonFragment : BaseFragment<FragmentCommonSettingBinding>() {
             if (intent?.action == ParamCts.BROADCAST_READER_BOOT) {
                 LogUtils.w("darren", "reader boot.")
                 hideDialog()
-                ToastUtils.showShort(R.string.hint_reset_completed)
+                showShort(R.string.hint_reset_completed)
             }
         }
 

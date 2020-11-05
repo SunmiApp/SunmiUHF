@@ -18,7 +18,6 @@ import com.sunmi.uhf.event.SimpleViewEvent
 import com.sunmi.uhf.fragment.setting.SettingModel
 import com.sunmi.uhf.utils.ContentUriUtil.getPath
 import com.sunmi.uhf.utils.LogUtils
-import com.sunmi.widget.util.ToastUtils
 import kotlinx.coroutines.launch
 
 
@@ -40,7 +39,7 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
                     elec = intent.getIntExtra(ParamCts.BATTERY_REMAINING_PERCENT, 100)
                     LogUtils.d("darren", "BroadcastReceiver battery-remaining-percent:$elec%")
                     if (elec <= Config.LOW_ELEC) {
-                        ToastUtils.showShort(getString(R.string.hint_please_charge, elec))
+                        showShort(getString(R.string.hint_please_charge, elec))
                     }
                 }
             }
@@ -56,7 +55,7 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
     }
 
     override fun initView() {
-        vm.title.value = resources.getString(R.string.setting_about_device_text)
+        vm.title.value = resources.getString(R.string.setting_firmware_update_text)
     }
 
     override fun initData() {
@@ -127,7 +126,7 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
         if (vm.updating.value == true) return
         LogUtils.i("darren", "update file: ${vm.mBinPath.value}")
         if (elec <= 20) {
-            ToastUtils.showShort(resources.getString(R.string.hint_please_charge, elec))
+            showShort(resources.getString(R.string.hint_please_charge, elec))
             return
         }
         RFIDManager.getInstance().apply {
@@ -138,7 +137,7 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
                     override fun onSuccess() {
                         LogUtils.d("darren", "onSuccess")
                         mainScope.launch {
-                            ToastUtils.showShort(R.string.update_success)
+                            showShort(R.string.update_success)
                             binding.root.postDelayed({
                                 vm.updating.value = false
                             }, 2000)
@@ -155,7 +154,7 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
                     override fun onFailed(code: Int, msg: String?) {
                         LogUtils.d("darren", "onProgress: $code => $msg")
                         mainScope.launch {
-                            ToastUtils.showShort(R.string.update_failed, code, msg)
+                            showShort(getString(R.string.update_failed, code, msg))
                             binding.root.postDelayed({
                                 vm.updating.value = false
                             }, 2000)

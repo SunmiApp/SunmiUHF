@@ -1,8 +1,10 @@
 package com.sunmi.uhf.fragment.location
 
 import androidx.lifecycle.MutableLiveData
+import com.sunmi.uhf.R
 import com.sunmi.uhf.base.BaseViewModel
 import com.sunmi.uhf.constants.EventConstant
+import com.sunmi.widget.util.ToastUtils
 
 /**
  * @ClassName: LabelLocationModel
@@ -13,8 +15,11 @@ import com.sunmi.uhf.constants.EventConstant
  */
 class LabelLocationModel : BaseViewModel() {
 
-    /* 是否开始读取 */
+    /** 是否开始读取 */
     val start = MutableLiveData<Boolean>(false)
+
+    /** epc 信息 */
+    val epcInfo = MutableLiveData<String>()
 
     /**
      * 返回点击事件
@@ -27,6 +32,10 @@ class LabelLocationModel : BaseViewModel() {
      * 操作按钮
      */
     fun onBtnClick() {
+        if (epcInfo.value.isNullOrEmpty()) {
+            ToastUtils.showShort(R.string.input_epc_text)
+            return
+        }
         val flag = start.value ?: false
         start.value = !flag
     }

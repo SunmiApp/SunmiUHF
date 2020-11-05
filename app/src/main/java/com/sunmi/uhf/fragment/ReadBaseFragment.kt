@@ -89,6 +89,11 @@ abstract class ReadBaseFragment<T : ViewDataBinding> : BaseFragment<T>() {
             })
     }
 
+    override fun onPause() {
+        super.onPause()
+        stop()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         soundHelper.destroy()

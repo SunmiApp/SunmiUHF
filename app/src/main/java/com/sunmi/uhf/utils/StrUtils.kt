@@ -1,7 +1,5 @@
 package com.sunmi.uhf.utils
 
-import androidx.annotation.StringRes
-import com.sunmi.widget.util.ToastUtils
 import java.util.*
 import java.util.regex.Pattern
 
@@ -112,19 +110,19 @@ object StrUtils {
     }
 
     // ui
-    fun strToByteArray(v: String?, @StringRes res: Int, len: Int = 0): ByteArray? {
-        if (v.isNullOrEmpty()) {
-            ToastUtils.showShort(res)
+    fun strToByteArray(str: String?, len: Int = 0, tip: (() -> Unit)): ByteArray? {
+        if (str.isNullOrEmpty()) {
+            tip.invoke()
             return null
         }
-        val strArr = stringToStringArray(v.toUpperCase(), 2)
+        val strArr = stringToStringArray(str.toUpperCase(), 2)
         if (strArr.isNullOrEmpty()) {
-            ToastUtils.showShort(res)
+            tip.invoke()
             return null
         }
         val btArr = stringArrayToByteArray(strArr, if (len <= 0) strArr.size else len)
         if (btArr == null || btArr.isEmpty()) {
-            ToastUtils.showShort(res)
+            tip.invoke()
             return null
         }
         return btArr
