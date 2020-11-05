@@ -1,9 +1,7 @@
 package com.sunmi.uhf.fragment.location
 
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextUtils
-import android.text.TextWatcher
 import androidx.lifecycle.Observer
 import com.sunmi.rfid.RFIDManager
 import com.sunmi.rfid.constant.CMD
@@ -17,7 +15,6 @@ import com.sunmi.uhf.databinding.FragmentLabelLocationBinding
 import com.sunmi.uhf.event.SimpleViewEvent
 import com.sunmi.uhf.fragment.ReadBaseFragment
 import com.sunmi.uhf.utils.LogUtils
-import com.sunmi.widget.util.ToastUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -50,17 +47,6 @@ class LabelLocationFragment : ReadBaseFragment<FragmentLabelLocationBinding>() {
         binding.lightSw.setOnClickListener {
             App.getPref().setParam(Config.KEY_TIP_LIGHT, binding.lightSw.isChecked)
         }
-        binding.epcEt.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                targetId = binding.epcEt.text?.toString()?.replace(" ", "")?.toUpperCase() ?: ""
-            }
-        })
     }
 
     override fun initData() {
@@ -74,20 +60,25 @@ class LabelLocationFragment : ReadBaseFragment<FragmentLabelLocationBinding>() {
             EventConstant.EVENT_BACK -> {
                 performBackClick()
             }
+            EventConstant.EVENT_LABEL_LOCATION_CLICK -> {
+                val flag = vm.start.value ?: false
+                startStop(!flag)
+            }
         }
     }
 
     private fun startStop(en: Boolean) {
         if (isLoop == en) return
+        vm.start.postValue(en)
+        targetId = binding.epcEt.text.toString().replace(" ", "").toUpperCase()
         if (TextUtils.isEmpty(targetId)) {
-            ToastUtils.showShort(R.string.input_epc_text)
+            showShort(R.string.input_epc_text)
             return
         }
-        vm.start.postValue(en)
+        mainScope.launch { binding.signalVv.setSignal(0f) }
         if (en) {
             tidList.clear()
             tagList.clear()
-            binding.signalVv.setSignal(0f)
             start()
         } else {
             stop()
@@ -95,17 +86,16 @@ class LabelLocationFragment : ReadBaseFragment<FragmentLabelLocationBinding>() {
     }
 
     override fun handleBottomStart() {
+        targetId = binding.epcEt.text.toString().replace(" ", "").toUpperCase()
         if (TextUtils.isEmpty(targetId)) {
-            ToastUtils.showShort(R.string.input_epc_text)
+            showShort(R.string.input_epc_text)
             return
         }
-        vm.start.value = true
+        startStop(true)
     }
 
     override fun handleBottomStop() {
-        if (vm.start.value == true) {
-            vm.start.value = false
-        }
+        startStop(false)
     }
 
     override fun start() {

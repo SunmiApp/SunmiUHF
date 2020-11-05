@@ -14,7 +14,6 @@ import com.sunmi.uhf.event.SimpleViewEvent
 import com.sunmi.uhf.fragment.operation.LabelOperationModel
 import com.sunmi.uhf.utils.LogUtils
 import com.sunmi.uhf.utils.StrUtils
-import com.sunmi.widget.util.ToastUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -54,7 +53,7 @@ class DestroyFragment : BaseFragment<TabDestroyBinding>() {
             )
             RFIDManager.getInstance().helper.unregisterReaderCall()
             mainScope.launch {
-                ToastUtils.showShort(R.string.hint_not_found_tag)
+                showShort(R.string.hint_not_found_tag)
             }
         }
     }
@@ -74,13 +73,13 @@ class DestroyFragment : BaseFragment<TabDestroyBinding>() {
                 }
                 CMD.KILL_TAG -> {
                     mainScope.launch {
-                        ToastUtils.showShort(R.string.hint_tag_operation_success)
+                        showShort(R.string.hint_tag_operation_success)
                     }
                 }
                 else -> {
                     RFIDManager.getInstance().helper.unregisterReaderCall()
                     mainScope.launch {
-                        ToastUtils.showShort(R.string.hint_unknow_error)
+                        showShort(R.string.hint_unknow_error)
                     }
                 }
             }
@@ -99,10 +98,10 @@ class DestroyFragment : BaseFragment<TabDestroyBinding>() {
             mainScope.launch {
                 when (cmd) {
                     CMD.SET_ACCESS_EPC_MATCH -> {
-                        ToastUtils.showShort(R.string.hint_not_found_tag)
+                        showShort(R.string.hint_not_found_tag)
                     }
                     CMD.KILL_TAG -> {
-                        ToastUtils.showShort(
+                        showShort(
                             getString(
                                 R.string.hint_tag_operation_failed,
                                 errorCode,
@@ -111,7 +110,7 @@ class DestroyFragment : BaseFragment<TabDestroyBinding>() {
                         )
                     }
                     else -> {
-                        ToastUtils.showShort(R.string.hint_unknow_error)
+                        showShort(R.string.hint_unknow_error)
                     }
                 }
             }
@@ -141,11 +140,19 @@ class DestroyFragment : BaseFragment<TabDestroyBinding>() {
             }
             EventConstant.EVENT_OPERATION_DESTROY_TAG -> {
                 // epc data
-                val epc = StrUtils.strToByteArray(vm.epc.value, R.string.edit_epc_text)
+                val epc = StrUtils.strToByteArray(str = vm.epc.value, tip = object : (() -> Unit) {
+                    override fun invoke() {
+                        showShort(R.string.edit_epc_text)
+                    }
+                })
                 if (epc == null || epc.isEmpty()) return
                 this.optEpc = epc
                 // pwd data
-                val pwd = StrUtils.strToByteArray(vm.pwd.value, R.string.edit_pwd_text, 4)
+                val pwd = StrUtils.strToByteArray(str = vm.pwd.value, 4, object : (() -> Unit) {
+                    override fun invoke() {
+                        showShort(R.string.edit_pwd_text)
+                    }
+                })
                 if (pwd == null || pwd.isEmpty()) return
                 this.pwd = pwd
                 // operation

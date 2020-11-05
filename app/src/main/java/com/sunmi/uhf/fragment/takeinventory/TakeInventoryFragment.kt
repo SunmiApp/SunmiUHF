@@ -34,7 +34,6 @@ import com.sunmi.uhf.event.SimpleViewEvent
 import com.sunmi.uhf.fragment.ReadBaseFragment
 import com.sunmi.uhf.utils.*
 import com.sunmi.widget.dialog.InputDialog
-import com.sunmi.widget.util.ToastUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.math.min
@@ -75,7 +74,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                     val elec = intent.getIntExtra(ParamCts.BATTERY_REMAINING_PERCENT, 100)
                     LogUtils.d("darren", "BroadcastReceiver battery-remaining-percent:$elec%")
                     if (elec <= Config.LOW_ELEC) {
-                        ToastUtils.showShort(getString(R.string.hint_please_charge, elec))
+                        showShort(getString(R.string.hint_please_charge, elec))
                     }
                 }
                 ParamCts.BROADCAST_ON_CONNECT,
@@ -178,7 +177,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
             EventConstant.EVENT_INVENTORY_EXPORT_EXCEL -> {
                 exportExcelType = 1
                 if (adapter.selectData.size == 0) {
-                    mainScope.launch { ToastUtils.showShort(getString(R.string.please_take_select_before_proceeding)) }
+                    mainScope.launch { showShort(getString(R.string.please_take_select_before_proceeding)) }
                     return
                 }
                 exportExcel()
@@ -186,7 +185,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
             EventConstant.EVENT_INVENTORY_EXPORT_EXCEL_ALL -> {
                 exportExcelType = 0
                 if (list.size == 0) {
-                    mainScope.launch { ToastUtils.showShort(getString(R.string.please_take_inventory_before_proceeding)) }
+                    mainScope.launch { showShort(getString(R.string.please_take_inventory_before_proceeding)) }
                     return
                 }
                 exportExcel()
@@ -237,7 +236,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
     private fun copyEpcToClipboard() {
         mainScope.launch(Dispatchers.IO) {
             if (adapter.selectData.size == 0) {
-                mainScope.launch { ToastUtils.showShort(getString(R.string.please_take_select_before_proceeding)) }
+                mainScope.launch { showShort(getString(R.string.please_take_select_before_proceeding)) }
                 return@launch
             }
             val info = StringBuffer()
@@ -250,7 +249,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
             LogUtils.i("darren", "copy to clipboard: $info")
             mainScope.launch {
                 ClipboardUtils.copyStrToClipboard(context, info.toString())
-                ToastUtils.showShort(getString(R.string.hint_copy_epc_clipboard))
+                showShort(getString(R.string.hint_copy_epc_clipboard))
             }
         }
     }
@@ -261,7 +260,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
     private fun shareToApp() {
         mainScope.launch(Dispatchers.IO) {
             if (adapter.selectData.size == 0) {
-                mainScope.launch { ToastUtils.showShort(getString(R.string.please_take_select_before_proceeding)) }
+                mainScope.launch { showShort(getString(R.string.please_take_select_before_proceeding)) }
                 return@launch
             }
             var dir = App.mContext.externalCacheDir ?: App.mContext.cacheDir
@@ -286,7 +285,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
                 requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_PERMISSION_ID)
-                ToastUtils.showShort(R.string.please_allow_read_write_sd_card)
+                showShort(R.string.please_allow_read_write_sd_card)
                 return
             }
         }
@@ -341,7 +340,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
             }
             ExcelUtils.writeTagToExcel(file, data)
             mainScope.launch {
-                ToastUtils.showShort(getString(R.string.hint_excel_save_to_sd))
+                showShort(getString(R.string.hint_excel_save_to_sd))
             }
         }
     }
@@ -352,7 +351,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 exportExcel()
             } else {
-                ToastUtils.showShort(R.string.please_allow_read_write_sd_card)
+                showShort(R.string.please_allow_read_write_sd_card)
             }
         }
     }

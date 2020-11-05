@@ -26,7 +26,6 @@ import com.sunmi.uhf.fragment.readwrite.ReadWriteFragment
 import com.sunmi.uhf.fragment.setting.SettingFragment
 import com.sunmi.uhf.fragment.takeinventory.TakeInventoryFragment
 import com.sunmi.uhf.utils.LogUtils
-import com.sunmi.widget.util.ToastUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -47,7 +46,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             LogUtils.d("darren", "BroadcastReceiver HomeFragment-receiver:${intent.action ?: ""}")
             when (intent.action) {
                 ParamCts.BROADCAST_ON_LOST_CONNECT -> {
-                    ToastUtils.showShort(R.string.hint_please_check_device_connect)
+                    showShort(R.string.hint_please_check_device_connect)
                 }
                 ParamCts.BROADCAST_BATTER_LOW_ELEC,
                 ParamCts.BROADCAST_BATTERY_REMAINING_PERCENTAGE -> {
@@ -58,7 +57,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     )
                     setCalculateLevel(elec)
                     if (elec <= Config.LOW_ELEC && chargingState == 0x00.toByte()) {
-                        ToastUtils.showShort(getString(R.string.hint_please_charge, elec))
+                        showShort(getString(R.string.hint_please_charge, elec))
                     }
                 }
                 ParamCts.BROADCAST_BATTER_CHARGING -> {
@@ -188,14 +187,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         connect(App.mContext)
                         e.printStackTrace()
                     } catch (e: Exception) {
-                        connect(App.mContext)
                         LogUtils.e("darren", "get battery info error")
                         e.printStackTrace()
                     }
                 }
                 LogUtils.d("darren", "get battery Remaining Percent")
                 if (flag) {
-                    delay(30000)
+                    delay(5000)
                 } else {
                     delay(500)
                 }
@@ -212,14 +210,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun calculateLevel(progress: Int): Float {
-        val leftOffest =
+        val leftOffset =
             TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5f, resources.displayMetrics)
         val powerLength =
             TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 37.2f, resources.displayMetrics)
         val totalLength =
             TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 52.5f, resources.displayMetrics)
-        val level = (leftOffest + powerLength * progress / 100) * 10000 / totalLength
-        return level
+        return (leftOffset + powerLength * progress / 100) * 10000 / totalLength
     }
 
 

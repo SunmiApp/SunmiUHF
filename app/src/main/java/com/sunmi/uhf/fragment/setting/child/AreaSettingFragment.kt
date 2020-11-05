@@ -23,9 +23,7 @@ import com.sunmi.uhf.fragment.list.ListFragment
 import com.sunmi.uhf.fragment.setting.SettingModel
 import com.sunmi.uhf.utils.LiveDataBusEvent
 import com.sunmi.uhf.utils.LogUtils
-import com.sunmi.widget.util.ToastUtils
 import kotlinx.coroutines.launch
-import kotlin.collections.ArrayList
 
 /**
  * @ClassName: AreaSettingFragment
@@ -91,7 +89,10 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                 }
                 CMD.SET_FREQUENCY_REGION -> {
                     RFIDManager.getInstance().apply {
-                        if (isConnect) helper.getFrequencyRegion()
+                        if (isConnect) {
+                            helper.getFrequencyRegion()
+                            showShort(getString(R.string.hint_operation_success))
+                        }
                     }
                 }
                 else -> {
@@ -112,7 +113,7 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                 )
             }
             mainScope.launch {
-                ToastUtils.showShort(getString(R.string.hint_operation_failed, cmd, errorCode, msg))
+                showShort(getString(R.string.hint_operation_failed, cmd, errorCode, msg))
             }
         }
 
@@ -207,7 +208,10 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                 str = binding.rfStartTv.text.toString()
                 val end = ParamCts.getParamsToRf(rfEnd).toInt()
                 for (i in rfBand[1]..end) {
-                    list.add("$i MHz")
+                    list.add("$i.0 MHz")
+                    if (i < end) {
+                        list.add("$i.5 MHz")
+                    }
                 }
             }
             EventConstant.EVENT_AREA_RF_END -> {
@@ -215,7 +219,10 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                 str = binding.rfEndTv.text.toString()
                 val start = ParamCts.getParamsToRf(rfStart).toInt()
                 for (i in start..rfBand[2]) {
-                    list.add("$i MHz")
+                    list.add("$i.0 MHz")
+                    if (i < rfBand[2]) {
+                        list.add("$i.5 MHz")
+                    }
                 }
             }
         }
@@ -229,7 +236,7 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
 
     private fun setSelectRF(type: Int?, select: String?) {
         if (select?.isNotEmpty() == true && select.contains("MHz")) {
-            val v = ParamCts.getRfToParams(select.replace(" MHz", "").toInt() * 10)
+            val v = ParamCts.getRfToParams((select.replace(" MHz", "").toFloat() * 10).toInt())
             when (type) {
                 EventConstant.EVENT_AREA_RF_START -> {
                     rfStart = v
@@ -332,7 +339,7 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                                     }
                                 }
                                 if (isFindCountry) {
-                                    binding.areaCountryTv.text = getString(R.string.hint_please_select)
+                                    binding.areaCountryTv.text = getString(R.string.hint_please_auto_set)
                                 }
                             }
 
