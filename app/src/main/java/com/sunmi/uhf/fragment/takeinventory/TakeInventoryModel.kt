@@ -23,6 +23,9 @@ class TakeInventoryModel : BaseViewModel() {
     /* 是否处于编辑模式 */
     val editModel = MutableLiveData<Boolean>(false)
 
+    /* 是否可以点击导出 */
+    val editEnExport = MutableLiveData<Boolean>(false)
+
     /* 标签数 */
     val labelNum = MutableLiveData<Int>(0)
 
@@ -31,12 +34,6 @@ class TakeInventoryModel : BaseViewModel() {
 
     /* 总数 */
     val totalNum = MutableLiveData<Int>(0)
-
-    /* 时间 */
-    val time = MutableLiveData<Long>(0)
-
-    /* 模式 */
-    val model = MutableLiveData<String>()
 
     /* 标签信息 */
     val labelInfo = MutableLiveData<String>()

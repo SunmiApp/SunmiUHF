@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +34,7 @@ import com.sunmi.uhf.dialog.SureBackDialog
 import com.sunmi.uhf.event.SimpleViewEvent
 import com.sunmi.uhf.fragment.ReadBaseFragment
 import com.sunmi.uhf.utils.*
+import com.sunmi.uhf.view.RecycleDivider
 import com.sunmi.widget.dialog.InputDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -97,6 +99,15 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
         adapter = LabelInfoAdapter()
         binding.labelRv.layoutManager = LinearLayoutManager(activity)
         binding.labelRv.adapter = adapter
+        binding.labelRv.addItemDecoration(
+            RecycleDivider(
+                activity,
+                RecycleDivider.HORIZONTAL_LIST,
+                resources
+                    .getDimensionPixelSize(R.dimen.sunmi_1px),
+                ContextCompat.getColor(App.mContext, R.color.dividerColor)
+            )
+        )
     }
 
     override fun initData() {
@@ -125,11 +136,19 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                 adapter.selectData.clear()
             }
             adapter.notifyDataSetChanged()
+            handleBottomStatus()
         })
         adapter.selectAllCall = object : ((Boolean) -> Unit) {
             override fun invoke(en: Boolean) {
                 if (isVisible) {
                     vm.selectAll.value = en
+                }
+            }
+        }
+        adapter.clickCall = object : (() -> Unit) {
+            override fun invoke() {
+                if (isVisible) {
+                    handleBottomStatus()
                 }
             }
         }
@@ -195,7 +214,10 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
 
             }
         }
+    }
 
+    fun handleBottomStatus() {
+        vm.editEnExport.postValue(adapter.selectData.size > 0)
     }
 
     /**
@@ -569,7 +591,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                 // ANT_ID、TAG_PC、TAG_EPC、TAG_RSSI、TAG_READ_COUNT、TAG_FREQ、TAG_TIME
                 val epc = tag.getString(ParamCts.TAG_EPC) ?: ""
                 val pc = tag.getString(ParamCts.TAG_PC) ?: ""
-                val rssi = "${(Integer.parseInt(tag.getString(ParamCts.TAG_RSSI, "129")) - 129)}dBm"
+                val rssi = "${(Integer.parseInt(tag.getString(ParamCts.TAG_RSSI, "129")) - 129)}"
                 val freq = tag.getString(ParamCts.TAG_FREQ) ?: ""
                 LogUtils.i("darren", "found tag:$epc => $tag")
                 val index = tidList.indexOf(epc)
@@ -577,11 +599,11 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                     val c = tagList[index].getInt(ParamCts.TAG_READ_COUNT, 1) + 1
                     tag.put(ParamCts.TAG_READ_COUNT, c)
                     tagList[index] = tag
-                    list[index] = LabelInfoBean(epc, pc, c, rssi, "${freq}MHz")
+                    list[index] = LabelInfoBean(epc, pc, c, rssi, freq)
                 } else {
                     tidList.add(0, epc)
                     tagList.add(0, tag)
-                    list.add(0, LabelInfoBean(epc, pc, 1, rssi, "${freq}MHz"))
+                    list.add(0, LabelInfoBean(epc, pc, 1, rssi, freq))
                 }
                 notifyTagDataChange()
             }

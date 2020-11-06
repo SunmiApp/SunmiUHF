@@ -28,26 +28,25 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/sunmi_96px"
+        android:layout_height="@dimen/sunmi_80px"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/sunmi_30px"
+        android:paddingLeft="@dimen/sunmi_15px"
         android:paddingRight="@dimen/sunmi_30px">
 
         <ImageView
             android:id="@+id/item_check_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/sunmi_10px"
-            android:paddingBottom="@dimen/sunmi_10px"
+            android:padding="@dimen/sunmi_15px"
             android:src="@{check?@drawable/checked_icon:@drawable/not_check_icon}"
             android:visibility="@{editAble?View.VISIBLE:View.GONE}"
             tools:src="@drawable/not_check_icon" />
 
         <TextView
             android:id="@+id/item_id_iv"
-            android:layout_width="@dimen/sunmi_103px"
+            android:layout_width="@dimen/sunmi_83px"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="center"
@@ -56,18 +55,20 @@
             android:singleLine="true"
             android:text="@{String.valueOf(index+1)}"
             android:textColor="@color/primaryTextColor"
-            android:textSize="@dimen/sunmi_28px" />
+            android:textSize="@dimen/sunmi_28px"
+            tools:text="1" />
 
         <TextView
             android:id="@+id/item_epc_iv"
-            android:layout_width="@dimen/sunmi_275px"
+            android:layout_width="@dimen/sunmi_445px"
             android:layout_height="match_parent"
             android:ellipsize="end"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:singleLine="true"
-            android:text='@{TextUtils.isEmpty(bean.epc)?"":bean.epc}'
+            android:text='@{TextUtils.isEmpty(bean.epc)?"":bean.epc.replace(" ", "")}'
             android:textColor="@color/colorAccent"
-            android:textSize="@dimen/sunmi_28px" />
+            android:textSize="@dimen/sunmi_28px"
+            tools:text="E2009113444133" />
 
         <TextView
             android:id="@+id/item_pc_iv"
@@ -80,7 +81,8 @@
             android:singleLine="true"
             android:text='@{TextUtils.isEmpty(bean.pc)?"":bean.pc}'
             android:textColor="@color/majorTextColor"
-            android:textSize="@dimen/sunmi_28px" />
+            android:textSize="@dimen/sunmi_28px"
+            tools:text="25" />
 
         <TextView
             android:id="@+id/item_find_number_iv"
@@ -93,11 +95,12 @@
             android:singleLine="true"
             android:text="@{String.valueOf(bean.findNum)}"
             android:textColor="@color/majorTextColor"
-            android:textSize="@dimen/sunmi_28px" />
+            android:textSize="@dimen/sunmi_28px"
+            tools:text="868.00" />
 
         <TextView
             android:id="@+id/item_rssi_iv"
-            android:layout_width="@dimen/sunmi_164px"
+            android:layout_width="@dimen/sunmi_204px"
             android:layout_height="match_parent"
             android:ellipsize="end"
             android:gravity="center"
@@ -106,20 +109,21 @@
             android:singleLine="true"
             android:text='@{TextUtils.isEmpty(bean.rssi)?"":bean.rssi}'
             android:textColor="@color/majorTextColor"
-            android:textSize="@dimen/sunmi_28px" />
+            android:textSize="@dimen/sunmi_28px"
+            tools:text="-45" />
 
         <TextView
             android:id="@+id/item_frequency_iv"
-            android:layout_width="@dimen/sunmi_164px"
+            android:layout_width="@dimen/sunmi_254px"
             android:layout_height="match_parent"
             android:ellipsize="end"
             android:gravity="center"
-            android:padding="@dimen/sunmi_25px"
             android:paddingLeft="@dimen/sunmi_13px"
             android:paddingRight="@dimen/sunmi_13px"
             android:singleLine="true"
             android:text='@{TextUtils.isEmpty(bean.frequency)?"":bean.frequency}'
             android:textColor="@color/majorTextColor"
-            android:textSize="@dimen/sunmi_28px" />
+            android:textSize="@dimen/sunmi_28px"
+            tools:text="924.50"/>
     </LinearLayout>
 </layout>

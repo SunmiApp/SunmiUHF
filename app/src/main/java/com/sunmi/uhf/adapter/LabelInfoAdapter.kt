@@ -25,6 +25,7 @@ class LabelInfoAdapter :
     var editable: Boolean = false
     var selectAll: Boolean = false
     var selectAllCall: ((Boolean) -> Unit)? = null
+    var clickCall: (() -> Unit)? = null
     val selectData = HashMap<String, LabelInfoBean>()
 
     override fun convert(
@@ -54,6 +55,7 @@ class LabelInfoAdapter :
                     }
                 }
                 it.executePendingBindings()
+                clickCall?.invoke()
             }
             it.executePendingBindings()
         }

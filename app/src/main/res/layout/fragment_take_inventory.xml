@@ -84,8 +84,14 @@
                 <include
                     layout="@layout/layout_take_inventory_header_info"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/sunmi_96px"
+                    android:layout_height="@dimen/sunmi_80px"
                     app:vm="@{vm}" />
+
+                <View
+                    android:id="@+id/head_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_1px"
+                    android:background="@color/dividerColor" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/label_rv"

@@ -30,7 +30,7 @@ object ExcelUtils {
         "EPC",
         "PC",
         App.mContext.getString(R.string.find_number_text),
-        "RSSI",
+        App.mContext.getString(R.string.rssi_text),
         App.mContext.getString(R.string.carrier_frequency_text)
     )
     private const val FILE_SUFFIX = ".xls"

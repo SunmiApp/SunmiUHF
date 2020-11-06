@@ -32,8 +32,8 @@
     <string name="id_text">ID</string>
     <string name="epc_text">EPC信息</string>
     <string name="find_number_text">识别次数</string>
-    <string name="carrier_frequency_text">载波频率</string>
-    <string name="rssi_text">RSSI</string>
+    <string name="carrier_frequency_text">载波频率(MHz)</string>
+    <string name="rssi_text">RSSI(dBm)</string>
     <string name="pc_text">PC</string>
     <string name="search_text">搜索</string>
     <string name="search_empty_text">未搜索到结果</string>
@@ -54,12 +54,13 @@
     <string name="edit_label_text">请输入标签信息</string>
     <string name="operation_area_text">操作区域</string>
     <string name="get_pwd_text">访问密码</string>
+    <string name="set_pwd_text">销毁密码</string>
     <string name="edit_pwd_text">请输入密码信息</string>
     <string name="start_location_text">起始位置</string>
     <string name="edit_start_location_text">请输入起始位置</string>
     <string name="data_length_text">数据长度</string>
     <string name="edit_data_length_text">请输入数据长度</string>
-    <string name="data_text">Data</string>
+    <string name="data_text">数据</string>
     <string name="read_text">读取</string>
     <string name="write_text">写入</string>
 
