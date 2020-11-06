@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.os.SystemClock
 import androidx.lifecycle.Observer
 import com.sunmi.rfid.RFIDManager
-import com.sunmi.rfid.ReaderCall
 import com.sunmi.rfid.constant.CMD
 import com.sunmi.rfid.constant.ParamCts
 import com.sunmi.rfid.entity.DataParameter
@@ -32,6 +31,7 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
     lateinit var vm: ReadWriteViewModel
     private var isLoop = false
     private var allCount = 0
+    private var rate = -1
 
     override fun getLayoutResource() = R.layout.fragment_read_write
 
@@ -110,7 +110,8 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
             allCount = 0
             vm.labelNum.value = 0
             vm.totalLabelNum.value = 0
-            vm.speed.value = 0f
+            vm.speed.value = 0
+            rate = 0
             binding.chronometerView.base = SystemClock.elapsedRealtime()
             binding.chronometerView.start()
             notifyTagDataChange()
@@ -132,24 +133,22 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
     override fun start() {
         super.start()
         if (!isLoop) {
-            mainScope.launch(Dispatchers.IO) {
-                RFIDManager.getInstance().helper.apply {
-                    when (App.getPref().getParam(Config.KEY_LABEL, Config.DEF_LABEL)) {
-                        0 -> {
-                            // 6C标签盘存
-                            registerReaderCall(call)
-                            realTimeInventory(20)
-                            isLoop = true
-                        }
-                        1 -> {
-                            // 6B标签盘存
-                            registerReaderCall(call)
-                            iso180006BInventory()
-                            isLoop = true
-                        }
-                        else -> {
-                            LogUtils.e("darren", "error label index")
-                        }
+            RFIDManager.getInstance().helper.apply {
+                when (App.getPref().getParam(Config.KEY_LABEL, Config.DEF_LABEL)) {
+                    0 -> {
+                        // 6B标签盘存
+                        registerReaderCall(call)
+                        iso180006BInventory()
+                        isLoop = true
+                    }
+                    1 -> {
+                        // 6C标签盘存
+                        registerReaderCall(call)
+                        realTimeInventory(1)
+                        isLoop = true
+                    }
+                    else -> {
+                        LogUtils.e("darren", "error label index")
                     }
                 }
             }
@@ -159,12 +158,10 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
     override fun stop() {
         super.stop()
         if (isLoop) {
-            mainScope.launch(Dispatchers.IO) {
-                RFIDManager.getInstance().helper.apply {
-                    inventory(1)
-                    unregisterReaderCall()
-                    isLoop = false
-                }
+            RFIDManager.getInstance().helper.apply {
+                inventory(1)
+                unregisterReaderCall()
+                isLoop = false
             }
         }
     }
@@ -175,6 +172,11 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
                 isLoop = false
                 if (state) {
                     start()
+                }
+                if (params != null) {
+                    rate = params.getInt(ParamCts.READ_RATE, -1)
+                    rate = if (rate == 0) -1 else rate
+                    notifyTagDataChange()
                 }
             }
             CMD.ISO18000_6B_INVENTORY -> {
@@ -250,11 +252,15 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
         mainScope.launch {
             vm.labelNum.value = tidList.size
             vm.totalLabelNum.value = allCount
-            val time = (SystemClock.elapsedRealtime() - binding.chronometerView.base) / 1000
-            if (time < 1) {
-                vm.speed.value = allCount.toFloat()
+            if (rate == -1) {
+                val time = (SystemClock.elapsedRealtime() - binding.chronometerView.base) / 1000
+                if (time < 1) {
+                    vm.speed.value = allCount
+                } else {
+                    vm.speed.value = (allCount / time).toInt()
+                }
             } else {
-                vm.speed.value = allCount * 10 / time / 10f
+                vm.speed.value = rate
             }
         }
     }

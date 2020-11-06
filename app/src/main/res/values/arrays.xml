@@ -48,8 +48,8 @@
     </string-array>
 
     <string-array name="label_array">
-        <item>6C标签</item>
         <item>6B标签</item>
+        <item>6C标签</item>
     </string-array>
 
     <!--区域设置 - 国家列表-->

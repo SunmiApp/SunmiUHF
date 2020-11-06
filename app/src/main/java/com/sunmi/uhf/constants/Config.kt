@@ -5,9 +5,9 @@ package com.sunmi.uhf.constants;
  */
 object Config {
 
-    /** 操作标签类型 0：6C，1：6B */
+    /** 操作标签类型 0：6B，1：6C */
     const val KEY_LABEL = "key_label"
-    const val DEF_LABEL = 0
+    const val DEF_LABEL = 1
 
     /** 按键操作方式 0：长按，1：点按 */
     const val KEY_HANDLE_TYPE = "key_handle_type"

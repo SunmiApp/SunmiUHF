@@ -61,6 +61,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
     private var tagFlag = Config.DEF_TAKE_FLAG
     private var link = Config.DEF_TAKE_LINK
     private var power = 30
+    private var rate = -1
     private var autoPower = Config.DEF_TAKE_AUTO_POWER
     private val br = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -218,6 +219,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                     vm.selectModel.value = modelAdapter?.data?.get(position)
                     if (position in 0..3) {
                         mode = position + 1
+                        rate = -1
                         handleData()
                     }
                     dismiss()
@@ -424,7 +426,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
             allCount = 0
             vm.labelNum.value = 0
             vm.totalNum.value = 0
-            vm.speed.value = 0f
+            vm.speed.value = 0
             binding.basicLl.timeValueTv.base = SystemClock.elapsedRealtime()
             binding.basicLl.timeValueTv.start()
             notifyTagDataChange()
@@ -460,58 +462,50 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
     override fun start() {
         super.start()
         if (!isLoop) {
-            mainScope.launch(Dispatchers.IO) {
-                RFIDManager.getInstance().helper.apply {
-                    when (App.getPref().getParam(Config.KEY_LABEL, Config.DEF_LABEL)) {
-                        0 -> {
-                            // 6C标签盘存
-                            registerReaderCall(call)
-                            when (mode) {
-                                Constant.INT_BALANCE_MODE -> {
-                                    customizedSessionTargetInventory(
-                                        0x01.toByte(),
-                                        0x00.toByte(),
-                                        0x00.toByte(),
-                                        0x00.toByte(),
-                                        getPowerSave(),
-                                        20
-                                    )
-                                }
-                                Constant.INT_SPEED_MODE -> {
-                                    realTimeInventory(20)
-                                }
-                                Constant.INT_ITERATOR_MODE -> {
-                                    customizedSessionTargetInventory(
-                                        0x02.toByte(),
-                                        0x00.toByte(),
-                                        0x00.toByte(),
-                                        0x00.toByte(),
-                                        getPowerSave(),
-                                        20
-                                    )
-                                }
-                                Constant.INT_CUSTOM_MODE -> {
-                                    customizedSessionTargetInventory(
-                                        seesion.toByte(),
-                                        tagFlag.toByte(),
-                                        0x00.toByte(),
-                                        0x00.toByte(),
-                                        getPowerSave(),
-                                        20
-                                    )
-                                }
+            RFIDManager.getInstance().helper.apply {
+                when (App.getPref().getParam(Config.KEY_LABEL, Config.DEF_LABEL)) {
+                    1 -> {
+                        // 6C标签盘存
+                        registerReaderCall(call)
+                        when (mode) {
+                            Constant.INT_BALANCE_MODE -> {
+                                customizedSessionTargetInventory(
+                                    0x01.toByte(),
+                                    0x00.toByte(),
+                                    0x00.toByte(),
+                                    0x00.toByte(),
+                                    getPowerSave(),
+                                    20
+                                )
                             }
-                            isLoop = true
+                            Constant.INT_SPEED_MODE -> {
+                                realTimeInventory(2)
+                            }
+                            Constant.INT_ITERATOR_MODE -> {
+                                customizedSessionTargetInventory(
+                                    0x02.toByte(),
+                                    0x00.toByte(),
+                                    0x00.toByte(),
+                                    0x00.toByte(),
+                                    getPowerSave(),
+                                    20
+                                )
+                            }
+                            Constant.INT_CUSTOM_MODE -> {
+                                customizedSessionTargetInventory(
+                                    seesion.toByte(),
+                                    tagFlag.toByte(),
+                                    0x00.toByte(),
+                                    0x00.toByte(),
+                                    getPowerSave(),
+                                    20
+                                )
+                            }
                         }
-                        /*1 -> {
-                            // 6B标签盘存
-                            registerReaderCall(call)
-                            iso180006BInventory()
-                            isLoop = true
-                        }*/
-                        else -> {
-                            LogUtils.e("darren", "error label index")
-                        }
+                        isLoop = true
+                    }
+                    else -> {
+                        LogUtils.e("darren", "error label index")
                     }
                 }
             }
@@ -521,12 +515,10 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
     override fun stop() {
         super.stop()
         if (isLoop) {
-            mainScope.launch(Dispatchers.IO) {
-                RFIDManager.getInstance().helper.apply {
-                    inventory(1)
-                    unregisterReaderCall()
-                    isLoop = false
-                }
+            RFIDManager.getInstance().helper.apply {
+                inventory(1)
+                unregisterReaderCall()
+                isLoop = false
             }
         }
     }
@@ -538,6 +530,11 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                 isLoop = false
                 if (state) {
                     start()
+                }
+                if (params != null) {
+                    rate = params.getInt(ParamCts.READ_RATE, -1)
+                    rate = if (rate == 0) -1 else rate
+                    notifyTagDataChange()
                 }
             }
             /*CMD.ISO18000_6B_INVENTORY -> {
@@ -680,11 +677,15 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
         mainScope.launch {
             vm.labelNum.value = tidList.size
             vm.totalNum.value = allCount
-            val time = (SystemClock.elapsedRealtime() - binding.basicLl.timeValueTv.base) / 1000
-            if (time < 1) {
-                vm.speed.value = allCount.toFloat()
+            if (rate == -1) {
+                val time = (SystemClock.elapsedRealtime() - binding.basicLl.timeValueTv.base) / 1000
+                if (time < 1) {
+                    vm.speed.value = allCount
+                } else {
+                    vm.speed.value = (allCount / time).toInt()
+                }
             } else {
-                vm.speed.value = allCount * 10 / time / 10f
+                vm.speed.value = rate
             }
             adapter.notifyDataSetChanged()
         }

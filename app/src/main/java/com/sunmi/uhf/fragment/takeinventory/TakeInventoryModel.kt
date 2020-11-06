@@ -27,7 +27,7 @@ class TakeInventoryModel : BaseViewModel() {
     val labelNum = MutableLiveData<Int>(0)
 
     /* 读取速度 */
-    val speed = MutableLiveData<Float>(0f)
+    val speed = MutableLiveData<Int>(0)
 
     /* 总数 */
     val totalNum = MutableLiveData<Int>(0)
