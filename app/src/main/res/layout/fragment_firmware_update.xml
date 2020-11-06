@@ -92,11 +92,11 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="right"
                     android:layout_margin="@dimen/sunmi_1px"
-                    android:background="#FFFFEEE4"
+                    android:background="@drawable/bg_rigth_radius_10px"
                     android:gravity="center"
                     android:onClick="@{()->vm.onChoiceFileClick()}"
                     android:text="@{TextUtils.isEmpty(vm.mBinPath)?@string/choice_text:@string/retry_choice_text}"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/sunmi_28ps" />
             </FrameLayout>
 
