@@ -51,14 +51,17 @@
             tools:text="快速" />
 
 
+        <!--
+        android:drawableRight="@drawable/down_arrow_icon"
+        android:gravity="center|left"
+        -->
         <TextView
             android:id="@+id/label_info_value_tv"
             android:layout_width="@dimen/sunmi_150px"
             android:layout_height="@dimen/sunmi_72px"
             android:layout_marginLeft="@dimen/sunmi_16px"
             android:background="@color/white"
-            android:drawableRight="@drawable/down_arrow_icon"
-            android:gravity="center|left"
+            android:gravity="center"
             android:onClick="@{()-> vm.onTakeInfoClick()}"
             android:paddingLeft="@dimen/sunmi_24px"
             android:paddingRight="@dimen/sunmi_24px"
