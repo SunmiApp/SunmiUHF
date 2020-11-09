@@ -113,7 +113,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
     override fun initData() {
         super.initData()
         adapter.setNewInstance(list)
-        vm.selectModel.value = vm.modelList.first()
+        vm.topSearchEn.value = !list.isNullOrEmpty()
         vm.start.observe(viewLifecycleOwner, Observer { startStop(it) })
         vm.editModel.observe(viewLifecycleOwner, Observer {
             adapter.editable = it
@@ -179,6 +179,10 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                 showModelPopupWindow()
             }
             EventConstant.EVENT_TAKE_MODEL_SEARCH -> {
+                if (list.size == 0) {
+                    mainScope.launch { showShort(getString(R.string.please_take_inventory_before_proceeding)) }
+                    return
+                }
                 val bundle = Bundle().apply {
                     putParcelableArrayList(Constant.KEY_TAG_LIST, ArrayList<LabelInfoBean>(list))
                 }
@@ -700,6 +704,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
         mainScope.launch {
             vm.labelNum.value = tidList.size
             vm.totalNum.value = allCount
+            vm.topSearchEn.value = !list.isNullOrEmpty()
             if (rate == -1) {
                 val time = (SystemClock.elapsedRealtime() - binding.basicLl.timeValueTv.base) / 1000
                 if (time < 1) {
