@@ -446,6 +446,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
             tagList.clear()
             list.clear()
             allCount = 0
+            rate = -1
             vm.labelNum.value = 0
             vm.totalNum.value = 0
             vm.speed.value = 0
@@ -497,11 +498,11 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                                     0x00.toByte(),
                                     0x00.toByte(),
                                     getPowerSave(),
-                                    20
+                                    10
                                 )
                             }
                             Constant.INT_SPEED_MODE -> {
-                                realTimeInventory(2)
+                                realTimeInventory(5)
                             }
                             Constant.INT_ITERATOR_MODE -> {
                                 customizedSessionTargetInventory(
@@ -510,7 +511,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                                     0x00.toByte(),
                                     0x00.toByte(),
                                     getPowerSave(),
-                                    20
+                                    10
                                 )
                             }
                             Constant.INT_CUSTOM_MODE -> {
@@ -520,7 +521,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                                     0x00.toByte(),
                                     0x00.toByte(),
                                     getPowerSave(),
-                                    20
+                                    10
                                 )
                             }
                         }

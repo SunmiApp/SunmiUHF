@@ -42,6 +42,7 @@
     <string name="location_text">定位</string>
     <string name="location_doing_text">停止定位</string>
     <string name="input_epc_text">请输入标签EPC信息进行查找。</string>
+    <string name="hint_found_text">请手持设备尝试向四周走动，\n距离标签越近，信号越强。</string>
 
     <string name="strong_text">强</string>
     <string name="middle_text">中</string>

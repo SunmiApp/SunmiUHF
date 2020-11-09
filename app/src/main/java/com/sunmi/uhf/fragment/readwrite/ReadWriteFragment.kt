@@ -111,7 +111,7 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
             vm.labelNum.value = 0
             vm.totalLabelNum.value = 0
             vm.speed.value = 0
-            rate = 0
+            rate = -1
             binding.chronometerView.base = SystemClock.elapsedRealtime()
             binding.chronometerView.start()
             notifyTagDataChange()
@@ -144,7 +144,7 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
                     1 -> {
                         // 6C标签盘存
                         registerReaderCall(call)
-                        realTimeInventory(1)
+                        realTimeInventory(5)
                         isLoop = true
                     }
                     else -> {
