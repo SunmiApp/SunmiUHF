@@ -67,7 +67,7 @@ class SignalIndicatorView @JvmOverloads constructor(
     //信号值
     private var mSignal: Float = 0f
 
-    private val mDiff: Float = 0.021f
+    private val mDiff: Float = 0.02f
 
     private val leftStartAngle: Float = 220f
     private val rightStartAngle: Float = 270f
@@ -134,7 +134,8 @@ class SignalIndicatorView @JvmOverloads constructor(
         val centerX = width / 2
         val centerY = height - paddingBottom
         var arcRadius = height - textHeight / 2 - paddingTop - paddingBottom
-        mLinePaint.style=Paint.Style.STROKE
+        mLinePaint.style = Paint.Style.STROKE
+        mLinePaint.color = mLineColor
         //画边线
         canvas?.drawLine(
             centerX.toFloat(),
@@ -166,7 +167,7 @@ class SignalIndicatorView @JvmOverloads constructor(
             )
         }
         mTextArray.forEachIndexed { index, s ->
-            mLinePaint.style=Paint.Style.STROKE
+            mLinePaint.style = Paint.Style.STROKE
             //画左边弧线
             val m = (size - index).toFloat() / size.toFloat() + textRate
 
@@ -197,7 +198,7 @@ class SignalIndicatorView @JvmOverloads constructor(
                 mLinePaint
             )
             //绘制文字
-            mLinePaint.style=Paint.Style.FILL
+            mLinePaint.style = Paint.Style.FILL
             canvas?.drawText(
                 s,
                 centerX - (textWidth / 2).toFloat(),
