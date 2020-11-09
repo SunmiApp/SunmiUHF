@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+
+        <variable
+            name="selected"
+            type="Integer" />
+
+        <variable
+            name="position"
+            type="Integer" />
+
+        <variable
+            name="item"
+            type="String" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/sunmi_30px"
+            android:paddingTop="@dimen/sunmi_25px"
+            android:paddingEnd="@dimen/sunmi_30px"
+            android:paddingBottom="@dimen/sunmi_25px">
+
+            <ImageView
+                android:id="@+id/status_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:src="@drawable/select_icon"
+                android:visibility="@{position==selected?View.VISIBLE:View.INVISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/rule_index_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/sunmi_20px"
+                android:text='@{@string/filter_rule_name_text(position)}'
+                android:textColor="@{position==selected?@color/colorAccent:@color/majorTextColor}"
+                android:textSize="@dimen/sunmi_32px"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/status_iv"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="left|top"
+                android:lineSpacingExtra="@dimen/sunmi_4px"
+                android:paddingTop="@dimen/sunmi_4px"
+                android:text='@{TextUtils.isEmpty(item)?"":item}'
+                android:textColor="@{position==selected?@color/colorAccent:@color/majorTextColor}"
+                android:textSize="@dimen/sunmi_24px"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/rule_index_tv"
+                app:layout_constraintRight_toRightOf="@id/rule_index_tv"
+                app:layout_constraintTop_toBottomOf="@id/rule_index_tv" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/label_filter_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sunmi_1px"
+            android:layout_marginStart="@dimen/sunmi_30px"
+            android:layout_marginEnd="@dimen/sunmi_30px"
+            android:background="@color/dividerColor" />
+    </LinearLayout>
+</layout>

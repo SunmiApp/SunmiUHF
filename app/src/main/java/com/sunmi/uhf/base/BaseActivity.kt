@@ -31,8 +31,8 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
     lateinit var binding: T
     lateinit var dialog: Dialog
     private val handler = Handler()
-    val isPadFlag = isPad()
-    private val mainScope = MainScope()
+    protected val isPadFlag = isPad()
+    protected val mainScope = MainScope()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,7 +119,7 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
                     FragmentManager.POP_BACK_STACK_INCLUSIVE
                 )
             }
-            var transaction = supportFragmentManager.beginTransaction()
+            val transaction = supportFragmentManager.beginTransaction()
             transaction.replace(containId, fragment, fragment::class.java.name)
             if (addToBackStack) {
                 transaction.addToBackStack(fragment::class.java.name)
@@ -190,6 +190,22 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
     fun hideDialog() {
         if (null != dialog && dialog.isShowing) {
             dialog.dismiss()
+        }
+    }
+
+    override fun onBackPressed() {
+        val backStackEntryCount: Int = supportFragmentManager.backStackEntryCount
+        if (backStackEntryCount <= 1) {
+            finish()
+            return
+        }
+        val fragment = supportFragmentManager.findFragmentById(getContainId())
+        if (fragment is BaseFragment<*>) {
+            if (!fragment.onBackPress()) {
+                super.onBackPressed()
+            }
+        } else {
+            super.onBackPressed()
         }
     }
 

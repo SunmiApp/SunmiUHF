@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sunmi="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.sunmi.uhf.fragment.filter.LabelFilterModel" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/epc_et"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_88px"
+                android:background="@drawable/btn_stoke_shape"
+                android:ellipsize="end"
+                android:gravity="center|left"
+                android:hint="@string/edit_label_text"
+                android:paddingLeft="@dimen/sunmi_24px"
+                android:paddingRight="@dimen/sunmi_24px"
+                android:singleLine="true"
+                android:text="@={vm.mEpcData}"
+                android:textColor="@color/majorTextColor"
+                android:textSize="@dimen/sunmi_28ps" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_1px"
+                android:layout_marginTop="@dimen/sunmi_20px"
+                android:background="@color/dividerColor" />
+
+            <!--  读取区域 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_100px"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/sunmi_20px"
+                android:paddingBottom="@dimen/sunmi_20px">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center|left"
+                    android:text="@string/read_write_block_text"
+                    android:textColor="@color/majorTextColor"
+                    android:textSize="@dimen/sunmi_32ps" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawableRight="@drawable/right_arrow_icon"
+                    android:drawablePadding="@dimen/sunmi_10px"
+                    android:gravity="center|right"
+                    android:onClick="@{()->vm.onReadWriteBlockClick()}"
+                    android:text="@={vm.mBlockData}"
+                    android:textColor="@color/color_FF858A95"
+                    android:textSize="@dimen/sunmi_24ps"
+                    tools:text="EPC" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_1px"
+                android:background="@color/dividerColor" />
+
+            <!--  偏移位置 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sunmi_20px"
+                android:text="@string/offset_text"
+                android:textColor="@color/majorTextColor"
+                android:textSize="@dimen/sunmi_24ps" />
+
+            <EditText
+                android:id="@+id/start_add_et"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_88px"
+                android:layout_marginTop="@dimen/sunmi_10px"
+                android:background="@drawable/btn_stoke_shape"
+                android:ellipsize="end"
+                android:gravity="center|left"
+                android:hint="@string/hint_offset_text"
+                android:inputType="number"
+                android:maxLength="3"
+                android:paddingLeft="@dimen/sunmi_24px"
+                android:paddingRight="@dimen/sunmi_24px"
+                android:singleLine="true"
+                android:text="@={vm.mOffSetData}"
+                android:textColor="@color/majorTextColor"
+                android:textSize="@dimen/sunmi_28ps" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_1px"
+                android:layout_marginTop="@dimen/sunmi_20px"
+                android:background="@color/dividerColor" />
+
+            <!--  过滤规则 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_100px"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/sunmi_20px"
+                android:paddingBottom="@dimen/sunmi_20px">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center|left"
+                    android:text="@string/filter_rule_text"
+                    android:textColor="@color/majorTextColor"
+                    android:textSize="@dimen/sunmi_32ps" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawableRight="@drawable/right_arrow_icon"
+                    android:drawablePadding="@dimen/sunmi_10px"
+                    android:gravity="center|right"
+                    android:onClick="@{()->vm.onFilterRuleClick()}"
+                    android:text="@={vm.mFilterRuleData}"
+                    android:textColor="@color/color_FF858A95"
+                    android:textSize="@dimen/sunmi_24ps"
+                    tools:text="1" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_1px"
+                android:background="@color/dividerColor" />
+
+            <!--  目标 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_100px"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/sunmi_20px"
+                android:paddingBottom="@dimen/sunmi_20px">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center|left"
+                    android:text="@string/target_text"
+                    android:textColor="@color/majorTextColor"
+                    android:textSize="@dimen/sunmi_32ps" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawableRight="@drawable/right_arrow_icon"
+                    android:drawablePadding="@dimen/sunmi_10px"
+                    android:gravity="center|right"
+                    android:onClick="@{()->vm.onTargetClick()}"
+                    android:text="@={vm.mTargetData}"
+                    android:textColor="@color/color_FF858A95"
+                    android:textSize="@dimen/sunmi_24ps"
+                    tools:text="Session S0" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_1px"
+                android:background="@color/dividerColor" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_88px"
+                android:layout_marginTop="@dimen/sunmi_30px"
+                android:layout_marginBottom="@dimen/sunmi_30px"
+                android:background="@color/colorAccent"
+                android:gravity="center"
+                android:onClick="@{()->vm.onOperationClick()}"
+                android:text="@{vm.isStartFlag?@string/stop_filter_text:@string/start_filter_text}"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sunmi_32ps"
+                sunmi:outline="@{`10`}" />
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

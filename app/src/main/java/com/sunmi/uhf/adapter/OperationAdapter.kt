@@ -13,9 +13,9 @@ import com.sunmi.uhf.databinding.PopTakeModelItemBinding
  * @CreateDate: 20-9-11 下午5:27
  * @UpdateDate: 20-9-11 下午5:27
  */
-class OperationAdapter :
+class OperationAdapter(data: MutableList<String>?) :
     BaseQuickAdapter<String, BaseDataBindingHolder<LayoutOperationItemBinding>>(
-        R.layout.layout_operation_item
+        R.layout.layout_operation_item, data
     ) {
 
     var selected: String? = null

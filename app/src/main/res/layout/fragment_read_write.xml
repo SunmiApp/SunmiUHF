@@ -131,7 +131,6 @@
             android:layout_marginTop="@dimen/sunmi_10px"
             android:paddingLeft="@dimen/sunmi_10px"
             android:text="@{String.valueOf(vm.speed)}"
-
             android:textColor="@color/majorTextColor"
             android:textSize="@dimen/sunmi_56ps"
             app:layout_constraintHorizontal_chainStyle="packed"
@@ -169,7 +168,22 @@
             app:layout_constraintTop_toBottomOf="@id/read_write_time_tv" />
 
 
-        <TextView
+        <ImageView
+            android:layout_width="@dimen/sunmi_168px"
+            android:layout_height="@dimen/sunmi_168px"
+            android:layout_marginTop="@dimen/sunmi_30px"
+            android:drawablePadding="@dimen/sunmi_10px"
+            android:gravity="center_horizontal"
+            android:onClick="@{()->vm.onBtnClick()}"
+            android:paddingTop="@dimen/sunmi_45px"
+            android:src="@{vm.start?@drawable/stop_icon:@drawable/start_icon}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sunmi_28px"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/read_write_speed_value_tv" />
+
+        <!--<TextView
             android:layout_width="@dimen/sunmi_168px"
             android:layout_height="@dimen/sunmi_168px"
             android:layout_marginTop="@dimen/sunmi_30px"
@@ -184,7 +198,7 @@
             android:textSize="@dimen/sunmi_28px"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/read_write_speed_value_tv" />
+            app:layout_constraintTop_toBottomOf="@id/read_write_speed_value_tv" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -30,18 +30,11 @@ class LabelOperationModel : BaseViewModel() {
     /*  当前 是否 锁定 状态 */
     val lockFlag = MutableLiveData<Boolean>()
 
-
     /*  操作区域 */
     val areaData = MutableLiveData<String>()
 
     /*  操作类型 */
     val typeData = MutableLiveData<String>()
-
-    /*  操作区域列表 */
-    val operationAreaList = MutableLiveData<MutableList<String>>()
-
-    /*  操作类型列表 */
-    val operationTypeList = MutableLiveData<MutableList<String>>()
 
 
     /**
@@ -71,46 +64,27 @@ class LabelOperationModel : BaseViewModel() {
      * 点击 读取事件
      */
     fun onReadClick() {
-
+        EventConstant.EVENT_OPERATION_READ_DATA.publish()
     }
 
     /**
      * 点击 写入事件
      */
     fun onWriteClick() {
-
+        EventConstant.EVENT_OPERATION_WRITE_DATA.publish()
     }
 
     /**
      * 锁定 获取 解锁 事件
      */
     fun onLockClick() {
-
+        EventConstant.EVENT_OPERATION_LOCK_TAG.publish()
     }
 
     /**
      * 销毁事件
      */
     fun onDestroyClick() {
-
-    }
-
-
-    fun createOperationAreaList() {
-        val list = mutableListOf<String>()
-        list.add("None")
-        list.add("User")
-        list.add("TID")
-        list.add("EPC")
-        operationAreaList.value = list
-    }
-
-    fun createOperationTypeList() {
-        val list = mutableListOf<String>()
-        list.add("开放")
-        list.add("永久开放")
-        list.add("锁定")
-        list.add("永久锁定")
-        operationTypeList.value = list
+        EventConstant.EVENT_OPERATION_DESTROY_TAG.publish()
     }
 }

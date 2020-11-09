@@ -3,10 +3,12 @@
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#ffffff</color>
     <color name="colorAccent">#FF6000</color>
+    <color name="lightColorAccent">#FFFDCBAD</color>
 
-
+    <color name="statusBarColor">#EDEDF0</color>
 
     <color name="majorTextColor">#FF333C4F</color>
+    <color name="majorTextColor_disable">#66333C4F</color>
     <color name="primaryTextColor">#99333C4F</color>
 
 
@@ -28,6 +30,8 @@
     <color name="color_1A000000">#1A000000</color>
 
     <color name="color_FF858A95">#FF858A95</color>
+    <color name="color_FFFFEADD">#FFEADD</color>
     <color name="signalIndicatorColor">#FF858A95</color>
-
+    <color name="colorAccent60">#99FF6000</color>
+    <color name="colorAccent20">#33FF6000</color>
 </resources>

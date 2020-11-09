@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.sunmi.uhf.fragment.setting.SettingModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/defaultMainColor"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/back_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/sunmi_100px"
+                android:onClick="@{()->vm.onBackClick()}"
+                android:paddingStart="@dimen/sunmi_30px"
+                android:paddingEnd="@dimen/sunmi_20px"
+                android:src="@drawable/back_arrow_icon"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/title_tv"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center|left"
+                android:text="@{vm.title}"
+                android:textColor="@color/majorTextColor"
+                android:textSize="@dimen/sunmi_40ps"
+                app:layout_constraintBottom_toBottomOf="@id/back_iv"
+                app:layout_constraintLeft_toRightOf="@id/back_iv"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/back_iv" />
+
+            <View
+                android:id="@+id/title_line"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/sunmi_1px"
+                android:background="@color/dividerColor"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/back_iv" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/sunmi_30px"
+                android:paddingRight="@dimen/sunmi_30px">
+                <!--  模块类型 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_100px"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/sunmi_20px"
+                    android:paddingBottom="@dimen/sunmi_20px">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:text="@string/setting_model_type_text"
+                        android:textColor="@color/majorTextColor"
+                        android:textSize="@dimen/sunmi_32ps" />
+
+                    <TextView
+                        android:id="@+id/module_name_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:textColor="@color/color_FF858A95"
+                        android:textSize="@dimen/sunmi_24ps"
+                        tools:text="EPC" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_1px"
+                    android:background="@color/dividerColor" />
+                <!--  区域国家 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_100px"
+                    android:gravity="center_vertical"
+                    android:onClick="@{()-> vm.onAreaCountryClick()}"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/sunmi_20px"
+                    android:paddingBottom="@dimen/sunmi_20px">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:text="@string/setting_area_country_text"
+                        android:textColor="@color/majorTextColor"
+                        android:textSize="@dimen/sunmi_32ps" />
+
+                    <TextView
+                        android:id="@+id/area_country_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableRight="@drawable/right_arrow_icon"
+                        android:drawablePadding="@dimen/sunmi_10px"
+                        android:gravity="center|right"
+                        android:textColor="@color/color_FF858A95"
+                        android:textSize="@dimen/sunmi_24ps"
+                        tools:text="EPC" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_1px"
+                    android:background="@color/dividerColor" />
+
+                <!--  其实频率 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_100px"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:onClick="@{()-> vm.onRFStartClick()}"
+                    android:paddingTop="@dimen/sunmi_20px"
+                    android:paddingBottom="@dimen/sunmi_20px">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:text="@string/setting_begin_fq_text"
+                        android:textColor="@color/majorTextColor"
+                        android:textSize="@dimen/sunmi_32ps" />
+
+                    <TextView
+                        android:id="@+id/rf_start_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableRight="@drawable/right_arrow_icon"
+                        android:drawablePadding="@dimen/sunmi_10px"
+                        android:gravity="center|right"
+                        android:textColor="@color/color_FF858A95"
+                        android:textSize="@dimen/sunmi_24ps"
+                        tools:text="EPC" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_1px"
+                    android:background="@color/dividerColor" />
+
+                <!--  截止频率 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_100px"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:onClick="@{()-> vm.onRFEndClick()}"
+                    android:paddingTop="@dimen/sunmi_20px"
+                    android:paddingBottom="@dimen/sunmi_20px">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:text="@string/setting_end_fq_text"
+                        android:textColor="@color/majorTextColor"
+                        android:textSize="@dimen/sunmi_32ps" />
+
+                    <TextView
+                        android:id="@+id/rf_end_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableRight="@drawable/right_arrow_icon"
+                        android:drawablePadding="@dimen/sunmi_10px"
+                        android:gravity="center|right"
+                        android:textColor="@color/color_FF858A95"
+                        android:textSize="@dimen/sunmi_24ps"
+                        tools:text="EPC" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
+    </LinearLayout>
+</layout>

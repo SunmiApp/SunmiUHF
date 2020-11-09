@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:sunmi="http://schemas.android.com/apk/res-auto">
+    xmlns:sunmi="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -32,13 +33,26 @@
             android:id="@+id/power_status_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/sunmi_30px"
+            android:layout_marginRight="@dimen/sunmi_12px"
             android:text="@string/home_power_text"
             android:textColor="@color/majorTextColor"
             android:textSize="@dimen/sunmi_24ps"
             app:layout_constraintBottom_toBottomOf="@id/home_title_tv"
+            app:layout_constraintRight_toLeftOf="@+id/power_status_iv"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/home_title_tv" />
+
+        <ImageView
+            android:id="@+id/power_status_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/sunmi_30px"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_battery"
+            app:layout_constraintBottom_toBottomOf="@id/power_status_tv"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/power_status_tv"
+            tools:src="@drawable/battery_full" />
 
         <TextView
             android:id="@+id/fast_read_write_tv"
@@ -70,15 +84,15 @@
             android:drawableTop="@drawable/take_inventory_icon"
             android:drawablePadding="@dimen/sunmi_6px"
             android:gravity="center_horizontal"
-            android:paddingTop="@dimen/sunmi_50px"
             android:onClick="@{()->vm.onTakeInventoryClick()}"
+            android:paddingTop="@dimen/sunmi_50px"
             android:text="@string/take_inventory_text"
             android:textColor="@color/white"
             android:textSize="@dimen/sunmi_32ps"
             app:layout_constraintDimensionRatio="h,11:10"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintLeft_toRightOf="@id/fast_read_write_tv"
-            app:layout_constraintRight_toRightOf="@id/power_status_tv"
+            app:layout_constraintRight_toRightOf="@id/power_status_iv"
             app:layout_constraintTop_toTopOf="@id/fast_read_write_tv"
             sunmi:outline="@{`12`}" />
 
@@ -92,8 +106,8 @@
             android:background="@color/labelOperationColor"
             android:drawableTop="@drawable/label_operation_icon"
             android:drawablePadding="@dimen/sunmi_6px"
-            android:onClick="@{()->vm.onLabelOperationClick()}"
             android:gravity="center_horizontal"
+            android:onClick="@{()->vm.onLabelOperationClick()}"
             android:paddingTop="@dimen/sunmi_50px"
             android:text="@string/label_operation_text"
             android:textColor="@color/white"
@@ -113,8 +127,8 @@
             android:drawableTop="@drawable/label_location_icon"
             android:drawablePadding="@dimen/sunmi_6px"
             android:gravity="center_horizontal"
-            android:paddingTop="@dimen/sunmi_50px"
             android:onClick="@{()->vm.onLabelLocationClick()}"
+            android:paddingTop="@dimen/sunmi_50px"
             android:text="@string/label_location_text"
             android:textColor="@color/white"
             android:textSize="@dimen/sunmi_32ps"

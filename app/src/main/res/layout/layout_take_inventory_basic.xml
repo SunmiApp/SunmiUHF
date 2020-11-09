@@ -132,17 +132,17 @@
 
             />
 
-        <TextView
+        <Chronometer
             android:id="@+id/time_value_tv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:format="%s"
             android:gravity="center"
             android:textColor="@color/majorTextColor"
             android:textSize="@dimen/sunmi_36ps"
             app:layout_constraintBottom_toBottomOf="@id/effect_label_value_tv"
             app:layout_constraintLeft_toLeftOf="@id/time_tv"
             app:layout_constraintRight_toRightOf="@id/time_tv"
-            app:layout_constraintTop_toTopOf="@id/effect_label_value_tv"
-            tools:text="00′11" />
+            app:layout_constraintTop_toTopOf="@id/effect_label_value_tv" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--读写标签操作区域:0x00:Password, 0x01:EPC, 0x02:TID, 0x03:User-->
+    <string-array name="area_read_write_array">
+        <item>None</item>
+        <item>EPC</item>
+        <item>TID</item>
+        <item>User</item>
+    </string-array>
+    <!--锁操作数据区域:0x01:User, 0x02:TID, 0x03:EPC, 0x04:Access Password, 0x05:Kill Password-->
+    <string-array name="area_lock_array">
+        <item>User</item>
+        <item>TID</item>
+        <item>EPC</item>
+        <item>Access Password</item>
+        <item>Kill Password</item>
+    </string-array>
+    <!--锁操作类型:0x00:开放，0x01:锁定，0x02:永久开放，0x03:永久锁定-->
+    <string-array name="type_array">
+        <item>开放</item>
+        <item>锁定</item>
+        <item>永久开放</item>
+        <item>永久锁定</item>
+    </string-array>
+
+    <string-array name="session_array">
+        <item>S0</item>
+        <item>S1</item>
+        <item>S2</item>
+        <item>S3</item>
+    </string-array>
+
+    <string-array name="flag_array">
+        <item>A</item>
+        <item>B</item>
+    </string-array>
+
+    <string-array name="link_array">
+        <item>Tari 25us; FM0 40K</item>
+        <item>Tari 25us; Miller4 250KHz</item>
+        <item>Tari 25us; Miller4 300KHz</item>
+        <item>Tari 6.25us; FM0 400KHz</item>
+    </string-array>
+
+    <string-array name="hand_type_array">
+        <item>长按触发</item>
+        <item>点按触发</item>
+    </string-array>
+
+    <string-array name="label_array">
+        <item>6B标签</item>
+        <item>6C标签</item>
+    </string-array>
+
+    <!--区域设置 - 国家列表-->
+    <string-array name="area_country_china_array">
+        <item>China (920-925 MHz)</item>
+    </string-array>
+    <string-array name="area_country_europe_array">
+        <item>ETSI (865-868 MHz)</item>
+    </string-array>
+    <string-array name="area_country_america_array">
+        <item>America (902-928 MHz)</item>
+        <item>Australia (920-926 MHz)</item>
+        <item>Brazil (902-907 MHz)</item>
+        <item>Brazil (915-928 MHz)</item>
+        <item>Hong Kong (920-925 MHz)</item>
+        <item>Korea (917-921 MHz)</item>
+        <item>Malaysia (919-923 MHz)</item>
+        <item>New Zealand (921-928 MHz)</item>
+        <item>Russian Federation (916-921 MHz)</item>
+        <item>Singapore (920-925 MHz)</item>
+        <item>South Africa (915-919 MHz)</item>
+        <item>Taiwan (922-928 MHz)</item>
+        <item>Vietnam (920-925 MHz)</item>
+        <item>China (920-925 MHz)</item>
+        <item>Japan (916-921 MHz)</item>
+    </string-array>
+
+    <string-array name="filter_rules_array">
+        <item>(匹配)确认 SL 标志或已盘标志 → A\n(不匹配)取消确认 SL 标志或已盘标志 → B</item>
+        <item>(匹配)确认 SL 标志或已盘标志 → A\n(不匹配)无作为</item>
+        <item>(匹配)无作为\n(不匹配)取消确认 SL 标志或已盘标志 → B</item>
+        <item>(匹配)否定 SL 标志或已盘标志 A → B，B → A\n(不匹配)无作为</item>
+        <item>(匹配)取消确认 SL 标志或已盘标志 → B\n(不匹配)确认 SL 标志或已盘标志 → A</item>
+        <item>(匹配)取消确认 SL 标志或已盘标志 → B\n(不匹配)无作为</item>
+        <item>(匹配)无作为\n(不匹配)确认 SL 标志或已盘标志 → A</item>
+        <item>(匹配)无作为\n(不匹配)否定 SL 标志或已盘标志 A → B，B → A</item>
+    </string-array>
+</resources>

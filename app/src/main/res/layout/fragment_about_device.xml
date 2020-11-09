@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.sunmi.uhf.fragment.setting.SettingModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/defaultMainColor"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/back_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/sunmi_100px"
+                android:onClick="@{()->vm.onBackClick()}"
+                android:paddingStart="@dimen/sunmi_30px"
+                android:paddingEnd="@dimen/sunmi_20px"
+                android:src="@drawable/back_arrow_icon"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/title_tv"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center|left"
+                android:text="@{vm.title}"
+                android:textColor="@color/majorTextColor"
+                android:textSize="@dimen/sunmi_40ps"
+                app:layout_constraintBottom_toBottomOf="@id/back_iv"
+                app:layout_constraintLeft_toRightOf="@id/back_iv"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/back_iv" />
+
+            <View
+                android:id="@+id/title_line"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/sunmi_1px"
+                android:background="@color/dividerColor"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/back_iv" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_72px"
+                    android:gravity="center|left"
+                    android:paddingLeft="@dimen/sunmi_30px"
+                    android:paddingRight="@dimen/sunmi_30px"
+                    android:text="@string/basic_info_text"
+                    android:textColor="@color/color_FF858A95"
+                    android:textSize="@dimen/sunmi_24ps" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_1px"
+                    android:layout_marginLeft="@dimen/sunmi_30px"
+                    android:layout_marginRight="@dimen/sunmi_30px"
+                    android:background="@color/dividerColor" />
+
+                <!--  设备sn -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_100px"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/sunmi_30px"
+                    android:paddingTop="@dimen/sunmi_20px"
+                    android:paddingRight="@dimen/sunmi_30px"
+                    android:paddingBottom="@dimen/sunmi_20px">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:text="@string/device_sn_text"
+                        android:textColor="@color/majorTextColor"
+                        android:textSize="@dimen/sunmi_32ps" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:text="@{vm.sn}"
+                        android:textColor="@color/color_FF858A95"
+                        android:textSize="@dimen/sunmi_24ps"
+                        tools:text="EPC" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_1px"
+                    android:layout_marginLeft="@dimen/sunmi_30px"
+                    android:layout_marginRight="@dimen/sunmi_30px"
+                    android:background="@color/dividerColor" />
+                <!--  固件版本号 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_100px"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/sunmi_30px"
+                    android:paddingTop="@dimen/sunmi_20px"
+                    android:paddingRight="@dimen/sunmi_30px"
+                    android:paddingBottom="@dimen/sunmi_20px">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:text="@string/firmware_version_text"
+                        android:textColor="@color/majorTextColor"
+                        android:textSize="@dimen/sunmi_32ps" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:text="@{vm.uhfVer}"
+                        android:textColor="@color/color_FF858A95"
+                        android:textSize="@dimen/sunmi_24ps"
+                        tools:text="EPC" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_1px"
+                    android:layout_marginLeft="@dimen/sunmi_30px"
+                    android:layout_marginRight="@dimen/sunmi_30px"
+                    android:background="@color/dividerColor" />
+
+                <!--  模块信息 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_100px"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/sunmi_30px"
+                    android:paddingTop="@dimen/sunmi_20px"
+                    android:paddingRight="@dimen/sunmi_30px"
+                    android:paddingBottom="@dimen/sunmi_20px">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:text="@string/module_info_text"
+                        android:textColor="@color/majorTextColor"
+                        android:textSize="@dimen/sunmi_32ps" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:text="@{vm.moduleVer}"
+                        android:textColor="@color/color_FF858A95"
+                        android:textSize="@dimen/sunmi_24ps"
+                        tools:text="EPC" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_1px"
+                    android:layout_marginLeft="@dimen/sunmi_30px"
+                    android:layout_marginRight="@dimen/sunmi_30px"
+                    android:background="@color/dividerColor" />
+
+                <!--  模块类型 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_100px"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/sunmi_30px"
+                    android:paddingTop="@dimen/sunmi_20px"
+                    android:paddingRight="@dimen/sunmi_30px"
+                    android:paddingBottom="@dimen/sunmi_20px">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:text="@string/module_type_text"
+                        android:textColor="@color/majorTextColor"
+                        android:textSize="@dimen/sunmi_32ps" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:text="@{vm.moduleType}"
+                        android:textColor="@color/color_FF858A95"
+                        android:textSize="@dimen/sunmi_24ps"
+                        tools:text="EPC" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_1px"
+                    android:layout_marginLeft="@dimen/sunmi_30px"
+                    android:layout_marginRight="@dimen/sunmi_30px"
+                    android:background="@color/dividerColor" />
+                <!--  当前温度 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_100px"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/sunmi_30px"
+                    android:paddingTop="@dimen/sunmi_20px"
+                    android:paddingRight="@dimen/sunmi_30px"
+                    android:paddingBottom="@dimen/sunmi_20px">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:text="@string/current_degree_text"
+                        android:textColor="@color/majorTextColor"
+                        android:textSize="@dimen/sunmi_32ps" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:text="@{@string/module_template(vm.moduleTemplate)}"
+                        android:textColor="@color/color_FF858A95"
+                        android:textSize="@dimen/sunmi_24ps"
+                        tools:text="EPC" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_24px"
+                    android:background="@color/defaultMainColor" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/sunmi_72px"
+                    android:gravity="center|left"
+                    android:paddingLeft="@dimen/sunmi_30px"
+                    android:paddingRight="@dimen/sunmi_30px"
+                    android:text="@string/handle_battery_text"
+                    android:textColor="#FF858A95"
+                    android:textSize="@dimen/sunmi_24ps" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_1px"
+                    android:layout_marginLeft="@dimen/sunmi_30px"
+                    android:layout_marginRight="@dimen/sunmi_30px"
+                    android:background="@color/dividerColor" />
+                <!--  电池电压 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_100px"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/sunmi_30px"
+                    android:paddingTop="@dimen/sunmi_20px"
+                    android:paddingRight="@dimen/sunmi_30px"
+                    android:paddingBottom="@dimen/sunmi_20px">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:text="@string/battery_voltage_text"
+                        android:textColor="@color/majorTextColor"
+                        android:textSize="@dimen/sunmi_32ps" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:text="@{@string/battery_voltage(vm.batteryVoltage)}"
+                        android:textColor="@color/color_FF858A95"
+                        android:textSize="@dimen/sunmi_24ps"
+                        tools:text="EPC" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_1px"
+                    android:layout_marginLeft="@dimen/sunmi_30px"
+                    android:layout_marginRight="@dimen/sunmi_30px"
+                    android:background="@color/dividerColor" />
+                <!--  电池百分比 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_100px"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/sunmi_30px"
+                    android:paddingTop="@dimen/sunmi_20px"
+                    android:paddingRight="@dimen/sunmi_30px"
+                    android:paddingBottom="@dimen/sunmi_20px">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:text="@string/battery_rate_text"
+                        android:textColor="@color/majorTextColor"
+                        android:textSize="@dimen/sunmi_32ps" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:text="@{@string/percentage_x(vm.batteryRate)}"
+                        android:textColor="@color/color_FF858A95"
+                        android:textSize="@dimen/sunmi_24ps"
+                        tools:text="EPC" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_1px"
+                    android:layout_marginLeft="@dimen/sunmi_30px"
+                    android:layout_marginRight="@dimen/sunmi_30px"
+                    android:background="@color/dividerColor" />
+                <!--  电池循环次数 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_100px"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/sunmi_30px"
+                    android:paddingTop="@dimen/sunmi_20px"
+                    android:paddingRight="@dimen/sunmi_30px"
+                    android:paddingBottom="@dimen/sunmi_20px">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:text="@string/battery_circle_count_text"
+                        android:textColor="@color/majorTextColor"
+                        android:textSize="@dimen/sunmi_32ps" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:text="@{@string/times_x(vm.batteryTimes)}"
+                        android:textColor="@color/color_FF858A95"
+                        android:textSize="@dimen/sunmi_24ps"
+                        tools:text="EPC" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_1px"
+                    android:layout_marginLeft="@dimen/sunmi_30px"
+                    android:layout_marginRight="@dimen/sunmi_30px"
+                    android:background="@color/dividerColor" />
+                <!--  电池充电状态 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_100px"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/sunmi_30px"
+                    android:paddingTop="@dimen/sunmi_20px"
+                    android:paddingRight="@dimen/sunmi_30px"
+                    android:paddingBottom="@dimen/sunmi_20px">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:text="@string/battery_charging_status_text"
+                        android:textColor="@color/majorTextColor"
+                        android:textSize="@dimen/sunmi_32ps" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:text="@{vm.batteryCharge}"
+                        android:textColor="@color/color_FF858A95"
+                        android:textSize="@dimen/sunmi_24ps"
+                        tools:text="EPC" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
+    </LinearLayout>
+</layout>

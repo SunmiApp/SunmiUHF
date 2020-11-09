@@ -43,15 +43,13 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/sunmi_100px"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingTop="@dimen/sunmi_20px"
-                android:paddingBottom="@dimen/sunmi_20px">
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center|left"
                     android:text="@string/operation_area_text"
@@ -60,7 +58,7 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:drawableRight="@drawable/right_arrow_icon"
                     android:drawablePadding="@dimen/sunmi_10px"
@@ -86,7 +84,7 @@
                 android:textSize="@dimen/sunmi_24ps" />
 
             <EditText
-                android:id="@+id/pwd_et"
+                android:id="@+id/start_add_et"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/sunmi_88px"
                 android:layout_marginTop="@dimen/sunmi_10px"

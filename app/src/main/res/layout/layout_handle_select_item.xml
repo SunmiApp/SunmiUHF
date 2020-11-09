@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="type"
+            type="Integer" />
+
+
+        <variable
+            name="vm"
+            type="com.sunmi.uhf.fragment.setting.SettingModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sunmi_1px"
+            android:layout_marginLeft="@dimen/sunmi_10px"
+            android:layout_marginRight="@dimen/sunmi_10px"
+            android:background="@color/dividerColor" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sunmi_112px">
+
+            <ImageView
+                android:id="@+id/checkbox_iv"
+                android:layout_width="@dimen/sunmi_70px"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:onClick="@{()->vm.onInventoryItemModeClick(type)}"
+                android:paddingLeft="@dimen/sunmi_10px"
+                android:paddingRight="@dimen/sunmi_20px"
+                android:src="@{type==vm.mInventoryMode?@drawable/radio_check_icon:@drawable/radio_uncheck_icon}" />
+
+            <ImageView
+                android:id="@+id/arrow_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="@dimen/sunmi_10px"
+                android:paddingRight="@dimen/sunmi_10px"
+                android:src="@drawable/arrow_down_icon" />
+
+            <TextView
+                android:id="@+id/item_name_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/arrow_iv"
+                android:layout_toRightOf="@id/checkbox_iv"
+                android:orientation="vertical"
+                android:textColor="@color/majorTextColor"
+                android:textSize="@dimen/sunmi_32ps" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/title_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sunmi_1px"
+            android:layout_marginLeft="@dimen/sunmi_10px"
+            android:layout_marginRight="@dimen/sunmi_10px"
+            android:background="@color/dividerColor" />
+
+        <LinearLayout
+            android:id="@+id/mode_detail_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/sunmi_60px"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_100px"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:text="@string/communication_type_text"
+                    android:textColor="@color/majorTextColor"
+                    android:textSize="@dimen/sunmi_32ps" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|right"
+                    android:textColor="@color/color_FF858A95"
+                    android:textSize="@dimen/sunmi_24ps"
+                    tools:text="30" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_1px"
+                android:background="@color/dividerColor" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_100px"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:text="@string/handle_version_text"
+                    android:textColor="@color/majorTextColor"
+                    android:textSize="@dimen/sunmi_32ps" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|right"
+                    android:textColor="@color/color_FF858A95"
+                    android:textSize="@dimen/sunmi_24ps"
+                    tools:text="30" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_1px"
+                android:background="@color/dividerColor" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_100px"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:text="@string/mode_class_text"
+                    android:textColor="@color/majorTextColor"
+                    android:textSize="@dimen/sunmi_32ps" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|right"
+                    android:textColor="@color/color_FF858A95"
+                    android:textSize="@dimen/sunmi_24ps"
+                    tools:text="30" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

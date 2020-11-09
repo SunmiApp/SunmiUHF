@@ -94,6 +94,7 @@
             android:layout_marginRight="@dimen/sunmi_18px"
             android:src="@drawable/excel_icon"
             android:padding="@dimen/sunmi_10px"
+            android:onClick="@{()->vm.onExportAllExcelClick()}"
             android:visibility="@{vm.editModel?View.GONE:View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@id/back_iv"
             app:layout_constraintRight_toLeftOf="@+id/edit_iv"

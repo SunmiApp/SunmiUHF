@@ -20,10 +20,7 @@ class ReadWriteViewModel : BaseViewModel() {
     val totalLabelNum = MutableLiveData<Int>(0)
 
     /* 读取速度 */
-    val speed = MutableLiveData<Float>(0f)
-
-    /* 时间 */
-    val time = MutableLiveData<Long>(0)
+    val speed = MutableLiveData<Int>(0)
 
     /* 是否开始读取 */
     val start = MutableLiveData<Boolean>(false)

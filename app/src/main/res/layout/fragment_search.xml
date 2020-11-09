@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:sunmi="http://schemas.android.com/apk/res-auto">
+    xmlns:sunmi="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -53,6 +54,7 @@
 
 
             <EditText
+                android:id="@+id/search_et"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginLeft="@dimen/sunmi_10px"
@@ -88,10 +90,11 @@
             android:layout_height="0dp"
             android:scrollbars="none"
             android:visibility="@{(vm.filterLabelList==null||vm.filterLabelList.size()==0)?View.GONE:View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_ll"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title_line">
+            app:layout_constraintTop_toBottomOf="@id/title_line"
+            tools:visibility="visible">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -102,14 +105,32 @@
                     layout="@layout/layout_take_inventory_header_info"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sunmi_96px"
-                    app:editAble="@{vm.editModel}" />
+                    app:vm="@{vm}" />
+
+                <View
+                    android:id="@+id/head_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_1px"
+                    android:background="@color/dividerColor" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/label_rv"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
             </LinearLayout>
         </HorizontalScrollView>
+
+        <include
+            android:id="@+id/bottom_ll"
+            layout="@layout/layout_take_inventory_bottom"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/sunmi_112px"
+            android:visibility="@{vm.editModel?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:vm="@{vm}" />
 
         <include
             layout="@layout/layout_search_empty"
@@ -120,5 +141,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title_line" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

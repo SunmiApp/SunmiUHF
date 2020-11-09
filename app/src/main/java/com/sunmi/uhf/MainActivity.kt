@@ -2,10 +2,14 @@ package com.sunmi.uhf
 
 import android.util.DisplayMetrics
 import android.util.Log
-import android.view.Gravity
+import android.view.KeyEvent
+import androidx.core.content.ContextCompat
 import com.sunmi.uhf.base.BaseActivity
+import com.sunmi.uhf.constants.EventConstant
 import com.sunmi.uhf.databinding.ActivityMainBinding
 import com.sunmi.uhf.fragment.home.HomeFragment
+import com.sunmi.uhf.utils.LiveDataBusEvent
+import com.sunmi.uhf.utils.StatusBar
 
 
 /**
@@ -17,6 +21,7 @@ import com.sunmi.uhf.fragment.home.HomeFragment
  */
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
+    private var isLoop = false
 
     override fun getLayoutResource() = R.layout.activity_main
 
@@ -26,6 +31,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun initView() {
+        StatusBar.setStatusBarBackgroundColor(window, ContextCompat.getColor(App.mContext, R.color.statusBarColor))
+        StatusBar.setStatusBarTextColor(window, true)
         val dm = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(dm)
 
@@ -42,15 +49,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 //        )
         Log.e(
             "  DisplayMetrics",
-            "density=" + density.toString() + "; densityDPI=" + densityDPI
+            "density=$density; densityDPI=$densityDPI"
         )
         Log.e(
             "  DisplayMetrics",
-            "sw=" + dm.widthPixels + "; sh=" + dm.heightPixels
+            "sw=${dm.widthPixels}; sh=${dm.heightPixels}"
         )
         Log.e(
             "  DisplayMetrics",
-            "sw=" + resources.displayMetrics.widthPixels + "; sh=" + resources.displayMetrics.heightPixels
+            "sw=${resources.displayMetrics.widthPixels}; sh=${resources.displayMetrics.heightPixels}"
         )
 
 
@@ -70,12 +77,28 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onLandScape() {
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        val backStackEntryCount: Int = supportFragmentManager.backStackEntryCount
-        if (backStackEntryCount <= 1) {
-            finish()
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == 288) {
+            if (!isLoop) {
+                isLoop = true
+                LiveDataBusEvent.get().with(EventConstant.UHF_KEY_EVENT, Int::class.java)
+                    .postValue(EventConstant.EVENT_UHF_KEY_EVENT_UP)
+            }
+            return true
         }
+        return super.onKeyUp(keyCode, event)
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == 288) {
+            if (isLoop) {
+                isLoop = false
+                LiveDataBusEvent.get().with(EventConstant.UHF_KEY_EVENT, Int::class.java)
+                    .postValue(EventConstant.EVENT_UHF_KEY_EVENT_DOWN)
+            }
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
 }
