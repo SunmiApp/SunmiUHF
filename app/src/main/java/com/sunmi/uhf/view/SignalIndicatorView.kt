@@ -11,6 +11,8 @@ import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.sunmi.uhf.R
+import kotlin.math.cos
+import kotlin.math.sin
 import kotlin.math.tan
 
 
@@ -32,6 +34,13 @@ class SignalIndicatorView @JvmOverloads constructor(
         context.resources.getString(R.string.strong_text),
         context.resources.getString(R.string.middle_text),
         context.resources.getString(R.string.little_text)
+    )
+
+    //指示器 刻度上的文案
+    private val mTextAnger: Array<Float> = arrayOf(
+        4f,
+        6f,
+        10f
     )
 
     //线条和文字的颜色
@@ -58,11 +67,12 @@ class SignalIndicatorView @JvmOverloads constructor(
     //信号值
     private var mSignal: Float = 0f
 
-    private val mDiff: Float = 2f
+    private val mDiff: Float = 0.021f
 
-    private val startAngle: Float = -40f
-
-    private val sweepAngle: Float = -100f
+    private val leftStartAngle: Float = 220f
+    private val rightStartAngle: Float = 270f
+    private val sweepAngle: Float = 50f
+    private val angle: Double = 40.0                     //90-50=40
 
     private var textWidth = 0                            //文字宽度
     private var textHeight = 0                           //文字高度
@@ -121,54 +131,79 @@ class SignalIndicatorView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        val textX = width / 2 - textWidth / 2
-        //信号值对应的单位高度
-        val unitSignalHeight = (height - paddingTop - textHeight / 2) / 100f
-        //平均间距
-        val d = (height - paddingTop) / size
-        mTextArray.forEachIndexed { index, s ->
-            //弧线
-            mLinePaint.style = Paint.Style.STROKE
+        val centerX = width / 2
+        val centerY = height - paddingBottom
+        var arcRadius = height - textHeight / 2 - paddingTop - paddingBottom
+        mLinePaint.style=Paint.Style.STROKE
+        //画边线
+        canvas?.drawLine(
+            centerX.toFloat(),
+            centerY.toFloat(),
+            centerX - (cos(Math.toRadians(angle)) * arcRadius).toFloat(),
+            centerY - (sin(Math.toRadians(angle)) * arcRadius).toFloat(),
+            mLinePaint
+        )
+        canvas?.drawLine(
+            centerX.toFloat(),
+            centerY.toFloat(),
+            centerX + (cos(Math.toRadians(angle)) * arcRadius).toFloat(),
+            centerY - (sin(Math.toRadians(angle)) * arcRadius).toFloat(),
+            mLinePaint
+        )
+        val rate = mSignal / 100f
+        val textRate = textHeight / arcRadius + mDiff
+        if (mSignal > 0) {
+            //绘制信号强度
             canvas?.drawArc(
-                ((width / (size * 2)) * index + textHeight / 2).toFloat(),
-                (paddingTop + d * index + textHeight / 2).toFloat(),
-                (width - ((width / (size * 2)) * index + textHeight / 2)).toFloat(),
-                (height + (height - (paddingTop + d * index + textHeight / 2))).toFloat(),
-                startAngle,
-                sweepAngle,
-                index == 0,
+                (centerX - arcRadius * rate),
+                (centerY - arcRadius * rate),
+                (centerX + arcRadius * rate),
+                (centerY + arcRadius * rate),
+                leftStartAngle,
+                sweepAngle * 2,
+                true,
+                mSignalPaint
+            )
+        }
+        mTextArray.forEachIndexed { index, s ->
+            mLinePaint.style=Paint.Style.STROKE
+            //画左边弧线
+            val m = (size - index).toFloat() / size.toFloat() + textRate
+
+            if (rate >= m) {
+                mLinePaint.color = ContextCompat.getColor(context, R.color.white)
+            } else {
+                mLinePaint.color = mLineColor
+            }
+            canvas?.drawArc(
+                centerX - (arcRadius / size * (size - index)).toFloat(),
+                centerY - (arcRadius / size * (size - index)).toFloat(),
+                centerX + (arcRadius / size * (size - index)).toFloat(),
+                centerY + (arcRadius / size * (size - index)).toFloat(),
+                leftStartAngle,
+                sweepAngle - mTextAnger[index],
+                false,
                 mLinePaint
             )
-            val indexSignal = (size - index) * avgSignal
-            if (mSignal < (indexSignal - mDiff).toInt()) {
-                //绘制文字背景
-                canvas?.drawRect(
-                    ((width / 2) - textWidth).toFloat(),
-                    (paddingTop + d * index).toFloat(),
-                    ((width / 2) + textWidth).toFloat(),
-                    (paddingTop + d * index + textHeight).toFloat(), mBgPaint
-                )
-                //绘制文字
-                mLinePaint.style = Paint.Style.FILL
-                canvas?.drawText(
-                    s,
-                    textX.toFloat(),
-                    (paddingTop + d * index + textHeight).toFloat(),
-                    mLinePaint
-                )
-            }
-            //绘制信号强度
-            if (mSignal > 0) {
-                val mSignalHeight = mSignal * unitSignalHeight
-                val angle = 40.5
-                val mSignalWidth = (tan(Math.toRadians(angle)) * mSignalHeight).toFloat()
-                canvas?.drawArc(
-                    width / 2f - mSignalWidth,
-                    height - mSignalHeight,
-                    width / 2f + mSignalWidth,
-                    height + mSignalHeight, startAngle, sweepAngle, true, mSignalPaint
-                )
-            }
+            //画右边弧线
+            canvas?.drawArc(
+                centerX - (arcRadius / size * (size - index)).toFloat(),
+                centerY - (arcRadius / size * (size - index)).toFloat(),
+                centerX + (arcRadius / size * (size - index)).toFloat(),
+                centerY + (arcRadius / size * (size - index)).toFloat(),
+                rightStartAngle + mTextAnger[index],
+                sweepAngle - mTextAnger[index],
+                false,
+                mLinePaint
+            )
+            //绘制文字
+            mLinePaint.style=Paint.Style.FILL
+            canvas?.drawText(
+                s,
+                centerX - (textWidth / 2).toFloat(),
+                centerY - (arcRadius / size * (size - index)).toFloat() + textHeight / 2,
+                mLinePaint
+            )
         }
     }
 
