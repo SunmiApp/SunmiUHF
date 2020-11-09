@@ -12,8 +12,8 @@ android {
         applicationId "com.sunmi.uhf"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 3
+        versionName "1.0.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -31,6 +31,19 @@ android {
     buildFeatures {
         dataBinding = true
         viewBinding = true
+    }
+    android.applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                if (buildType.name != 'debug' && System.getenv("BUILD_NUMBER") != null) {
+                    //variant.getPackageApplication().outputDirectory = new File(project.buildDir.absolutePath + "/outputs" + "/apk")
+                    variant.getPackageApplication().outputDirectory = new File("build/outputs/apk/" + variant.versionName + "/" + variant.flavorName + "/" + System.getenv("BUILD_NUMBER"))
+                }
+                outputFileName = "SunmiUHF_v" + defaultConfig.versionName + "_" + buildType.name + ".apk"
+            }
+    }
+    lintOptions {
+        abortOnError false
     }
 }
 
