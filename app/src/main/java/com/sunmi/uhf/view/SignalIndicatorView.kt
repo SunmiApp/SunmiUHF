@@ -53,6 +53,7 @@ class SignalIndicatorView @JvmOverloads constructor(
         ContextCompat.getColor(context, R.color.colorAccent20),
         ContextCompat.getColor(context, R.color.colorAccent60),
         ContextCompat.getColor(context, R.color.colorAccent),
+        ContextCompat.getColor(context, R.color.colorAccent)
     )
 
     //默认 宽 高
