@@ -49,8 +49,11 @@ class SignalIndicatorView @JvmOverloads constructor(
     //文字的size
     private val mTextSize: Float = context.resources.getDimension(R.dimen.sunmi_28ps)
 
-    //信号区域颜色
-    private val mSignalColor: Int = ContextCompat.getColor(context, R.color.colorAccent)
+    private val mSignalColorArray: Array<Int> = arrayOf(
+        ContextCompat.getColor(context, R.color.colorAccent20),
+        ContextCompat.getColor(context, R.color.colorAccent60),
+        ContextCompat.getColor(context, R.color.colorAccent),
+    )
 
     //默认 宽 高
     private var defaultSize: Int = context.resources.getDimensionPixelSize(R.dimen.sunmi_360px)
@@ -87,7 +90,6 @@ class SignalIndicatorView @JvmOverloads constructor(
         mLinePaint.style = Paint.Style.STROKE
         // 信号区域
         mSignalPaint.isAntiAlias = true
-        mSignalPaint.color = mSignalColor
         //mBgPaint
         mBgPaint.isAntiAlias = true
         mBgPaint.color = ContextCompat.getColor(context, R.color.white)
@@ -155,6 +157,7 @@ class SignalIndicatorView @JvmOverloads constructor(
         val textRate = textHeight / arcRadius + mDiff
         if (mSignal > 0) {
             //绘制信号强度
+            mSignalPaint.color = mSignalColorArray[(rate / (1f / size)).toInt()]
             canvas?.drawArc(
                 (centerX - arcRadius * rate),
                 (centerY - arcRadius * rate),

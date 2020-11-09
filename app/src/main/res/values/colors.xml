@@ -32,5 +32,6 @@
     <color name="color_FF858A95">#FF858A95</color>
     <color name="color_FFFFEADD">#FFEADD</color>
     <color name="signalIndicatorColor">#FF858A95</color>
-
+    <color name="colorAccent60">#99858A95</color>
+    <color name="colorAccent20">#33858A95</color>
 </resources>
