@@ -69,12 +69,12 @@ class LabelLocationFragment : ReadBaseFragment<FragmentLabelLocationBinding>() {
 
     private fun startStop(en: Boolean) {
         if (isLoop == en) return
-        vm.start.postValue(en)
         targetId = binding.epcEt.text.toString().replace(" ", "").toUpperCase()
         if (TextUtils.isEmpty(targetId)) {
             showShort(R.string.input_epc_text)
             return
         }
+        vm.start.postValue(en)
         mainScope.launch { binding.signalVv.setSignal(0f) }
         if (en) {
             tidList.clear()
