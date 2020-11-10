@@ -55,6 +55,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         "darren",
                         "BroadcastReceiver HomeFragment-battery-remaining-percent:$elec%"
                     )
+                    App.getPref().setParam(Config.ELEC_CACHE, elec)
                     setCalculateLevel(elec)
                     if (elec <= Config.LOW_ELEC && chargingState == 0x00.toByte()) {
                         showShort(getString(R.string.hint_please_charge, elec))
@@ -93,6 +94,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     override fun initData() {
+        setCalculateLevel(App.getPref().getParam(Config.ELEC_CACHE, 0))
     }
 
     override fun onSimpleViewEvent(event: SimpleViewEvent) {
@@ -170,22 +172,30 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun getBatteryRemainingPercent() {
         mainScope.launch(Dispatchers.IO) {
             var flag: Boolean
+            var callNext = true
             while (isActive) {
                 flag = false
-                if (lifecycle.currentState != Lifecycle.State.RESUMED) {
-                    LogUtils.d("darren", "get battery Remaining Percent >> stop")
+                if (lifecycle.currentState != Lifecycle.State.RESUMED || !callNext) {
+                    LogUtils.d("darren", "get battery Remaining Percent >> stop, callNext=$callNext")
                     break
                 }
                 RFIDManager.getInstance().apply {
                     try {
                         if (isConnect) {
-                            helper.getBatteryRemainingPercent()
-                            helper.getBatteryChargeState()
+                            when (helper.scanModel) {
+                                RFIDManager.UHF_R2000 -> {
+                                    helper.getBatteryRemainingPercent()
+                                    helper.getBatteryChargeState()
+                                }
+                                RFIDManager.INNER -> {
+                                    callNext = false
+                                }
+                                RFIDManager.NONE -> {
+                                    setCalculateLevel(0)
+                                }
+                            }
                             flag = true
                         }
-                    } catch (e: RemoteException) {
-                        connect(App.mContext)
-                        e.printStackTrace()
                     } catch (e: Exception) {
                         LogUtils.e("darren", "get battery info error")
                         e.printStackTrace()
@@ -193,7 +203,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
                 LogUtils.d("darren", "get battery Remaining Percent")
                 if (flag) {
-                    delay(5000)
+                    delay(30000)
                 } else {
                     delay(500)
                 }

@@ -23,8 +23,11 @@ class TakeInventoryModel : BaseViewModel() {
     /* 是否处于编辑模式 */
     val editModel = MutableLiveData<Boolean>(false)
 
-    /* 是否可以点击导出 */
+    /* 编辑模式 - 是否可以点击导出 */
     val editEnExport = MutableLiveData<Boolean>(false)
+
+    /*  标题 - 搜索/导出动作 */
+    val topSearchEn = MutableLiveData<Boolean>(true)
 
     /* 标签数 */
     val labelNum = MutableLiveData<Int>(0)
