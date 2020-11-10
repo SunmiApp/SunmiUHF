@@ -82,4 +82,5 @@ object Config {
 
     /** 低电量 阈值 */
     const val LOW_ELEC = 10
+    const val ELEC_CACHE = "elec_cache"
 }
