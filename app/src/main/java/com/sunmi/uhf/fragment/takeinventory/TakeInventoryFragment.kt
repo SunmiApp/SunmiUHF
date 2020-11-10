@@ -335,7 +335,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
             override fun right(text: String?) {
                 LogUtils.i("darren", "file name: $text")
                 if (text != null) {
-                    if (text.isEmpty()) {
+                    if (text.trim().isEmpty()) {
                         dialog.inputError()
                         return
                     } else {
