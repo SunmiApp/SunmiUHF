@@ -1,14 +1,20 @@
 package com.sunmi.uhf
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.KeyEvent
 import androidx.core.content.ContextCompat
+import com.sunmi.rfid.constant.ParamCts
 import com.sunmi.uhf.base.BaseActivity
 import com.sunmi.uhf.constants.EventConstant
 import com.sunmi.uhf.databinding.ActivityMainBinding
 import com.sunmi.uhf.fragment.home.HomeFragment
 import com.sunmi.uhf.utils.LiveDataBusEvent
+import com.sunmi.uhf.utils.LogUtils
 import com.sunmi.uhf.utils.StatusBar
 
 
@@ -22,6 +28,27 @@ import com.sunmi.uhf.utils.StatusBar
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private var isLoop = false
+    private var hasUHF = true
+
+    private val br = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            LogUtils.d("darren", "receiver: ${intent?.action}")
+            when (intent?.action) {
+                ParamCts.BROADCAST_READER_BOOT,
+                ParamCts.BROADCAST_ON_CONNECT -> {
+                    hasUHF = true
+                    LiveDataBusEvent.get().with(EventConstant.UHF_DEVICE_STATUS, Int::class.java)
+                            .postValue(EventConstant.EVENT_UHF_DEVICE_CONNECT)
+                }
+                ParamCts.BROADCAST_ON_LOST_CONNECT,
+                ParamCts.BROADCAST_ON_DISCONNECT -> {
+                    hasUHF = false
+                    LiveDataBusEvent.get().with(EventConstant.UHF_DEVICE_STATUS, Int::class.java)
+                            .postValue(EventConstant.EVENT_UHF_DEVICE_DISCONNECT)
+                }
+            }
+        }
+    }
 
     override fun getLayoutResource() = R.layout.activity_main
 
@@ -48,16 +75,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 //            "xdpi=" + xdpi.toString() + "; ydpi=" + ydpi
 //        )
         Log.e(
-            "  DisplayMetrics",
-            "density=$density; densityDPI=$densityDPI"
+                "  DisplayMetrics",
+                "density=$density; densityDPI=$densityDPI"
         )
         Log.e(
-            "  DisplayMetrics",
-            "sw=${dm.widthPixels}; sh=${dm.heightPixels}"
+                "  DisplayMetrics",
+                "sw=${dm.widthPixels}; sh=${dm.heightPixels}"
         )
         Log.e(
-            "  DisplayMetrics",
-            "sw=${resources.displayMetrics.widthPixels}; sh=${resources.displayMetrics.heightPixels}"
+                "  DisplayMetrics",
+                "sw=${resources.displayMetrics.widthPixels}; sh=${resources.displayMetrics.heightPixels}"
         )
 
 
@@ -68,21 +95,36 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onPortrait() {
         switchFragment(
-            HomeFragment.newInstance(null),
-            addToBackStack = true,
-            clearStack = true
+                HomeFragment.newInstance(null),
+                addToBackStack = true,
+                clearStack = true
         )
     }
 
     override fun onLandScape() {
     }
 
+    override fun onStart() {
+        super.onStart()
+        registerReceiver(br, IntentFilter().apply {
+            addAction(ParamCts.BROADCAST_READER_BOOT)
+            addAction(ParamCts.BROADCAST_ON_CONNECT)
+            addAction(ParamCts.BROADCAST_ON_LOST_CONNECT)
+            addAction(ParamCts.BROADCAST_ON_DISCONNECT)
+        })
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(br)
+    }
+
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == 288) {
+        if (keyCode == 288 && hasUHF) {
             if (!isLoop) {
                 isLoop = true
                 LiveDataBusEvent.get().with(EventConstant.UHF_KEY_EVENT, Int::class.java)
-                    .postValue(EventConstant.EVENT_UHF_KEY_EVENT_UP)
+                        .postValue(EventConstant.EVENT_UHF_KEY_EVENT_UP)
             }
             return true
         }
@@ -90,11 +132,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == 288) {
+        if (keyCode == 288 && hasUHF) {
             if (isLoop) {
                 isLoop = false
                 LiveDataBusEvent.get().with(EventConstant.UHF_KEY_EVENT, Int::class.java)
-                    .postValue(EventConstant.EVENT_UHF_KEY_EVENT_DOWN)
+                        .postValue(EventConstant.EVENT_UHF_KEY_EVENT_DOWN)
             }
             return true
         }
