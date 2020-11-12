@@ -76,8 +76,6 @@ object EventConstant {
     /** list select 选中 label */
     const val LABEL_SELECT = "label_select"
 
-    /** 盘存底座 KeyEvent 事件 */
-    const val UHF_KEY_EVENT = "uhf_key_event"
 
     /** 过滤器 读取区域 点击 */
     const val EVENT_BLOCK_CLICK = 1010
@@ -163,10 +161,21 @@ object EventConstant {
     const val EVENT_LABEL_LOCATION_CLICK = 1035
 
 
+    /** 盘存底座 KeyEvent 事件 */
+    const val UHF_KEY_EVENT = "uhf_key_event"
 
     /** 盘存底座 KeyEvent UP 事件 */
     const val EVENT_UHF_KEY_EVENT_UP = 9001
 
     /** 盘存底座 KeyEvent DOWN 事件 */
     const val EVENT_UHF_KEY_EVENT_DOWN = 9002
+
+    /** 盘存底座 UHF 连接状态事件 */
+    const val UHF_DEVICE_STATUS = "uhf_device_status"
+
+    /** 盘存底座 UHF 连接状态 */
+    const val EVENT_UHF_DEVICE_CONNECT = 9003
+
+    /** 盘存底座 UHF 连接断开状态 */
+    const val EVENT_UHF_DEVICE_DISCONNECT = 9004
 }
