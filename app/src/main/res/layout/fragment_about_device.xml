@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.sunmi.uhf.fragment.setting.SettingModel" />
@@ -73,6 +75,7 @@
                     android:paddingLeft="@dimen/sunmi_30px"
                     android:paddingRight="@dimen/sunmi_30px"
                     android:text="@string/basic_info_text"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}"
                     android:textColor="@color/color_FF858A95"
                     android:textSize="@dimen/sunmi_24ps" />
 
@@ -81,6 +84,7 @@
                     android:layout_height="@dimen/sunmi_1px"
                     android:layout_marginLeft="@dimen/sunmi_30px"
                     android:layout_marginRight="@dimen/sunmi_30px"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}"
                     android:background="@color/dividerColor" />
 
                 <!--  设备sn -->
@@ -91,6 +95,7 @@
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/sunmi_30px"
                     android:paddingTop="@dimen/sunmi_20px"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}"
                     android:paddingRight="@dimen/sunmi_30px"
                     android:paddingBottom="@dimen/sunmi_20px">
 
@@ -118,6 +123,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sunmi_1px"
                     android:layout_marginLeft="@dimen/sunmi_30px"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}"
                     android:layout_marginRight="@dimen/sunmi_30px"
                     android:background="@color/dividerColor" />
                 <!--  固件版本号 -->
@@ -128,6 +134,7 @@
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/sunmi_30px"
                     android:paddingTop="@dimen/sunmi_20px"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}"
                     android:paddingRight="@dimen/sunmi_30px"
                     android:paddingBottom="@dimen/sunmi_20px">
 
@@ -155,6 +162,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sunmi_1px"
                     android:layout_marginLeft="@dimen/sunmi_30px"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}"
                     android:layout_marginRight="@dimen/sunmi_30px"
                     android:background="@color/dividerColor" />
 
@@ -232,6 +240,7 @@
                     android:layout_height="@dimen/sunmi_1px"
                     android:layout_marginLeft="@dimen/sunmi_30px"
                     android:layout_marginRight="@dimen/sunmi_30px"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}"
                     android:background="@color/dividerColor" />
                 <!--  当前温度 -->
                 <LinearLayout
@@ -241,6 +250,7 @@
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/sunmi_30px"
                     android:paddingTop="@dimen/sunmi_20px"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}"
                     android:paddingRight="@dimen/sunmi_30px"
                     android:paddingBottom="@dimen/sunmi_20px">
 
@@ -267,6 +277,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sunmi_24px"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}"
                     android:background="@color/defaultMainColor" />
 
                 <TextView
@@ -275,6 +286,7 @@
                     android:gravity="center|left"
                     android:paddingLeft="@dimen/sunmi_30px"
                     android:paddingRight="@dimen/sunmi_30px"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}"
                     android:text="@string/handle_battery_text"
                     android:textColor="#FF858A95"
                     android:textSize="@dimen/sunmi_24ps" />
@@ -284,6 +296,7 @@
                     android:layout_height="@dimen/sunmi_1px"
                     android:layout_marginLeft="@dimen/sunmi_30px"
                     android:layout_marginRight="@dimen/sunmi_30px"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}"
                     android:background="@color/dividerColor" />
                 <!--  电池电压 -->
                 <LinearLayout
@@ -293,6 +306,7 @@
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/sunmi_30px"
                     android:paddingTop="@dimen/sunmi_20px"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}"
                     android:paddingRight="@dimen/sunmi_30px"
                     android:paddingBottom="@dimen/sunmi_20px">
 
@@ -321,6 +335,7 @@
                     android:layout_height="@dimen/sunmi_1px"
                     android:layout_marginLeft="@dimen/sunmi_30px"
                     android:layout_marginRight="@dimen/sunmi_30px"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}"
                     android:background="@color/dividerColor" />
                 <!--  电池百分比 -->
                 <LinearLayout
@@ -330,6 +345,7 @@
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/sunmi_30px"
                     android:paddingTop="@dimen/sunmi_20px"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}"
                     android:paddingRight="@dimen/sunmi_30px"
                     android:paddingBottom="@dimen/sunmi_20px">
 
@@ -358,6 +374,7 @@
                     android:layout_height="@dimen/sunmi_1px"
                     android:layout_marginLeft="@dimen/sunmi_30px"
                     android:layout_marginRight="@dimen/sunmi_30px"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}"
                     android:background="@color/dividerColor" />
                 <!--  电池循环次数 -->
                 <LinearLayout
@@ -368,6 +385,7 @@
                     android:paddingLeft="@dimen/sunmi_30px"
                     android:paddingTop="@dimen/sunmi_20px"
                     android:paddingRight="@dimen/sunmi_30px"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}"
                     android:paddingBottom="@dimen/sunmi_20px">
 
                     <TextView
@@ -395,6 +413,7 @@
                     android:layout_height="@dimen/sunmi_1px"
                     android:layout_marginLeft="@dimen/sunmi_30px"
                     android:layout_marginRight="@dimen/sunmi_30px"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}"
                     android:background="@color/dividerColor" />
                 <!--  电池充电状态 -->
                 <LinearLayout
@@ -404,6 +423,7 @@
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/sunmi_30px"
                     android:paddingTop="@dimen/sunmi_20px"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}"
                     android:paddingRight="@dimen/sunmi_30px"
                     android:paddingBottom="@dimen/sunmi_20px">
 
