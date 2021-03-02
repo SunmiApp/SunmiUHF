@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.sunmi.uhf.fragment.setting.SettingModel" />
@@ -70,7 +72,8 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingTop="@dimen/sunmi_20px"
-                    android:paddingBottom="@dimen/sunmi_20px">
+                    android:paddingBottom="@dimen/sunmi_20px"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}">
 
                     <TextView
                         android:layout_width="0dp"
@@ -100,7 +103,8 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sunmi_1px"
-                    android:background="@color/dividerColor" />
+                    android:background="@color/dividerColor"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}" />
                 <!--  手柄选择 -->
 
                 <TextView
@@ -206,12 +210,14 @@
                     android:onClick="@{()->vm.onFirmwareUpdateClick()}"
                     android:text="@string/setting_firmware_update_text"
                     android:textColor="@color/majorTextColor"
-                    android:textSize="@dimen/sunmi_32ps" />
+                    android:textSize="@dimen/sunmi_32ps"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sunmi_1px"
-                    android:background="@color/dividerColor" />
+                    android:background="@color/dividerColor"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}" />
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

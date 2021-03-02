@@ -72,6 +72,8 @@ class SettingModel : BaseViewModel() {
     /* UHF 充电状态 */
     val batteryCharge = MutableLiveData<String>()
 
+    //L2s、L2k适配判断
+    val isL2s = MutableLiveData<Boolean>(false)
 
     /**
      * 返回点击事件
