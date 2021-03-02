@@ -49,6 +49,9 @@ class TakeInventoryModel : BaseViewModel() {
 
     val modelList = createModel()
 
+    //标签信息是否显示
+    val labelVisibility = MutableLiveData<Boolean>(false)
+
     /**
      * 返回点击事件
      */

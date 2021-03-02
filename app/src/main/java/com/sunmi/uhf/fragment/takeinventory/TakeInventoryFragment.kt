@@ -163,6 +163,18 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
             handleData()
         }
         vm.selectModel.value = vm.modelList[mode - 1]
+        RFIDManager.getInstance().apply {
+            if (isConnect) {
+                when (helper.scanModel) {
+                    RFIDManager.UHF_R2000 -> {
+                        vm.labelVisibility.postValue(true)
+                    }
+                    RFIDManager.INNER -> {
+                        vm.labelVisibility.postValue(false)
+                    }
+                }
+            }
+        }
     }
 
     override fun onSimpleViewEvent(event: SimpleViewEvent) {
