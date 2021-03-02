@@ -225,6 +225,7 @@
                         android:textSize="@dimen/sunmi_32ps" />
 
                     <TextView
+                        android:id="@+id/tv_model_type"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"

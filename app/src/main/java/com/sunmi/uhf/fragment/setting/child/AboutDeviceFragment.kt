@@ -170,10 +170,10 @@ class AboutDeviceFragment : BaseFragment<FragmentAboutDeviceBinding>() {
                     }
                     RFIDManager.INNER -> {
                         helper.registerReaderCall(optCall)
-                        /* SN */
-                        helper.getReaderSN()
                         /* UHF 固件版本 */
                         helper.getFirmwareVersion()
+                        /* 模块类型 */
+                        binding.tvModelType.text = getString(R.string.module_type_inner)
                         vm.isL2s.postValue(true)
                     }
                 }
