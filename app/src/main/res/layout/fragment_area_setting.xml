@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.sunmi.uhf.fragment.setting.SettingModel" />
@@ -74,7 +76,8 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingTop="@dimen/sunmi_20px"
-                    android:paddingBottom="@dimen/sunmi_20px">
+                    android:paddingBottom="@dimen/sunmi_20px"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}">
 
                     <TextView
                         android:layout_width="0dp"
@@ -99,7 +102,8 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sunmi_1px"
-                    android:background="@color/dividerColor" />
+                    android:background="@color/dividerColor"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}" />
                 <!--  区域国家 -->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -108,7 +112,8 @@
                     android:onClick="@{()-> vm.onAreaCountryClick()}"
                     android:orientation="horizontal"
                     android:paddingTop="@dimen/sunmi_20px"
-                    android:paddingBottom="@dimen/sunmi_20px">
+                    android:paddingBottom="@dimen/sunmi_20px"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}">
 
                     <TextView
                         android:layout_width="0dp"
@@ -135,15 +140,16 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sunmi_1px"
-                    android:background="@color/dividerColor" />
+                    android:background="@color/dividerColor"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}" />
 
-                <!--  其实频率 -->
+                <!--  起始频率 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sunmi_100px"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal"
                     android:onClick="@{()-> vm.onRFStartClick()}"
+                    android:orientation="horizontal"
                     android:paddingTop="@dimen/sunmi_20px"
                     android:paddingBottom="@dimen/sunmi_20px">
 
@@ -172,17 +178,19 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sunmi_1px"
-                    android:background="@color/dividerColor" />
+                    android:background="@color/dividerColor"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}" />
 
                 <!--  截止频率 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sunmi_100px"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal"
                     android:onClick="@{()-> vm.onRFEndClick()}"
+                    android:orientation="horizontal"
                     android:paddingTop="@dimen/sunmi_20px"
-                    android:paddingBottom="@dimen/sunmi_20px">
+                    android:paddingBottom="@dimen/sunmi_20px"
+                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}">
 
                     <TextView
                         android:layout_width="0dp"
@@ -195,6 +203,84 @@
 
                     <TextView
                         android:id="@+id/rf_end_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableRight="@drawable/right_arrow_icon"
+                        android:drawablePadding="@dimen/sunmi_10px"
+                        android:gravity="center|right"
+                        android:textColor="@color/color_FF858A95"
+                        android:textSize="@dimen/sunmi_24ps"
+                        tools:text="EPC" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_1px"
+                    android:background="@color/dividerColor"
+                    android:visibility="@{vm.isL2s()? View.VISIBLE:View.GONE}" />
+
+                <!--  频点间隔 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_100px"
+                    android:gravity="center_vertical"
+                    android:onClick="@{()-> vm.onFqIntervalClick()}"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/sunmi_20px"
+                    android:paddingBottom="@dimen/sunmi_20px"
+                    android:visibility="@{vm.isL2s()? View.VISIBLE:View.GONE}">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:text="@string/setting_fq_interval_text"
+                        android:textColor="@color/majorTextColor"
+                        android:textSize="@dimen/sunmi_32ps" />
+
+                    <TextView
+                        android:id="@+id/tv_fq_interval"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableRight="@drawable/right_arrow_icon"
+                        android:drawablePadding="@dimen/sunmi_10px"
+                        android:gravity="center|right"
+                        android:textColor="@color/color_FF858A95"
+                        android:textSize="@dimen/sunmi_24ps"
+                        tools:text="EPC" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_1px"
+                    android:background="@color/dividerColor"
+                    android:visibility="@{vm.isL2s()? View.VISIBLE:View.GONE}" />
+
+                <!--  频点数量 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sunmi_100px"
+                    android:gravity="center_vertical"
+                    android:onClick="@{()-> vm.onFqQuantityClick()}"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/sunmi_20px"
+                    android:paddingBottom="@dimen/sunmi_20px"
+                    android:visibility="@{vm.isL2s()? View.VISIBLE:View.GONE}">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:text="@string/setting_fq_quantity_text"
+                        android:textColor="@color/majorTextColor"
+                        android:textSize="@dimen/sunmi_32ps" />
+
+                    <TextView
+                        android:id="@+id/tv_fq_quantity"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.Observer
 import com.sunmi.rfid.RFIDManager
 import com.sunmi.rfid.ReaderCall
@@ -41,6 +42,8 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
     private var rfInterval: Int = -1
     private var rfQuantity: Int = -1
     private var countryList: ArrayList<String> = ArrayList()
+    private var fqIntervalList: ArrayList<String> = ArrayList()
+    private var fqQuantityList: ArrayList<String> = ArrayList()
     private var sn: String = ""
     private val br = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -109,7 +112,12 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
             if (BuildConfig.DEBUG) {
                 LogUtils.e(
                     "darren",
-                    String.format("CMD: 0x%02X, Error Code: 0x%02X, msg info: %s", cmd, errorCode, msg)
+                    String.format(
+                        "CMD: 0x%02X, Error Code: 0x%02X, msg info: %s",
+                        cmd,
+                        errorCode,
+                        msg
+                    )
                 )
             }
             mainScope.launch {
@@ -127,7 +135,7 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
     }
 
     override fun initView() {
-        vm.title.value = resources.getString(R.string.setting_select_area_text)
+//        vm.title.value = resources.getString(R.string.setting_select_area_text)
     }
 
     override fun initData() {
@@ -137,11 +145,25 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                 when (helper.scanModel) {
                     // UHF R2000
                     RFIDManager.UHF_R2000 -> {
+                        vm.title.value = resources.getString(R.string.setting_select_area_text)
                         helper.getReaderSN()
                         helper.getFrequencyRegion()
+                        vm.isL2s.postValue(false)
                     }
                     RFIDManager.INNER -> {
+                        vm.title.value = resources.getString(R.string.setting_frequency_text)
                         binding.moduleNameTv.text = getString(R.string.module_type_inner)
+                        fqIntervalList.clear()
+                        fqQuantityList.clear()
+                        for (i in 1..88) {
+                            fqIntervalList.add("$i")
+                        }
+                        for (i in 1..60) {
+                            fqQuantityList.add("$i")
+                        }
+                        helper.getReaderSN()
+                        helper.getFrequencyRegion()
+                        vm.isL2s.postValue(true)
                     }
                     else -> {
                         binding.moduleNameTv.text = ""
@@ -161,6 +183,10 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                         EventConstant.EVENT_AREA_RF_END -> {
                             setSelectRF(it.type, it.select)
                         }
+                        EventConstant.EVENT_FQ_INTERVAL,
+                        EventConstant.EVENT_FQ_QUANTITY -> {
+                            setUserDefineFq(it.type, it.select)
+                        }
                     }
                 }
             })
@@ -174,7 +200,10 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
             }
             EventConstant.EVENT_AREA_COUNTRY -> {
                 val args = Bundle().apply {
-                    putString(Constant.KEY_TITLE, resources.getString(R.string.hint_please_select_opt_area_country))
+                    putString(
+                        Constant.KEY_TITLE,
+                        resources.getString(R.string.hint_please_select_opt_area_country)
+                    )
                     putStringArrayList(Constant.KEY_LIST, countryList)
                     putParcelable(
                         Constant.KEY_SELECT,
@@ -195,6 +224,50 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
             EventConstant.EVENT_AREA_RF_END -> {
                 showRFSelect(event.event)
             }
+            //频点间隔选择
+            EventConstant.EVENT_FQ_INTERVAL -> {
+                val args = Bundle().apply {
+                    putString(
+                        Constant.KEY_TITLE,
+                        resources.getString(R.string.hint_please_select_fq_interval)
+                    )
+                    putStringArrayList(Constant.KEY_LIST, fqIntervalList)
+                    putParcelable(
+                        Constant.KEY_SELECT,
+                        CommonListBean(
+                            type = EventConstant.EVENT_FQ_INTERVAL,
+                            select = binding.tvFqInterval.text.toString()
+                        )
+                    )
+                }
+                switchFragment(
+                    ListFragment.newInstance(args),
+                    addToBackStack = true,
+                    clearStack = false
+                )
+            }
+            //频点数量选择
+            EventConstant.EVENT_FQ_QUANTITY -> {
+                val args = Bundle().apply {
+                    putString(
+                        Constant.KEY_TITLE,
+                        resources.getString(R.string.hint_please_select_fq_quantity)
+                    )
+                    putStringArrayList(Constant.KEY_LIST, fqQuantityList)
+                    putParcelable(
+                        Constant.KEY_SELECT,
+                        CommonListBean(
+                            type = EventConstant.EVENT_FQ_QUANTITY,
+                            select = binding.tvFqQuantity.text.toString()
+                        )
+                    )
+                }
+                switchFragment(
+                    ListFragment.newInstance(args),
+                    addToBackStack = true,
+                    clearStack = false
+                )
+            }
         }
     }
 
@@ -206,11 +279,29 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
             EventConstant.EVENT_AREA_RF_START -> {
                 title = resources.getString(R.string.hint_please_select_opt_start_rf)
                 str = binding.rfStartTv.text.toString()
-                val end = ParamCts.getParamsToRf(rfEnd).toInt()
-                for (i in rfBand[1]..end) {
-                    list.add("$i.0 MHz")
-                    if (i < end) {
-                        list.add("$i.5 MHz")
+                RFIDManager.getInstance().apply {
+                    if (isConnect) {
+                        when (helper.scanModel) {
+                            RFIDManager.UHF_R2000 -> {
+                                val end = ParamCts.getParamsToRf(rfEnd).toInt()
+                                for (i in rfBand[1]..end) {
+                                    list.add("$i.0 MHz")
+                                    if (i < end) {
+                                        list.add("$i.5 MHz")
+                                    }
+                                }
+                            }
+                            RFIDManager.INNER -> {
+                                val band = ParamCts.getRFFrequencyBand(helper.scanModel, sn)
+                                val end = band[2]
+                                for (i in band[1]..end) {
+                                    list.add("$i.0 MHz")
+                                    if (i < end) {
+                                        list.add("$i.5 MHz")
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -249,11 +340,25 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
             }
             RFIDManager.getInstance().apply {
                 if (isConnect) {
-                    helper.setFrequencyRegion(rfRegion.toByte(), rfStart.toByte(), rfEnd.toByte())
+                    when (rfRegion) {
+                        in 1..3 -> {
+                            helper.setFrequencyRegion(
+                                rfRegion.toByte(),
+                                rfStart.toByte(),
+                                rfEnd.toByte()
+                            )
+                        }
+                        4 -> {
+                            helper.setUserDefineFrequency(
+                                rfInterval.toByte(),
+                                rfQuantity.toByte(),
+                                (select.replace(" MHz", "").toFloat() * 1000).toInt()
+                            )
+                        }
+                    }
                 }
             }
         }
-
     }
 
     fun notifyDataChange() {
@@ -274,7 +379,8 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                                 //FCC
                                 0x01 -> {
                                     res = R.array.area_country_america_array
-                                    binding.moduleNameTv.text = getString(R.string.module_type_america)
+                                    binding.moduleNameTv.text =
+                                        getString(R.string.module_type_america)
                                     if (rfBand[0] != 1) {
                                         rfBand[0] = 1
                                         rfBand[1] = 902
@@ -285,7 +391,8 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                                 //ETSI
                                 0x02 -> {
                                     res = R.array.area_country_europe_array
-                                    binding.moduleNameTv.text = getString(R.string.module_type_europe)
+                                    binding.moduleNameTv.text =
+                                        getString(R.string.module_type_europe)
                                     if (rfBand[0] != 1) {
                                         rfBand[0] = 1
                                         rfBand[1] = 865
@@ -296,7 +403,8 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                                 //CHN
                                 0x03 -> {
                                     res = R.array.area_country_china_array
-                                    binding.moduleNameTv.text = getString(R.string.module_type_china)
+                                    binding.moduleNameTv.text =
+                                        getString(R.string.module_type_china)
                                     if (rfBand[0] != 1) {
                                         rfBand[0] = 1
                                         rfBand[1] = 920
@@ -339,7 +447,8 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                                     }
                                 }
                                 if (isFindCountry) {
-                                    binding.areaCountryTv.text = getString(R.string.hint_please_auto_set)
+                                    binding.areaCountryTv.text =
+                                        getString(R.string.hint_please_auto_set)
                                 }
                             }
 
@@ -347,8 +456,10 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                         RFIDManager.INNER -> {
                             binding.moduleNameTv.text = getString(R.string.module_type_inner)
                             binding.areaCountryTv.text = ""
-                            binding.rfStartTv.text = ""
+                            binding.rfStartTv.text = getString(R.string.x_mhz, rfStart)
                             binding.rfEndTv.text = ""
+                            binding.tvFqInterval.text = rfInterval.toString()
+                            binding.tvFqQuantity.text = rfQuantity.toString()
                         }
                         else -> {
                             binding.moduleNameTv.text = ""
@@ -373,7 +484,11 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                 getCountryRF(rf)?.let {
                     val startRf = ParamCts.getRfToParams((it[0] * 10).toInt())
                     val endRf = ParamCts.getRfToParams((it[1] * 10).toInt())
-                    helper.setFrequencyRegion(getRFRegion().toByte(), startRf.toByte(), endRf.toByte())
+                    helper.setFrequencyRegion(
+                        getRFRegion().toByte(),
+                        startRf.toByte(),
+                        endRf.toByte()
+                    )
                 }
             }
         }
@@ -387,6 +502,42 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
             return doubleArrayOf(start, end)
         }
         return null
+    }
+
+    /**
+     * 自定义频点设置
+     */
+    private fun setUserDefineFq(type: Int?, select: String?) {
+        select?.let {
+            if (it.isNotEmpty()) {
+                when (type) {
+                    //频点间隔设置
+                    EventConstant.EVENT_FQ_INTERVAL -> {
+                        binding.tvFqInterval.text = it
+                        rfInterval = it.toInt()
+                    }
+                    //频点数量设置
+                    EventConstant.EVENT_FQ_QUANTITY -> {
+                        binding.tvFqQuantity.text = it
+                        rfQuantity = it.toInt()
+                    }
+                }
+                RFIDManager.getInstance().apply {
+                    if (isConnect) {
+                        Log.d(
+                            "setUserDefineFq",
+                            "binding.rfStartTv.text: " + binding.rfStartTv.text.toString()
+                        )
+                        Log.d("setUserDefineFq", "rfStart: $rfStart")
+                        helper.setUserDefineFrequency(
+                            rfInterval.toByte(),
+                            rfQuantity.toByte(),
+                            rfStart * 1000
+                        )
+                    }
+                }
+            }
+        }
     }
 
     override fun onStart() {

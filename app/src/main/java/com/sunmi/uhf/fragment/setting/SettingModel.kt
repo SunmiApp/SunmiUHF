@@ -132,6 +132,20 @@ class SettingModel : BaseViewModel() {
     }
 
     /**
+     * 频率设置 - 频点间隔
+     */
+    fun onFqIntervalClick() {
+        EventConstant.EVENT_FQ_INTERVAL.publish()
+    }
+
+    /**
+     * 频率设置 - 频点数量
+     */
+    fun onFqQuantityClick() {
+        EventConstant.EVENT_FQ_QUANTITY.publish()
+    }
+
+    /**
      * 常规设置点击事件
      */
     fun onCommonSettingClick() {

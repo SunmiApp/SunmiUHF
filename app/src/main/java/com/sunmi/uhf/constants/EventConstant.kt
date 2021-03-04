@@ -160,6 +160,12 @@ object EventConstant {
     /** 标签定位 点击 */
     const val EVENT_LABEL_LOCATION_CLICK = 1035
 
+    /** 频率设置 - 频点间隔 */
+    const val EVENT_FQ_INTERVAL = 1036
+
+    /** 频率设置 - 频点数量 */
+    const val EVENT_FQ_QUANTITY = 1037
+
 
     /** 盘存底座 KeyEvent 事件 */
     const val UHF_KEY_EVENT = "uhf_key_event"
