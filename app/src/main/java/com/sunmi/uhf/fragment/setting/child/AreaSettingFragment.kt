@@ -524,11 +524,6 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                 }
                 RFIDManager.getInstance().apply {
                     if (isConnect) {
-                        Log.d(
-                            "setUserDefineFq",
-                            "binding.rfStartTv.text: " + binding.rfStartTv.text.toString()
-                        )
-                        Log.d("setUserDefineFq", "rfStart: $rfStart")
                         helper.setUserDefineFrequency(
                             rfInterval.toByte(),
                             rfQuantity.toByte(),

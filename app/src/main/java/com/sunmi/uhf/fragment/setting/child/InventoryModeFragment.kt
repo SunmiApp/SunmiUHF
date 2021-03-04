@@ -78,13 +78,13 @@ class InventoryModeFragment : BaseFragment<FragmentSettingInventoryModeBinding>(
         binding.balanceLl.modeNameTv.text = resources.getString(R.string.balance_mode_text)
         binding.balanceLl.modeDesTv.text = resources.getString(R.string.balance_mode_tip_text)
         binding.balanceLl.sessionTv.text = "S1"
-        binding.balanceLl.powerTv.text = "30"
+        binding.balanceLl.powerTv.text = getPower()
         binding.balanceLl.powerSw.isChecked =
             App.getPref().getParam(Config.KEY_TAKE_AUTO_POWER + Constant.INT_BALANCE_MODE, Config.DEF_TAKE_AUTO_POWER)
         /* 高速 模式 */
         binding.speedLl.modeNameTv.text = resources.getString(R.string.speed_mode_text)
         binding.speedLl.modeDesTv.text = resources.getString(R.string.speed_mode_tip_text)
-        binding.speedLl.powerTv.text = "30"
+        binding.speedLl.powerTv.text = getPower()
         binding.speedLl.sessionLl.visibility = View.GONE
         binding.speedLl.sessionLlV.visibility = View.GONE
         binding.speedLl.powerSwFl.visibility = View.GONE
@@ -93,7 +93,7 @@ class InventoryModeFragment : BaseFragment<FragmentSettingInventoryModeBinding>(
         binding.iteratorLl.modeNameTv.text = resources.getString(R.string.iterator_mode_text)
         binding.iteratorLl.modeDesTv.text = resources.getString(R.string.iterator_mode_tip_text)
         binding.iteratorLl.sessionTv.text = "S2"
-        binding.iteratorLl.powerTv.text = "30"
+        binding.iteratorLl.powerTv.text = getPower()
         binding.iteratorLl.powerSw.isChecked =
             App.getPref().getParam(Config.KEY_TAKE_AUTO_POWER + Constant.INT_ITERATOR_MODE, Config.DEF_TAKE_AUTO_POWER)
 
@@ -285,6 +285,23 @@ class InventoryModeFragment : BaseFragment<FragmentSettingInventoryModeBinding>(
                 helper.setOutputAllPower(power.toByte())
             }
         }
+    }
+
+    private fun getPower():String{
+        var power = "30"
+        RFIDManager.getInstance().apply {
+            if (isConnect) {
+                when (helper.scanModel) {
+                    RFIDManager.UHF_R2000 -> {
+                        power = "30"
+                    }
+                    RFIDManager.INNER -> {
+                        power = "26"
+                    }
+                }
+            }
+        }
+        return power
     }
 
     override fun onDestroyView() {
