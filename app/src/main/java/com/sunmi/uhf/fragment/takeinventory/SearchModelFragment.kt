@@ -74,7 +74,7 @@ class SearchModelFragment : BaseFragment<FragmentSearchBinding>() {
                         if (it.isNotEmpty()) {
                             curList.clear()
                             for (bean in allList) {
-                                if (bean.epc?.contains(it) == true) {
+                                if (bean.epc?.replace(" ", "")?.contains(it) == true) {
                                     curList.add(bean)
                                 }
                             }
