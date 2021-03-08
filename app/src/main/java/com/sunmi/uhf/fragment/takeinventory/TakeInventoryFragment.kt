@@ -307,7 +307,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
             val data = ArrayList<LabelInfoBean>(adapter.selectData.values)
             var file = ExcelUtils.writeTagToExcel("${dir.absolutePath}/tagList", data)
             mainScope.launch {
-                ShareUtils.shareFile(App.mContext, file)
+                ShareUtils.shareFile(activity, file)
             }
         }
     }
