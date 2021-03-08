@@ -1,6 +1,7 @@
 package com.sunmi.uhf.fragment.home
 
 
+import androidx.lifecycle.MutableLiveData
 import com.sunmi.uhf.base.BaseViewModel
 import com.sunmi.uhf.constants.EventConstant
 
@@ -12,6 +13,10 @@ import com.sunmi.uhf.constants.EventConstant
  * @UpdateDate: 20-9-8 下午4:31
  */
 class HomeViewMode : BaseViewModel() {
+
+    //L2s、L2k适配判断
+    val isL2s = MutableLiveData<Boolean>(false)
+
     /**
      * 快速读取的点击事件
      */

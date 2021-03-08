@@ -95,6 +95,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun initData() {
         setCalculateLevel(App.getPref().getParam(Config.ELEC_CACHE, 0))
+        RFIDManager.getInstance().apply {
+            if (isConnect) {
+                when (helper.scanModel) {
+                    RFIDManager.UHF_R2000 -> {
+                        vm.isL2s.postValue(false)
+                    }
+                    RFIDManager.INNER -> {
+                        vm.isL2s.postValue(true)
+                    }
+                }
+            }
+        }
     }
 
     override fun onSimpleViewEvent(event: SimpleViewEvent) {
