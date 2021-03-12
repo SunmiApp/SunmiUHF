@@ -15,7 +15,7 @@ import com.sunmi.uhf.constants.EventConstant
 class HomeViewMode : BaseViewModel() {
 
     //L2s、L2k适配判断
-    val isL2s = MutableLiveData<Boolean>(false)
+    val isL2s = MutableLiveData<Boolean>(true)
 
     /**
      * 快速读取的点击事件
