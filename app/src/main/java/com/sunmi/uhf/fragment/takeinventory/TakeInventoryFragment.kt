@@ -442,8 +442,9 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
     }
 
     override fun onPause() {
-        super.onPause()
         startStop(false)
+        vm.start.postValue(false)
+        super.onPause()
     }
 
     override fun onDestroyView() {
@@ -456,7 +457,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
 
     private fun startStop(en: Boolean) {
         if (isLoop == en) return
-        vm.start.postValue(en)
+//        vm.start.postValue(en)
         if (en) {
             tidList.clear()
             tagList.clear()
