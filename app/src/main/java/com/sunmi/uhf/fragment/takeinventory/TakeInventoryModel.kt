@@ -1,6 +1,9 @@
 package com.sunmi.uhf.fragment.takeinventory
 
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
+import com.sunmi.uhf.App
+import com.sunmi.uhf.R
 import com.sunmi.uhf.base.BaseViewModel
 import com.sunmi.uhf.bean.LabelInfoBean
 import com.sunmi.uhf.constants.EventConstant
@@ -140,10 +143,10 @@ class TakeInventoryModel : BaseViewModel() {
 
     fun createModel(): MutableList<String> {
         val list = mutableListOf<String>()
-        list.add("平衡")
-        list.add("快速")
-        list.add("遍历")
-        list.add("自定义")
+        list.add(App.mContext.resources.getString(R.string.inventory_mode_balance))
+        list.add(App.mContext.resources.getString(R.string.inventory_mode_speed))
+        list.add(App.mContext.resources.getString(R.string.inventory_mode_iterator))
+        list.add(App.mContext.resources.getString(R.string.inventory_mode_custom))
         return list
     }
 }

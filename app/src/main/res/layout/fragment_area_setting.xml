@@ -234,8 +234,10 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
+                        android:ellipsize="end"
                         android:gravity="center|left"
+                        android:singleLine="true"
                         android:text="@string/setting_fq_interval_text"
                         android:textColor="@color/majorTextColor"
                         android:textSize="@dimen/sunmi_32ps" />
@@ -273,7 +275,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:gravity="center|left"
                         android:text="@string/setting_fq_quantity_text"
                         android:textColor="@color/majorTextColor"
@@ -286,7 +288,9 @@
                         android:layout_weight="1"
                         android:drawableRight="@drawable/right_arrow_icon"
                         android:drawablePadding="@dimen/sunmi_10px"
+                        android:ellipsize="end"
                         android:gravity="center|right"
+                        android:singleLine="true"
                         android:textColor="@color/color_FF858A95"
                         android:textSize="@dimen/sunmi_24ps"
                         tools:text="EPC" />

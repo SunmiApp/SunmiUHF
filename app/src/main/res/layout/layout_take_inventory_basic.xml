@@ -52,6 +52,7 @@
             android:text="@string/total_number_text"
             android:textColor="@color/primaryTextColor"
             android:textSize="@dimen/sunmi_24ps"
+            app:layout_constraintBaseline_toBaselineOf="@+id/effect_label_tv"
             app:layout_constraintBottom_toBottomOf="@id/effect_label_tv"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintLeft_toRightOf="@id/speed_tv"
