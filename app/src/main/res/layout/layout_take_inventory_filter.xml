@@ -42,6 +42,8 @@
             android:gravity="center|left"
             android:onClick="@{()->vm.onTakeModelClick()}"
             android:paddingLeft="@dimen/sunmi_24px"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:paddingRight="@dimen/sunmi_24px"
             android:text='@{TextUtils.isEmpty(vm.selectModel)?"":vm.selectModel}'
             android:textColor="@color/majorTextColor"
