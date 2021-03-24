@@ -92,8 +92,9 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
     }
 
     override fun onPause() {
-        super.onPause()
         startStop(false)
+        vm.start.postValue(false)
+        super.onPause()
     }
 
     override fun onDestroyView() {
@@ -103,7 +104,7 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
 
     private fun startStop(en: Boolean) {
         if (isLoop == en) return
-        vm.start.postValue(en)
+//        vm.start.postValue(en)
         if (en) {
             tidList.clear()
             tagList.clear()

@@ -6,6 +6,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.sunmi.uhf.fragment.home.HomeViewMode" />
@@ -37,6 +39,7 @@
             android:text="@string/home_power_text"
             android:textColor="@color/majorTextColor"
             android:textSize="@dimen/sunmi_24ps"
+            android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@id/home_title_tv"
             app:layout_constraintRight_toLeftOf="@+id/power_status_iv"
             app:layout_constraintRight_toRightOf="parent"
@@ -49,6 +52,7 @@
             android:layout_marginRight="@dimen/sunmi_30px"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_battery"
+            android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@id/power_status_tv"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/power_status_tv"
@@ -94,6 +98,7 @@
             app:layout_constraintLeft_toRightOf="@id/fast_read_write_tv"
             app:layout_constraintRight_toRightOf="@id/power_status_iv"
             app:layout_constraintTop_toTopOf="@id/fast_read_write_tv"
+            app:layout_goneMarginRight="@dimen/sunmi_30px"
             sunmi:outline="@{`12`}" />
 
 
@@ -153,6 +158,7 @@
             android:text="@string/label_filter_text"
             android:textColor="@color/majorTextColor"
             android:textSize="@dimen/sunmi_32ps"
+            android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}"
             app:layout_constraintLeft_toLeftOf="@id/label_operation_tv"
             app:layout_constraintRight_toRightOf="@id/label_location_tv"
             app:layout_constraintTop_toBottomOf="@id/label_operation_tv" />
@@ -162,6 +168,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/sunmi_1px"
             android:background="@color/dividerColor"
+            android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}"
             app:layout_constraintLeft_toLeftOf="@id/label_filter_tv"
             app:layout_constraintRight_toRightOf="@id/label_filter_tv"
             app:layout_constraintTop_toBottomOf="@id/label_filter_tv" />
@@ -178,9 +185,10 @@
             android:text="@string/setting_text"
             android:textColor="@color/majorTextColor"
             android:textSize="@dimen/sunmi_32ps"
-            app:layout_constraintLeft_toLeftOf="@id/label_filter_line"
-            app:layout_constraintRight_toRightOf="@id/label_filter_line"
-            app:layout_constraintTop_toBottomOf="@id/label_filter_line" />
+            app:layout_constraintLeft_toLeftOf="@id/label_operation_tv"
+            app:layout_constraintRight_toRightOf="@id/label_location_tv"
+            app:layout_constraintTop_toBottomOf="@id/label_filter_line"
+            app:layout_goneMarginTop="@dimen/sunmi_30px" />
 
         <View
             android:layout_width="0dp"

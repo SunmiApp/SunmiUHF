@@ -67,6 +67,11 @@ class LabelLocationFragment : ReadBaseFragment<FragmentLabelLocationBinding>() {
         }
     }
 
+    override fun onPause() {
+        startStop(false)
+        super.onPause()
+    }
+
     private fun startStop(en: Boolean) {
         if (isLoop == en) return
         targetId = binding.epcEt.text.toString().replace(" ", "").toUpperCase()

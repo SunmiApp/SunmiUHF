@@ -163,6 +163,18 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
             handleData()
         }
         vm.selectModel.value = vm.modelList[mode - 1]
+        RFIDManager.getInstance().apply {
+            if (isConnect) {
+                when (helper.scanModel) {
+                    RFIDManager.UHF_R2000 -> {
+                        vm.labelVisibility.postValue(true)
+                    }
+                    RFIDManager.INNER -> {
+                        vm.labelVisibility.postValue(false)
+                    }
+                }
+            }
+        }
     }
 
     override fun onSimpleViewEvent(event: SimpleViewEvent) {
@@ -295,7 +307,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
             val data = ArrayList<LabelInfoBean>(adapter.selectData.values)
             var file = ExcelUtils.writeTagToExcel("${dir.absolutePath}/tagList", data)
             mainScope.launch {
-                ShareUtils.shareFile(App.mContext, file)
+                ShareUtils.shareFile(activity, file)
             }
         }
     }
@@ -430,8 +442,9 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
     }
 
     override fun onPause() {
-        super.onPause()
         startStop(false)
+        vm.start.postValue(false)
+        super.onPause()
     }
 
     override fun onDestroyView() {
@@ -444,7 +457,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
 
     private fun startStop(en: Boolean) {
         if (isLoop == en) return
-        vm.start.postValue(en)
+//        vm.start.postValue(en)
         if (en) {
             tidList.clear()
             tagList.clear()

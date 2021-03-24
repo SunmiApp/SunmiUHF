@@ -2,6 +2,7 @@ package com.sunmi.uhf.fragment.setting
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
+import com.sunmi.rfid.RFIDManager
 import com.sunmi.uhf.App
 import com.sunmi.uhf.R
 import com.sunmi.uhf.base.BaseFragment
@@ -40,6 +41,18 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
                     vm.labelName.value = it.select
                     App.getPref().setParam(Config.KEY_LABEL, it.index ?: Config.DEF_LABEL)
                 })
+        RFIDManager.getInstance().apply {
+            if (isConnect) {
+                when (helper.scanModel) {
+                    RFIDManager.UHF_R2000 -> {
+                        vm.isL2s.postValue(false)
+                    }
+                    RFIDManager.INNER -> {
+                        vm.isL2s.postValue(true)
+                    }
+                }
+            }
+        }
     }
 
     override fun onSimpleViewEvent(event: SimpleViewEvent) {

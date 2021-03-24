@@ -8,6 +8,8 @@
 
         <import type="android.text.TextUtils" />
 
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.sunmi.uhf.fragment.takeinventory.TakeInventoryModel" />
@@ -40,6 +42,8 @@
             android:gravity="center|left"
             android:onClick="@{()->vm.onTakeModelClick()}"
             android:paddingLeft="@dimen/sunmi_24px"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:paddingRight="@dimen/sunmi_24px"
             android:text='@{TextUtils.isEmpty(vm.selectModel)?"":vm.selectModel}'
             android:textColor="@color/majorTextColor"
@@ -91,6 +95,12 @@
             app:layout_constraintRight_toLeftOf="@id/label_info_value_tv"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
+
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{vm.labelVisibility? View.VISIBLE:View.GONE}"
+            app:constraint_referenced_ids="label_info_tv,label_info_value_tv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

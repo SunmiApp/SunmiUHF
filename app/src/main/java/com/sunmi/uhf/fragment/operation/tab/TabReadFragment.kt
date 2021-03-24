@@ -165,14 +165,14 @@ class TabReadFragment : BaseFragment<TabReadWriteBinding>() {
         if (pwd == null || pwd.isEmpty()) return
         this.pwd = pwd
         // address
-        val address = vm.startLocation.value?.toInt() ?: -1
+        val address = if(vm.startLocation.value.isNullOrEmpty()) -1 else vm.startLocation.value!!.toInt()
         if (address < 0) {
             showShort(R.string.param_start_address_error)
             return
         }
         this.address = address.toByte()
         // data len
-        val len = vm.dataLength.value?.toInt() ?: -1
+        val len = if(vm.dataLength.value.isNullOrEmpty()) -1 else vm.dataLength.value!!.toInt()
         if (len < 0) {
             showShort(R.string.param_data_len_error)
             return

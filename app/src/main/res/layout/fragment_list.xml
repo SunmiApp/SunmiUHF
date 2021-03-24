@@ -41,6 +41,8 @@
                 android:layout_height="0dp"
                 android:gravity="center|left"
                 android:text="@{vm.title}"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:textColor="@color/majorTextColor"
                 android:textSize="@dimen/sunmi_40ps"
                 app:layout_constraintBottom_toBottomOf="@id/back_iv"

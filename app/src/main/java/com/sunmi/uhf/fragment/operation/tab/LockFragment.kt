@@ -137,7 +137,7 @@ class LockFragment : BaseFragment<TabLockBinding>() {
             optArea = 0x01
         }
         if (vm.typeData.value == null) {
-            vm.typeData.value = "开放"
+            vm.typeData.value = resources.getString(R.string.lock_mode_open)
             optType = 0x00
         }
     }

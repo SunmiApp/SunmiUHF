@@ -166,9 +166,15 @@ class AboutDeviceFragment : BaseFragment<FragmentAboutDeviceBinding>() {
                         helper.getBatteryChargeNumTimes()
                         /* UHF 充电状态 */
                         helper.getBatteryChargeState()
+                        vm.isL2s.postValue(false)
                     }
                     RFIDManager.INNER -> {
-
+                        helper.registerReaderCall(optCall)
+                        /* UHF 固件版本 */
+                        helper.getFirmwareVersion()
+                        /* 模块类型 */
+                        binding.tvModelType.text = getString(R.string.module_type_inner)
+                        vm.isL2s.postValue(true)
                     }
                 }
             }

@@ -72,6 +72,8 @@ class SettingModel : BaseViewModel() {
     /* UHF 充电状态 */
     val batteryCharge = MutableLiveData<String>()
 
+    //L2s、L2k适配判断
+    val isL2s = MutableLiveData<Boolean>(false)
 
     /**
      * 返回点击事件
@@ -127,6 +129,20 @@ class SettingModel : BaseViewModel() {
      */
     fun onRFEndClick() {
         EventConstant.EVENT_AREA_RF_END.publish()
+    }
+
+    /**
+     * 频率设置 - 频点间隔
+     */
+    fun onFqIntervalClick() {
+        EventConstant.EVENT_FQ_INTERVAL.publish()
+    }
+
+    /**
+     * 频率设置 - 频点数量
+     */
+    fun onFqQuantityClick() {
+        EventConstant.EVENT_FQ_QUANTITY.publish()
     }
 
     /**

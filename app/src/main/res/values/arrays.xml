@@ -17,10 +17,10 @@
     </string-array>
     <!--锁操作类型:0x00:开放，0x01:锁定，0x02:永久开放，0x03:永久锁定-->
     <string-array name="type_array">
-        <item>开放</item>
-        <item>锁定</item>
-        <item>永久开放</item>
-        <item>永久锁定</item>
+        <item>@string/lock_mode_open</item>
+        <item>@string/lock_mode_locked</item>
+        <item>@string/lock_mode_open_forever</item>
+        <item>@string/lock_mode_locked_forever</item>
     </string-array>
 
     <string-array name="session_array">
@@ -43,8 +43,8 @@
     </string-array>
 
     <string-array name="hand_type_array">
-        <item>长按触发</item>
-        <item>点按触发</item>
+        <item>@string/handle_trigger_mode_long_press</item>
+        <item>@string/handle_trigger_mode_tap</item>
     </string-array>
 
     <string-array name="label_array">

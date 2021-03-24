@@ -1,0 +1,243 @@
+<resources>
+    <string name="app_name">UHF</string>
+    <string name="home_title_text">首页</string>
+    <string name="home_power_text">手柄电量</string>
+    <string name="fast_read_write_text">快速读取</string>
+    <string name="take_inventory_text">盘存</string>
+    <string name="label_operation_text">标签操作</string>
+    <string name="label_location_text">标签定位</string>
+    <string name="label_filter_text">标签过滤</string>
+    <string name="setting_text">设置</string>
+    <string name="label_number_text">标签数</string>
+    <string name="read_write_number_total">累计读取数</string>
+    <string name="read_write_speed_text">读取速度</string>
+    <string name="read_write_time_text">读取时间</string>
+    <string name="start_text">开始</string>
+    <string name="stop_text">暂停</string>
+    <string name="speed_unit_text">个/秒</string>
+    <string name="cancel_text">取消</string>
+    <string name="exit_text">退出</string>
+    <string name="sure_back_text">正在读取数据，是否确认退出？</string>
+    <string name="choice_text">选择</string>
+    <string name="effect_label_text">有效标签数量</string>
+    <string name="total_number_text">累计读取</string>
+    <string name="take_inventory_model_text">盘存模式</string>
+    <string name="start_take_inventory_text">开始盘存</string>
+    <string name="stop_take_inventory_text">停止盘存</string>
+    <string name="copy_text">复制EPC</string>
+    <string name="share_text">分享</string>
+    <string name="import_excel_text">导出Excel</string>
+    <string name="label_num_text">标签数</string>
+    <string name="label_info_text">标签信息</string>
+    <string name="id_text">ID</string>
+    <string name="epc_text">EPC信息</string>
+    <string name="find_number_text">识别次数</string>
+    <string name="carrier_frequency_text">载波频率(MHz)</string>
+    <string name="rssi_text">RSSI(dBm)</string>
+    <string name="pc_text">PC</string>
+    <string name="search_text">搜索</string>
+    <string name="search_empty_text">未搜索到结果</string>
+    <string name="light_text">指示灯</string>
+    <string name="voice_text">蜂鸣器</string>
+    <string name="location_text">定位</string>
+    <string name="location_doing_text">停止定位</string>
+    <string name="input_epc_text">请输入标签EPC信息进行查找。</string>
+    <string name="hint_found_text">请手持设备尝试向四周走动，\n距离标签越近，信号越强。</string>
+
+    <string name="strong_text">强</string>
+    <string name="middle_text">中</string>
+    <string name="little_text">弱</string>
+
+    <string name="read_write_text">读取写入</string>
+    <string name="lock_text">锁定</string>
+    <string name="destory_text">销毁</string>
+    <string name="edit_epc_text">请输入标签EPC信息</string>
+    <string name="edit_label_text">请输入标签信息</string>
+    <string name="operation_area_text">操作区域</string>
+    <string name="get_pwd_text">访问密码</string>
+    <string name="set_pwd_text">销毁密码</string>
+    <string name="edit_pwd_text">请输入密码信息</string>
+    <string name="start_location_text">起始位置</string>
+    <string name="edit_start_location_text">请输入起始位置</string>
+    <string name="data_length_text">数据长度</string>
+    <string name="edit_data_length_text">请输入数据长度</string>
+    <string name="data_text">数据</string>
+    <string name="read_text">读取</string>
+    <string name="write_text">写入</string>
+
+    <string name="set_operation_type_text">设置操作方式</string>
+    <string name="select_operation_area_text">选择操作区域</string>
+    <string name="un_lock_text">解锁</string>
+    <string name="data_filter_text">数据过滤</string>
+
+    <string name="filter1_text">过滤器1</string>
+
+    <string name="filter2_text">过滤器2</string>
+
+
+    <string name="read_write_block_text">读取区域</string>
+
+    <string name="offset_text">偏移位置</string>
+
+    <string name="filter_rule_text">过滤规则</string>
+
+    <string name="target_text">目标</string>
+
+    <string name="hint_offset_text">请输入偏移位置</string>
+
+    <string name="start_filter_text">启用过滤器</string>
+
+    <string name="stop_filter_text">停用过滤器</string>
+
+    <string name="select_session_text">选择Session</string>
+    <string name="select_flag_text">选择盘存标志</string>
+
+    <string name="filter_rule_1_text">选择Session</string>
+
+    <string name="filter_rule_name_text">规则%1$d</string>
+
+    <string name="setting_select_label_text">标签选择</string>
+
+    <string name="setting_select_handle_text">手柄选择</string>
+
+    <string name="setting_select_area_text">区域设置</string>
+    <string name="setting_frequency_text">频率设置</string>
+
+    <string name="setting_common_text">常规设置</string>
+    <string name="setting_about_device_text">关于设备</string>
+    <string name="setting_firmware_update_text">固件升级</string>
+
+    <string name="setting_handle_type_text">手柄按键触发方式</string>
+
+    <string name="setting_handle_reboot_text">重启手柄</string>
+
+
+    <string name="setting_tip_light_text">提示灯</string>
+    <string name="setting_tip_voice_text">提示音</string>
+
+    <string name="setting_rf_link_text">射频链路设置</string>
+    <string name="setting_select_handle_type_text">手柄按键触发方式</string>
+
+    <string name="setting_model_type_text">模块类型</string>
+    <string name="setting_area_country_text">区域国家</string>
+    <string name="setting_begin_fq_text">起始频率</string>
+    <string name="setting_end_fq_text">截止频率</string>
+    <string name="basic_info_text">基本信息</string>
+    <string name="setting_fq_interval_text">频点间隔</string>
+    <string name="setting_fq_quantity_text">频点数量</string>
+
+    <string name="device_sn_text">设备SN</string>
+    <string name="firmware_version_text">固件版本</string>
+    <string name="module_info_text">模块版本</string>
+    <string name="module_type_text">模块类型</string>
+    <string name="current_degree_text">模块温度</string>
+    <string name="handle_battery_text">电量信息</string>
+
+    <string name="module_type_inner">内置版本</string>
+    <string name="module_type_china">中国版</string>
+    <string name="module_type_america">美版</string>
+    <string name="module_type_europe">欧版</string>
+    <string name="x_mhz">%d MHz</string>
+
+    <string name="battery_voltage_text">电池电压</string>
+    <string name="battery_rate_text">电池电量</string>
+    <string name="battery_circle_count_text">循环次数</string>
+    <string name="battery_charging_status_text">充电状态</string>
+    <string name="hint_bin_file_text">请选择文件，仅支持.bin file文件</string>
+    <string name="retry_choice_text">重新选择</string>
+    <string name="update_text">升级</string>
+    <string name="reboot_handle_text">确定要重启UHF手柄？</string>
+    <string name="sure_text">确定</string>
+    <string name="link_db_text">射频功率（dBm）</string>
+    <string name="mode_text">模式</string>
+    <string name="dynamic_power_text">动态功率</string>
+    <string name="label_focus_text">标签焦点</string>
+    <string name="inventory_label_text">盘存标志</string>
+    <string name="custom_text">自定义模式</string>
+    <string name="custom_tip_text">可根据自身需求进行参数调整</string>
+
+    <string name="balance_mode_text">平衡模式</string>
+    <string name="balance_mode_tip_text">推荐常规使用，平衡读取速度与功耗</string>
+
+    <string name="speed_mode_text">高速模式</string>
+    <string name="speed_mode_tip_text">高速读取，功耗偏大</string>
+
+    <string name="iterator_mode_text">遍历模式</string>
+    <string name="iterator_mode_tip_text">标签只读取一次，尽快遍历全部标签</string>
+    <string name="handle_select_text">可选择手柄</string>
+    <string name="mode_class_text">模块型号</string>
+    <string name="handle_version_text">序列号</string>
+    <string name="communication_type_text">通信方式</string>
+
+    <string name="handle_type_1_text">UHF Reader1</string>
+    <string name="handle_type_2_text">UHF Reader2</string>
+
+    <string name="un_charge">未充电</string>
+    <string name="pre_charge">预充电</string>
+    <string name="fast_charge">快速充电</string>
+    <string name="charge_done">充电完成</string>
+
+    <string name="hint_reset_completed">UHF重启完成</string>
+    <string name="hint_please_check_device_connect">请检查UHF设备连接</string>
+    <string name="hint_not_found_tag">未匹配到标签</string>
+    <string name="hint_please_select">请选择</string>
+    <string name="hint_please_auto_set">自定义</string>
+    <string name="hint_please_select_opt_area">请选择操作区域</string>
+    <string name="hint_please_select_opt_type">请选择操作类型</string>
+    <string name="hint_please_select_opt_area_country">请选择区域国家</string>
+    <string name="hint_please_select_opt_start_rf">请选择起始频率</string>
+    <string name="hint_please_select_opt_end_rf">请选择截止频率</string>
+    <string name="hint_please_select_fq_interval">请选择频点间隔</string>
+    <string name="hint_please_select_fq_quantity">请选择频点数量</string>
+
+    <string name="hint_operation_failed">操作失败，类型：0x%1$x，代码：0x%2$x，信息：%3$s</string>
+    <string name="hint_operation_success">操作成功</string>
+    <string name="hint_tag_read_error">读取标签操作失败，代码：0x%1$x，信息：%2$s</string>
+    <string name="hint_tag_write_error">写入标签操作失败，代码：0x%1$x，信息：%2$s</string>
+    <string name="hint_tag_operation_failed">标签操作失败，代码：0x%1$x，信息：%2$s</string>
+    <string name="hint_tag_operation_success">标签操作成功</string>
+    <string name="hint_unknow_error">未知的错误</string>
+
+    <string name="param_start_address_error">起始地址格式错误</string>
+    <string name="param_data_len_error">数据长度格式错误</string>
+    <string name="param_data_error">写入数据格式错误</string>
+
+    <string name="update_progress_ing_text">正在升级</string>
+    <string name="update_success">升级成功</string>
+    <string name="update_failed">升级失败，代码：0x%1$x，信息：%2$s</string>
+
+    <string name="hint_please_charge">电量过低，请充电（%d%%）</string>
+    <string name="hint_un_charge">未充电</string>
+    <string name="hint_pre_charge">预充电</string>
+    <string name="hint_fast_charge">快速充电</string>
+    <string name="hint_charge_done">充电完成</string>
+
+    <string name="hint_unknow">未知</string>
+
+    <string name="percentage_x">%d%%</string>
+    <string name="module_template">%d°C</string>
+    <string name="battery_voltage">%dmV</string>
+    <string name="times_x">%d次</string>
+
+    <string name="please_allow_read_write_sd_card">请允许读写SD卡，用于导出Excel</string>
+    <string name="please_input_file_name">请输入文件名</string>
+    <string name="please_take_inventory_before_proceeding">请先盘存后，再进行操作</string>
+    <string name="please_take_select_before_proceeding">请先选择后，再进行操作</string>
+    <string name="hint_excel_save_to_sd">已导出Excel到SD卡</string>
+    <string name="hint_copy_epc_clipboard">已经复制到剪贴板</string>
+    
+    <string name="hint_filter_offset_len">请输入正确偏移位置(0~255)</string>
+
+    <string name="inventory_mode_balance">平衡</string>
+    <string name="inventory_mode_speed">快速</string>
+    <string name="inventory_mode_iterator">遍历</string>
+    <string name="inventory_mode_custom">自定义</string>
+
+    <string name="lock_mode_open">开放</string>
+    <string name="lock_mode_locked">锁定</string>
+    <string name="lock_mode_open_forever">永久开放</string>
+    <string name="lock_mode_locked_forever">永久锁定</string>
+
+    <string name="handle_trigger_mode_long_press">长按触发</string>
+    <string name="handle_trigger_mode_tap">点按触发</string>
+</resources>
