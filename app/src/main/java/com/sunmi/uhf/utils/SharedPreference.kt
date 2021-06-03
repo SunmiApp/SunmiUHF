@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.sunmi.uhf.App
 import java.io.*
+import kotlin.jvm.Throws
 
 
 /**

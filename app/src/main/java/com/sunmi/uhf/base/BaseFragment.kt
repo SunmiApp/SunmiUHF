@@ -233,7 +233,6 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
         (activity as BaseActivity<*>).hideDialog()
     }
 
-
     /**
      * 隐藏软键盘
      */
