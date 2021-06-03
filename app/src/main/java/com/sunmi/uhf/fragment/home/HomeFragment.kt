@@ -224,11 +224,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setCalculateLevel(elec: Int) {
-        binding.powerStatusTv.text = "${getString(R.string.home_power_text)}$elec%"
-        val calculateLevel = calculateLevel(elec)
-        val layerDrawable = binding.powerStatusIv.drawable as LayerDrawable
-        val clipDrawable = layerDrawable.findDrawableByLayerId(R.id.clip_drawable) as ClipDrawable
-        clipDrawable.level = calculateLevel.toInt()
+        mainScope.launch {
+            binding.powerStatusTv.text = "${getString(R.string.home_power_text)}$elec%"
+            val calculateLevel = calculateLevel(elec)
+            val layerDrawable = binding.powerStatusIv.drawable as LayerDrawable
+            val clipDrawable = layerDrawable.findDrawableByLayerId(R.id.clip_drawable) as ClipDrawable
+            clipDrawable.level = calculateLevel.toInt()
+        }
     }
 
     private fun calculateLevel(progress: Int): Float {

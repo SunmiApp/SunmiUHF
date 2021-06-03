@@ -26,7 +26,7 @@ import com.sunmi.uhf.utils.StatusBar
  * @UpdateDate: 20-9-7 下午2:30
  */
 class MainActivity : BaseActivity<ActivityMainBinding>() {
-
+    private val TAG = "MainActivity"
     private var isLoop = false
     private var hasUHF = true
 
