@@ -83,4 +83,13 @@ object Config {
     /** 低电量 阈值 */
     const val LOW_ELEC = 10
     const val ELEC_CACHE = "elec_cache"
+
+    /*射频功率*/
+    const val KEY_RF_POWER = "key_rf_power"
+    const val DEF_INVALID_POWER = -1
+    const val DEF_INNER_POWER_MIN = 18
+    const val DEF_INNER_POWER_MAX = 26
+    const val DEF_UHF_POWER_MIN = 0
+    const val DEF_UHF_POWER_MAX = 33
+
 }

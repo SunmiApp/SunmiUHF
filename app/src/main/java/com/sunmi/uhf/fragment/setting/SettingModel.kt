@@ -75,6 +75,9 @@ class SettingModel : BaseViewModel() {
     //L2s、L2k适配判断
     val isL2s = MutableLiveData<Boolean>(false)
 
+    /*射频功率 外接0~33 内置18-26*/
+    val rfPower = MutableLiveData<Int>(0)
+
     /**
      * 返回点击事件
      */
@@ -223,6 +226,13 @@ class SettingModel : BaseViewModel() {
      */
     fun onFileUpdateClick() {
         EventConstant.EVENT_FIRMWARE_UPDATE_UPGRADE.publish()
+    }
+
+    /*
+    * 功率设置
+    * */
+    fun onPowerClick() {
+        EventConstant.EVENT_POWER_CLICK.publish()
     }
 
     fun getFileName(path: String?) = path?.let {
