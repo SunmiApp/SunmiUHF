@@ -27,7 +27,7 @@ import com.sunmi.uhf.utils.StatusBar
  */
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val TAG = "MainActivity"
-    private var isLoop = false
+    private var isLoop = true
     private var hasUHF = true
 
     private val br = object : BroadcastReceiver() {
@@ -38,13 +38,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 ParamCts.BROADCAST_ON_CONNECT -> {
                     hasUHF = true
                     LiveDataBusEvent.get().with(EventConstant.UHF_DEVICE_STATUS, Int::class.java)
-                            .postValue(EventConstant.EVENT_UHF_DEVICE_CONNECT)
+                        .postValue(EventConstant.EVENT_UHF_DEVICE_CONNECT)
                 }
                 ParamCts.BROADCAST_ON_LOST_CONNECT,
                 ParamCts.BROADCAST_ON_DISCONNECT -> {
                     hasUHF = false
                     LiveDataBusEvent.get().with(EventConstant.UHF_DEVICE_STATUS, Int::class.java)
-                            .postValue(EventConstant.EVENT_UHF_DEVICE_DISCONNECT)
+                        .postValue(EventConstant.EVENT_UHF_DEVICE_DISCONNECT)
                 }
             }
         }
@@ -75,16 +75,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 //            "xdpi=" + xdpi.toString() + "; ydpi=" + ydpi
 //        )
         Log.e(
-                "  DisplayMetrics",
-                "density=$density; densityDPI=$densityDPI"
+            "  DisplayMetrics",
+            "density=$density; densityDPI=$densityDPI"
         )
         Log.e(
-                "  DisplayMetrics",
-                "sw=${dm.widthPixels}; sh=${dm.heightPixels}"
+            "  DisplayMetrics",
+            "sw=${dm.widthPixels}; sh=${dm.heightPixels}"
         )
         Log.e(
-                "  DisplayMetrics",
-                "sw=${resources.displayMetrics.widthPixels}; sh=${resources.displayMetrics.heightPixels}"
+            "  DisplayMetrics",
+            "sw=${resources.displayMetrics.widthPixels}; sh=${resources.displayMetrics.heightPixels}"
         )
 
 
@@ -95,9 +95,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onPortrait() {
         switchFragment(
-                HomeFragment.newInstance(null),
-                addToBackStack = true,
-                clearStack = true
+            HomeFragment.newInstance(null),
+            addToBackStack = true,
+            clearStack = true
         )
     }
 
@@ -120,25 +120,31 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == 288 && hasUHF) {
-            if (!isLoop) {
-                isLoop = true
-                LiveDataBusEvent.get().with(EventConstant.UHF_KEY_EVENT, Int::class.java)
+        if (keyCode == 288) {
+            Log.i(TAG, "onKeyUp: $keyCode - UHF：$hasUHF - Loop：$isLoop")
+            if (hasUHF) {
+                if (!isLoop) {
+                    isLoop = true
+                    LiveDataBusEvent.get().with(EventConstant.UHF_KEY_EVENT, Int::class.java)
                         .postValue(EventConstant.EVENT_UHF_KEY_EVENT_UP)
+                }
+                return true
             }
-            return true
         }
         return super.onKeyUp(keyCode, event)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == 288 && hasUHF) {
-            if (isLoop) {
-                isLoop = false
-                LiveDataBusEvent.get().with(EventConstant.UHF_KEY_EVENT, Int::class.java)
+        if (keyCode == 288) {
+            Log.i(TAG, "onKeyDown: $keyCode - UHF：$hasUHF - Loop：$isLoop")
+            if (hasUHF) {
+                if (isLoop) {
+                    isLoop = false
+                    LiveDataBusEvent.get().with(EventConstant.UHF_KEY_EVENT, Int::class.java)
                         .postValue(EventConstant.EVENT_UHF_KEY_EVENT_DOWN)
+                }
+                return true
             }
-            return true
         }
         return super.onKeyDown(keyCode, event)
     }
