@@ -42,8 +42,8 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
                     App.getPref().setParam(Config.KEY_LABEL, it.index ?: Config.DEF_LABEL)
                 })
         RFIDManager.getInstance().apply {
-            if (isConnect) {
-                when (helper.scanModel) {
+            if (isConnect()) {
+                when (getHelper()?.getScanModel()) {
                     RFIDManager.UHF_R2000 -> {
                         vm.isL2s.postValue(false)
                     }

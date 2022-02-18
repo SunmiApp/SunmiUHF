@@ -103,9 +103,11 @@ class LabelFilterFragment : BaseFragment<FragmentLabelFilterBinding>() {
 
     override fun initData() {
         RFIDManager.getInstance().apply {
-            if (isConnect) {
-                helper.registerReaderCall(optCall)
-                helper.getTagMask()
+            if (isConnect()) {
+                getHelper()?.let {
+                    it.registerReaderCall(optCall)
+                    it.getTagMask()
+                }
             }
         }
     }
@@ -122,8 +124,8 @@ class LabelFilterFragment : BaseFragment<FragmentLabelFilterBinding>() {
     override fun onDestroyView() {
         super.onDestroyView()
         RFIDManager.getInstance().apply {
-            if (isConnect) {
-                helper.unregisterReaderCall()
+            if (isConnect()) {
+                getHelper()?.unregisterReaderCall()
             }
         }
     }

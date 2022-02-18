@@ -92,8 +92,8 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                 }
                 CMD.SET_FREQUENCY_REGION -> {
                     RFIDManager.getInstance().apply {
-                        if (isConnect) {
-                            helper.getFrequencyRegion()
+                        if (isConnect()) {
+                            getHelper()?.getFrequencyRegion()
                             showShort(getString(R.string.hint_operation_success))
                         }
                     }
@@ -140,33 +140,35 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
 
     override fun initData() {
         RFIDManager.getInstance().apply {
-            if (isConnect && helper.scanModel != RFIDManager.NONE) {
-                helper.registerReaderCall(optCall)
-                when (helper.scanModel) {
-                    // UHF R2000
-                    RFIDManager.UHF_R2000 -> {
-                        vm.title.value = resources.getString(R.string.setting_select_area_text)
-                        helper.getReaderSN()
-                        helper.getFrequencyRegion()
-                        vm.isL2s.postValue(false)
-                    }
-                    RFIDManager.INNER -> {
-                        vm.title.value = resources.getString(R.string.setting_frequency_text)
-                        binding.moduleNameTv.text = getString(R.string.module_type_inner)
-                        fqIntervalList.clear()
-                        fqQuantityList.clear()
-                        for (i in 1..88) {
-                            fqIntervalList.add("$i")
+            if (isConnect() && getHelper()?.getScanModel() != RFIDManager.NONE) {
+                getHelper()?.apply {
+                    registerReaderCall(optCall)
+                    when (getScanModel()) {
+                        // UHF R2000
+                        RFIDManager.UHF_R2000 -> {
+                            vm.title.value = resources.getString(R.string.setting_select_area_text)
+                            getReaderSN()
+                            getFrequencyRegion()
+                            vm.isL2s.postValue(false)
                         }
-                        for (i in 1..60) {
-                            fqQuantityList.add("$i")
+                        RFIDManager.INNER -> {
+                            vm.title.value = resources.getString(R.string.setting_frequency_text)
+                            binding.moduleNameTv.text = getString(R.string.module_type_inner)
+                            fqIntervalList.clear()
+                            fqQuantityList.clear()
+                            for (i in 1..88) {
+                                fqIntervalList.add("$i")
+                            }
+                            for (i in 1..60) {
+                                fqQuantityList.add("$i")
+                            }
+                            getReaderSN()
+                            getFrequencyRegion()
+                            vm.isL2s.postValue(true)
                         }
-                        helper.getReaderSN()
-                        helper.getFrequencyRegion()
-                        vm.isL2s.postValue(true)
-                    }
-                    else -> {
-                        binding.moduleNameTv.text = ""
+                        else -> {
+                            binding.moduleNameTv.text = ""
+                        }
                     }
                 }
             }
@@ -280,24 +282,26 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                 title = resources.getString(R.string.hint_please_select_opt_start_rf)
                 str = binding.rfStartTv.text.toString()
                 RFIDManager.getInstance().apply {
-                    if (isConnect) {
-                        when (helper.scanModel) {
-                            RFIDManager.UHF_R2000 -> {
-                                val end = ParamCts.getParamsToRf(rfEnd).toInt()
-                                for (i in rfBand[1]..end) {
-                                    list.add("$i.0 MHz")
-                                    if (i < end) {
-                                        list.add("$i.5 MHz")
+                    if (isConnect()) {
+                        getHelper()?.apply {
+                            when (getScanModel()) {
+                                RFIDManager.UHF_R2000 -> {
+                                    val end = ParamCts.getParamsToRf(rfEnd).toInt()
+                                    for (i in rfBand[1]..end) {
+                                        list.add("$i.0 MHz")
+                                        if (i < end) {
+                                            list.add("$i.5 MHz")
+                                        }
                                     }
                                 }
-                            }
-                            RFIDManager.INNER -> {
-                                val band = ParamCts.getRFFrequencyBand(helper.scanModel, sn)
-                                val end = band[2]
-                                for (i in band[1]..end) {
-                                    list.add("$i.0 MHz")
-                                    if (i < end) {
-                                        list.add("$i.5 MHz")
+                                RFIDManager.INNER -> {
+                                    val band = ParamCts.getRFFrequencyBand(getScanModel(), sn)
+                                    val end = band[2]
+                                    for (i in band[1]..end) {
+                                        list.add("$i.0 MHz")
+                                        if (i < end) {
+                                            list.add("$i.5 MHz")
+                                        }
                                     }
                                 }
                             }
@@ -339,17 +343,17 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                 }
             }
             RFIDManager.getInstance().apply {
-                if (isConnect) {
+                if (isConnect()) {
                     when (rfRegion) {
                         in 1..3 -> {
-                            helper.setFrequencyRegion(
+                            getHelper()?.setFrequencyRegion(
                                 rfRegion.toByte(),
                                 rfStart.toByte(),
                                 rfEnd.toByte()
                             )
                         }
                         4 -> {
-                            helper.setUserDefineFrequency(
+                            getHelper()?.setUserDefineFrequency(
                                 rfInterval.toByte(),
                                 rfQuantity.toByte(),
                                 (select.replace(" MHz", "").toFloat() * 1000).toInt()
@@ -364,9 +368,9 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
     fun notifyDataChange() {
         mainScope.launch {
             RFIDManager.getInstance().apply {
-                if (isConnect) {
+                if (isConnect()) {
                     LogUtils.d("darren", "show data...")
-                    when (helper.scanModel) {
+                    when (getHelper()?.getScanModel()) {
                         RFIDManager.UHF_R2000 -> {
                             if (sn.isNotEmpty()) {
                                 rfBand = ParamCts.getRFFrequencyBand(sn)
@@ -480,11 +484,11 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
             binding.areaCountryTv.text = rf
         }
         RFIDManager.getInstance().apply {
-            if (isConnect) {
+            if (isConnect()) {
                 getCountryRF(rf)?.let {
                     val startRf = ParamCts.getRfToParams((it[0] * 10).toInt())
                     val endRf = ParamCts.getRfToParams((it[1] * 10).toInt())
-                    helper.setFrequencyRegion(
+                    getHelper()?.setFrequencyRegion(
                         getRFRegion().toByte(),
                         startRf.toByte(),
                         endRf.toByte()
@@ -523,8 +527,8 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                     }
                 }
                 RFIDManager.getInstance().apply {
-                    if (isConnect) {
-                        helper.setUserDefineFrequency(
+                    if (isConnect()) {
+                        getHelper()?.setUserDefineFrequency(
                             rfInterval.toByte(),
                             rfQuantity.toByte(),
                             rfStart * 1000
@@ -546,7 +550,7 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
     override fun onStop() {
         super.onStop()
         context?.unregisterReceiver(br)
-        RFIDManager.getInstance().helper.unregisterReaderCall()
+        RFIDManager.getInstance().getHelper()?.unregisterReaderCall()
     }
 
     companion object {

@@ -134,7 +134,7 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
     override fun start() {
         super.start()
         if (!isLoop) {
-            RFIDManager.getInstance().helper.apply {
+            RFIDManager.getInstance().getHelper()?.apply {
                 when (App.getPref().getParam(Config.KEY_LABEL, Config.DEF_LABEL)) {
                     0 -> {
                         // 6B标签盘存
@@ -159,7 +159,7 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
     override fun stop() {
         super.stop()
         if (isLoop) {
-            RFIDManager.getInstance().helper.apply {
+            RFIDManager.getInstance().getHelper()?.apply {
                 inventory(1)
                 unregisterReaderCall()
                 isLoop = false

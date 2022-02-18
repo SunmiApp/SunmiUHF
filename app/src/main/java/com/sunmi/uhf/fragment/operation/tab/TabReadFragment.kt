@@ -46,9 +46,9 @@ class TabReadFragment : BaseFragment<TabReadWriteBinding>() {
                 String.format("CMD: 0x%02X, params info: %s", cmd, params?.toString() ?: "")
             )
             mainScope.launch(Dispatchers.IO) {
-                RFIDManager.getInstance().apply {
-                    helper.registerReaderCall(optCall)
-                    helper.setAccessEpcMatch(optEpc.size.toByte(), optEpc)
+                RFIDManager.getInstance().getHelper()?.apply {
+                    registerReaderCall(optCall)
+                    setAccessEpcMatch(optEpc.size.toByte(), optEpc)
                 }
             }
         }
@@ -62,7 +62,7 @@ class TabReadFragment : BaseFragment<TabReadWriteBinding>() {
                 "darren",
                 String.format("CMD: 0x%02X, Error Code: 0x%02X, msg info: %s", cmd, errorCode, msg)
             )
-            RFIDManager.getInstance().helper.unregisterReaderCall()
+            RFIDManager.getInstance().getHelper()?.unregisterReaderCall()
             mainScope.launch {
                 showShort(R.string.hint_not_found_tag)
             }
@@ -78,29 +78,29 @@ class TabReadFragment : BaseFragment<TabReadWriteBinding>() {
             when (cmd) {
                 CMD.SET_ACCESS_EPC_MATCH -> {
                     mainScope.launch(Dispatchers.IO) {
-                        RFIDManager.getInstance().apply {
+                        RFIDManager.getInstance().getHelper()?.apply {
                             if (isRead) {
-                                helper.readTag(optArea, address, len, pwd)
+                                readTag(optArea, address, len, pwd)
                             } else {
-                                helper.writeTag(pwd, optArea, address, len, data)
+                                writeTag(pwd, optArea, address, len, data)
                             }
                         }
                     }
                 }
                 CMD.READ_TAG -> {
-                    RFIDManager.getInstance().helper.unregisterReaderCall()
+                    RFIDManager.getInstance().getHelper()?.unregisterReaderCall()
                     mainScope.launch {
                         vm.dataInfo.value = params?.getString(ParamCts.TAG_DATA, "")
                     }
                 }
                 CMD.WRITE_TAG -> {
-                    RFIDManager.getInstance().helper.unregisterReaderCall()
+                    RFIDManager.getInstance().getHelper()?.unregisterReaderCall()
                     mainScope.launch {
                         showShort(R.string.hint_tag_operation_success)
                     }
                 }
                 else -> {
-                    RFIDManager.getInstance().helper.unregisterReaderCall()
+                    RFIDManager.getInstance().getHelper()?.unregisterReaderCall()
                     mainScope.launch {
                         showShort(R.string.hint_unknow_error)
                     }
@@ -117,7 +117,7 @@ class TabReadFragment : BaseFragment<TabReadWriteBinding>() {
                 "darren",
                 String.format("CMD: 0x%02X, Error Code: 0x%02X, msg info: %s", cmd, errorCode, msg)
             )
-            RFIDManager.getInstance().helper.unregisterReaderCall()
+            RFIDManager.getInstance().getHelper()?.unregisterReaderCall()
             mainScope.launch {
                 when (cmd) {
                     CMD.SET_ACCESS_EPC_MATCH -> {
@@ -165,14 +165,14 @@ class TabReadFragment : BaseFragment<TabReadWriteBinding>() {
         if (pwd == null || pwd.isEmpty()) return
         this.pwd = pwd
         // address
-        val address = if(vm.startLocation.value.isNullOrEmpty()) -1 else vm.startLocation.value!!.toInt()
+        val address = if (vm.startLocation.value.isNullOrEmpty()) -1 else vm.startLocation.value!!.toInt()
         if (address < 0) {
             showShort(R.string.param_start_address_error)
             return
         }
         this.address = address.toByte()
         // data len
-        val len = if(vm.dataLength.value.isNullOrEmpty()) -1 else vm.dataLength.value!!.toInt()
+        val len = if (vm.dataLength.value.isNullOrEmpty()) -1 else vm.dataLength.value!!.toInt()
         if (len < 0) {
             showShort(R.string.param_data_len_error)
             return
@@ -191,9 +191,9 @@ class TabReadFragment : BaseFragment<TabReadWriteBinding>() {
         }
         // operation
         RFIDManager.getInstance().apply {
-            if (isConnect && helper.scanModel != RFIDManager.NONE) {
-                helper.registerReaderCall(clearEpcCall)
-                helper.cancelAccessEpcMatch()
+            if (isConnect() && getHelper()?.getScanModel() != RFIDManager.NONE) {
+                getHelper()?.registerReaderCall(clearEpcCall)
+                getHelper()?.cancelAccessEpcMatch()
             }
         }
     }
