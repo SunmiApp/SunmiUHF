@@ -60,7 +60,6 @@ android {
     }
     lintOptions {
         abortOnError false
-        disable 'GoogleAppIndexingWarning'
     }
 }
 
