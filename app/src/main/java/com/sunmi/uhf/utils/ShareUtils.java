@@ -8,6 +8,8 @@ import android.os.Build;
 import android.os.StrictMode;
 import android.text.TextUtils;
 
+import androidx.core.content.FileProvider;
+
 import java.io.File;
 
 /**
@@ -48,9 +50,27 @@ public class ShareUtils {
 
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(path)));  //传输图片或者文件 采用流的方式
+        //intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(path)));  //传输图片或者文件 采用流的方式
+        intent.putExtra(Intent.EXTRA_STREAM, getUriForFile(context, new File(path)));  //传输图片或者文件 采用流的方式
         intent.setType("*/*"); //分享文件
         context.startActivity(Intent.createChooser(intent, "分享"));
+    }
+
+    public static Uri getUriForFile(Context context, File file) {
+        Uri fileUri = null;
+        if (Build.VERSION.SDK_INT >= 24) {
+            fileUri = getUriForFile24(context, file);
+        } else {
+            fileUri = Uri.fromFile(file);
+        }
+        return fileUri;
+    }
+
+    public static Uri getUriForFile24(Context context, File file) {
+        Uri fileUri = FileProvider.getUriForFile(context,
+                "com.sunmi.uhf.utils.MyFileProvider",
+                file);
+        return fileUri;
     }
 
     /**
