@@ -5,6 +5,7 @@ import android.view.MotionEvent
 import android.view.View
 
 import android.widget.ImageView
+import androidx.annotation.Nullable
 import androidx.databinding.BindingAdapter
 
 /**
@@ -55,7 +56,7 @@ fun setSrc(view: ImageView?, resId: Int) {
 }
 
 @BindingAdapter("sunmi:outline")
-fun setOutline(view: View?, size: String) {
+fun setOutline(@Nullable view: View?, size: String) {
     view?.clipToOutline = true
     view?.outlineProvider = when (size) {
         "half" -> OutlineProviderHelper.getOutlineProviderHalfHeight()
@@ -80,7 +81,7 @@ fun setOutline(view: View?, size: String) {
 
 @SuppressLint("ClickableViewAccessibility")
 @BindingAdapter("sunmi:pressAlpha")
-fun setPressAlpha(view: View?, flag: Boolean) {
+fun setPressAlpha(@Nullable view: View?, flag: Boolean) {
     if (flag)
         view?.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN)

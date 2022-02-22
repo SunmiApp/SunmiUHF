@@ -43,8 +43,8 @@ class LockFragment : BaseFragment<TabLockBinding>() {
             )
             mainScope.launch(Dispatchers.IO) {
                 RFIDManager.getInstance().apply {
-                    helper.registerReaderCall(optCall)
-                    helper.setAccessEpcMatch(optEpc.size.toByte(), optEpc)
+                    getHelper()?.registerReaderCall(optCall)
+                    getHelper()?.setAccessEpcMatch(optEpc.size.toByte(), optEpc)
                 }
             }
         }
@@ -58,7 +58,7 @@ class LockFragment : BaseFragment<TabLockBinding>() {
                 "darren",
                 String.format("CMD: 0x%02X, Error Code: 0x%02X, msg info: %s", cmd, errorCode, msg)
             )
-            RFIDManager.getInstance().helper.unregisterReaderCall()
+            RFIDManager.getInstance().getHelper()?.unregisterReaderCall()
             mainScope.launch {
                 showShort(R.string.hint_not_found_tag)
             }
@@ -74,7 +74,7 @@ class LockFragment : BaseFragment<TabLockBinding>() {
                 CMD.SET_ACCESS_EPC_MATCH -> {
                     mainScope.launch(Dispatchers.IO) {
                         RFIDManager.getInstance().apply {
-                            helper.lockTag(pwd, optArea, optType)
+                            getHelper()?.lockTag(pwd, optArea, optType)
                         }
                     }
                 }
@@ -84,7 +84,7 @@ class LockFragment : BaseFragment<TabLockBinding>() {
                     }
                 }
                 else -> {
-                    RFIDManager.getInstance().helper.unregisterReaderCall()
+                    RFIDManager.getInstance().getHelper()?.unregisterReaderCall()
                     mainScope.launch {
                         showShort(R.string.hint_unknow_error)
                     }
@@ -101,7 +101,7 @@ class LockFragment : BaseFragment<TabLockBinding>() {
                 "darren",
                 String.format("CMD: 0x%02X, Error Code: 0x%02X, msg info: %s", cmd, errorCode, msg)
             )
-            RFIDManager.getInstance().helper.unregisterReaderCall()
+            RFIDManager.getInstance().getHelper()?.unregisterReaderCall()
             mainScope.launch {
                 when (cmd) {
                     CMD.SET_ACCESS_EPC_MATCH -> {
@@ -243,9 +243,9 @@ class LockFragment : BaseFragment<TabLockBinding>() {
                 }
                 // operation
                 RFIDManager.getInstance().apply {
-                    if (isConnect && helper.scanModel != RFIDManager.NONE) {
-                        helper.registerReaderCall(clearEpcCall)
-                        helper.cancelAccessEpcMatch()
+                    if (isConnect() && getHelper()?.getScanModel() != RFIDManager.NONE) {
+                        getHelper()?.registerReaderCall(clearEpcCall)
+                        getHelper()?.cancelAccessEpcMatch()
                     }
                 }
             }

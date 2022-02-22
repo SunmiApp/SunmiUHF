@@ -60,8 +60,8 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
 
     override fun initData() {
         RFIDManager.getInstance().apply {
-            if (isConnect) {
-                helper.getBatteryRemainingPercent()
+            if (isConnect()) {
+                getHelper()?.getBatteryRemainingPercent()
             }
         }
     }
@@ -130,10 +130,10 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
             return
         }
         RFIDManager.getInstance().apply {
-            if (isConnect && helper.scanModel == RFIDManager.UHF_R2000) {
+            if (isConnect() && getHelper()?.getScanModel() == RFIDManager.UHF_R2000) {
                 vm.updating.value = true
                 vm.updateProgress.value = 0
-                helper.firmwareUpdate(vm.mBinPath.value, object : FirmwareUpdateCall() {
+                getHelper()?.firmwareUpdate(vm.mBinPath.value, object : FirmwareUpdateCall() {
                     override fun onSuccess() {
                         LogUtils.d("darren", "onSuccess")
                         mainScope.launch {

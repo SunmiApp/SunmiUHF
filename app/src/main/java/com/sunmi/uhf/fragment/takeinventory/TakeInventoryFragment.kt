@@ -164,8 +164,8 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
         }
         vm.selectModel.value = vm.modelList[mode - 1]
         RFIDManager.getInstance().apply {
-            if (isConnect) {
-                when (helper.scanModel) {
+            if (isConnect()) {
+                when (getHelper()?.getScanModel()) {
                     RFIDManager.UHF_R2000 -> {
                         vm.labelVisibility.postValue(true)
                     }
@@ -433,7 +433,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
             addAction(ParamCts.BROADCAST_READER_BOOT)
         })
         RFIDManager.getInstance().apply {
-            if (isConnect) helper.getReaderSN()
+            if (isConnect()) getHelper()?.getReaderSN()
         }
     }
 
@@ -502,7 +502,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
     override fun start() {
         super.start()
         if (!isLoop) {
-            RFIDManager.getInstance().helper.apply {
+            RFIDManager.getInstance().getHelper()?.apply {
                 when (App.getPref().getParam(Config.KEY_LABEL, Config.DEF_LABEL)) {
                     1 -> {
                         // 6C标签盘存
@@ -555,7 +555,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
     override fun stop() {
         super.stop()
         if (isLoop) {
-            RFIDManager.getInstance().helper.apply {
+            RFIDManager.getInstance().getHelper()?.apply {
                 inventory(1)
                 unregisterReaderCall()
                 isLoop = false
@@ -675,7 +675,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
     }
 
     private fun handleSN(sn: String?) {
-        val rfBand = ParamCts.getRFFrequencyBand(sn)
+        val rfBand = ParamCts.getRFFrequencyBand(sn ?: "")
         when (rfBand[3]) {
             1 -> {
                 power = 30
@@ -688,24 +688,26 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
             }
         }
         RFIDManager.getInstance().apply {
-            if (isConnect && rfBand[0] == 1) {
-                helper.setOutputAllPower(power.toByte())
+            if (isConnect() && rfBand[0] == 1) {
+                getHelper()?.setOutputAllPower(power.toByte())
             }
         }
     }
 
     private fun handleData() {
         RFIDManager.getInstance().apply {
-            if (isConnect) {
-                helper.registerReaderCall(call)
-                when (mode) {
-                    Constant.INT_CUSTOM_MODE -> {
-                        helper.setRfLinkProfile((0xD0 + link).toByte())
-                        helper.setImpinjSaveTagFocus(seesion == 1 && tagFocus)
-                    }
-                    else -> {
-                        helper.setRfLinkProfile(0xD1.toByte())
-                        helper.setImpinjSaveTagFocus(mode == Constant.INT_BALANCE_MODE)
+            if (isConnect()) {
+                getHelper()?.apply {
+                    registerReaderCall(call)
+                    when (mode) {
+                        Constant.INT_CUSTOM_MODE -> {
+                            setRfLinkProfile((0xD0 + link).toByte())
+                            setImpinjSaveTagFocus(seesion == 1 && tagFocus)
+                        }
+                        else -> {
+                            setRfLinkProfile(0xD1.toByte())
+                            setImpinjSaveTagFocus(mode == Constant.INT_BALANCE_MODE)
+                        }
                     }
                 }
             }

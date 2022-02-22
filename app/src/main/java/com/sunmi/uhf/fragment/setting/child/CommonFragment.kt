@@ -130,7 +130,7 @@ class CommonFragment : BaseFragment<FragmentCommonSettingBinding>() {
         dialog?.listener = object : (() -> Unit) {
             override fun invoke() {
                 dialog?.dismiss()
-                RFIDManager.getInstance().helper.reset()
+                RFIDManager.getInstance().getHelper()?.reset()
                 showDialog()
             }
         }

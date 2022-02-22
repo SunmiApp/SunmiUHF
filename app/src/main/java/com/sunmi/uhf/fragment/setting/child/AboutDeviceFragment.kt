@@ -40,7 +40,7 @@ class AboutDeviceFragment : BaseFragment<FragmentAboutDeviceBinding>() {
                 ParamCts.BROADCAST_READER_BOOT -> getData()
                 ParamCts.BROADCAST_SN -> {
                     vm.sn.value = intent.getStringExtra(ParamCts.SN)
-                    val rfBand = ParamCts.getRFFrequencyBand(vm.sn.value)
+                    val rfBand = ParamCts.getRFFrequencyBand(vm.sn.value ?: "")
                     vm.moduleType.value = if (rfBand[0] == 1) {
                         when (rfBand[3]) {
                             0x01 -> getString(R.string.module_type_america)
@@ -146,35 +146,37 @@ class AboutDeviceFragment : BaseFragment<FragmentAboutDeviceBinding>() {
 
     private fun getData() {
         RFIDManager.getInstance().apply {
-            if (isConnect) {
-                when (helper.scanModel) {
-                    RFIDManager.UHF_R2000 -> {
-                        helper.registerReaderCall(optCall)
-                        /* SN */
-                        helper.getReaderSN()
-                        /* UHF 固件版本 */
-                        helper.getFirmwareVersion()
-                        /* 模块固件版本 */
-                        helper.getReaderVersion()
-                        /* 模块温度 */
-                        helper.getReaderTemperature()
-                        /* UHF 电压 */
-                        helper.getBatteryVoltage()
-                        /* UHF 电量 */
-                        helper.getBatteryRemainingPercent()
-                        /* UHF 充电循环次数 */
-                        helper.getBatteryChargeNumTimes()
-                        /* UHF 充电状态 */
-                        helper.getBatteryChargeState()
-                        vm.isL2s.postValue(false)
-                    }
-                    RFIDManager.INNER -> {
-                        helper.registerReaderCall(optCall)
-                        /* UHF 固件版本 */
-                        helper.getFirmwareVersion()
-                        /* 模块类型 */
-                        binding.tvModelType.text = getString(R.string.module_type_inner)
-                        vm.isL2s.postValue(true)
+            if (isConnect()) {
+                getHelper()?.apply {
+                    when (getScanModel()) {
+                        RFIDManager.UHF_R2000 -> {
+                            registerReaderCall(optCall)
+                            /* SN */
+                            getReaderSN()
+                            /* UHF 固件版本 */
+                            getFirmwareVersion()
+                            /* 模块固件版本 */
+                            getReaderVersion()
+                            /* 模块温度 */
+                            getReaderTemperature()
+                            /* UHF 电压 */
+                            getBatteryVoltage()
+                            /* UHF 电量 */
+                            getBatteryRemainingPercent()
+                            /* UHF 充电循环次数 */
+                            getBatteryChargeNumTimes()
+                            /* UHF 充电状态 */
+                            getBatteryChargeState()
+                            vm.isL2s.postValue(false)
+                        }
+                        RFIDManager.INNER -> {
+                            registerReaderCall(optCall)
+                            /* UHF 固件版本 */
+                            getFirmwareVersion()
+                            /* 模块类型 */
+                            binding.tvModelType.text = getString(R.string.module_type_inner)
+                            vm.isL2s.postValue(true)
+                        }
                     }
                 }
             }
@@ -210,7 +212,7 @@ class AboutDeviceFragment : BaseFragment<FragmentAboutDeviceBinding>() {
         super.onDestroyView()
         context?.unregisterReceiver(br)
         RFIDManager.getInstance().apply {
-            if (isConnect) helper.unregisterReaderCall()
+            if (isConnect()) getHelper()?.unregisterReaderCall()
         }
     }
 

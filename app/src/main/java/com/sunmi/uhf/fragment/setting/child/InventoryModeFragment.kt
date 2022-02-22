@@ -165,8 +165,8 @@ class InventoryModeFragment : BaseFragment<FragmentSettingInventoryModeBinding>(
                 binding.customLl.arrowIv.performClick()
             })
         RFIDManager.getInstance().apply {
-            if (isConnect) {
-                when (helper.scanModel) {
+            if (isConnect()) {
+                when (getHelper()?.getScanModel()) {
                     RFIDManager.UHF_R2000 -> {
                         vm.isL2s.postValue(false)
                     }
@@ -280,9 +280,9 @@ class InventoryModeFragment : BaseFragment<FragmentSettingInventoryModeBinding>(
         binding.speedLl.powerTv.text = power.toString()
         binding.iteratorLl.powerTv.text = power.toString()
         RFIDManager.getInstance().apply {
-            if (isConnect) {
-                helper.registerReaderCall(optCall)
-                helper.setOutputAllPower(power.toByte())
+            if (isConnect()) {
+                getHelper()?.registerReaderCall(optCall)
+                getHelper()?.setOutputAllPower(power.toByte())
             }
         }
     }
@@ -290,8 +290,8 @@ class InventoryModeFragment : BaseFragment<FragmentSettingInventoryModeBinding>(
     private fun getPower():String{
         var power = "30"
         RFIDManager.getInstance().apply {
-            if (isConnect) {
-                when (helper.scanModel) {
+            if (isConnect()) {
+                when (getHelper()?.getScanModel()) {
                     RFIDManager.UHF_R2000 -> {
                         power = "30"
                     }
@@ -307,8 +307,8 @@ class InventoryModeFragment : BaseFragment<FragmentSettingInventoryModeBinding>(
     override fun onDestroyView() {
         super.onDestroyView()
         RFIDManager.getInstance().apply {
-            if (isConnect) {
-                helper.unregisterReaderCall()
+            if (isConnect()) {
+                getHelper()?.unregisterReaderCall()
             }
         }
     }

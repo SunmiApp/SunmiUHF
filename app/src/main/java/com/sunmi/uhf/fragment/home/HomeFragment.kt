@@ -96,8 +96,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun initData() {
         setCalculateLevel(App.getPref().getParam(Config.ELEC_CACHE, 0))
         RFIDManager.getInstance().apply {
-            if (isConnect) {
-                when (helper.scanModel) {
+            if (isConnect()) {
+                when (getHelper()?.getScanModel()) {
                     RFIDManager.UHF_R2000 -> {
                         vm.isL2s.postValue(false)
                     }
@@ -193,11 +193,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
                 RFIDManager.getInstance().apply {
                     try {
-                        if (isConnect) {
-                            when (helper.scanModel) {
+                        if (isConnect()) {
+                            when (getHelper()?.getScanModel()) {
                                 RFIDManager.UHF_R2000 -> {
-                                    helper.getBatteryRemainingPercent()
-                                    helper.getBatteryChargeState()
+                                    getHelper()?.getBatteryRemainingPercent()
+                                    getHelper()?.getBatteryChargeState()
                                 }
                                 RFIDManager.INNER -> {
                                     callNext = false

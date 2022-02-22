@@ -156,7 +156,7 @@ class TabFilter1Fragment : BaseFragment<LayoutTabFilterBinding>() {
             .observe(viewLifecycleOwner, Observer {
                 if (it.containsKey(ParamCts.MASK_ID) && it.getByte(ParamCts.MASK_ID) == 0x01.toByte()) {
                     LogUtils.i("darren", "receive-1:${it}")
-                    val maskValue = it.getByteArray(ParamCts.MASK_VALUE)
+                    val maskValue = it.getByteArray(ParamCts.MASK_VALUE) ?: byteArrayOf()
                     val maskStr = StrUtils.byteArrayToString(maskValue, 0, maskValue.size)
                     App.getPref().setParam(Config.KEY_FILTER_INFO_1, maskStr)
                     val area = it.getByte(ParamCts.MASK_MEMBANK, Config.DEF_FILTER_AREA.toByte())
@@ -238,8 +238,8 @@ class TabFilter1Fragment : BaseFragment<LayoutTabFilterBinding>() {
         if (App.getPref().getParam(Config.KEY_FILTER_ENABLE_1, false) == en) return
         App.getPref().setParam(Config.KEY_FILTER_ENABLE_1, en)
         RFIDManager.getInstance().apply {
-            if (isConnect) {
-                helper.registerReaderCall(optCall)
+            if (isConnect()) {
+                getHelper()?.registerReaderCall(optCall)
                 if (en) {
                     val info = App.getPref().getParam(Config.KEY_FILTER_INFO_1, Config.DEF_FILTER_INFO)
                     val area = App.getPref().getParam(Config.KEY_FILTER_AREA_1, Config.DEF_FILTER_AREA)
@@ -248,7 +248,7 @@ class TabFilter1Fragment : BaseFragment<LayoutTabFilterBinding>() {
                     val target = App.getPref().getParam(Config.KEY_FILTER_TARGET_1, Config.DEF_FILTER_TARGET)
                     val infoList = StrUtils.stringToStringArray(info, 2)
                     val maskValue = StrUtils.stringArrayToByteArray(infoList, infoList?.size ?: 0)
-                    helper.setTagMask(
+                    getHelper()?.setTagMask(
                         0x01,
                         target.toByte(),
                         rule.toByte(),
@@ -259,7 +259,7 @@ class TabFilter1Fragment : BaseFragment<LayoutTabFilterBinding>() {
                     )
                 }
             } else {
-                helper.clearTagMask(0x01)
+                getHelper()?.clearTagMask(0x01)
             }
         }
     }
@@ -267,8 +267,8 @@ class TabFilter1Fragment : BaseFragment<LayoutTabFilterBinding>() {
     override fun onDestroyView() {
         super.onDestroyView()
         RFIDManager.getInstance().apply {
-            if (isConnect) {
-                helper.unregisterReaderCall()
+            if (isConnect()) {
+                getHelper()?.unregisterReaderCall()
             }
         }
     }
