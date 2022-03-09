@@ -4,6 +4,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
+import android.text.InputType
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import com.sunmi.rfid.RFIDManager
@@ -24,6 +27,8 @@ import com.sunmi.uhf.fragment.list.ListFragment
 import com.sunmi.uhf.fragment.setting.SettingModel
 import com.sunmi.uhf.utils.LiveDataBusEvent
 import com.sunmi.uhf.utils.LogUtils
+import com.sunmi.widget.dialog.InputDialog
+import java.lang.StringBuilder
 
 /**
  * @ClassName: InventoryModeFragment
@@ -107,6 +112,7 @@ class InventoryModeFragment : BaseFragment<FragmentSettingInventoryModeBinding>(
                 App.getPref().getParam(Config.KEY_TAKE_LINK, Config.DEF_TAKE_LINK)]
         binding.customLl.focusSw.isChecked =
             App.getPref().getParam(Config.KEY_TAKE_TAG_FOCUS, Config.DEF_TAKE_TAG_FOCUS)
+        vm.rfPower.value = App.getPref().getParam(Config.KEY_RF_POWER, Config.DEF_INVALID_POWER)
     }
 
     override fun initData() {
@@ -258,6 +264,54 @@ class InventoryModeFragment : BaseFragment<FragmentSettingInventoryModeBinding>(
                     addToBackStack = true,
                     clearStack = false
                 )
+            }
+
+            EventConstant.EVENT_POWER_CLICK -> {
+                val hint = StringBuilder(getString(R.string.please_input_rf_power))
+                val minValue = if(vm.isL2s.value!!){Config.DEF_INNER_POWER_MIN} else {Config.DEF_UHF_POWER_MIN}
+                val maxValue = if(vm.isL2s.value!!){Config.DEF_INNER_POWER_MAX} else {Config.DEF_UHF_POWER_MAX}
+                hint.append("(")
+                hint.append(minValue)
+                hint.append("~")
+                hint.append(maxValue)
+                hint.append(")")
+                val dialog = InputDialog.Builder()
+                    .setTitle(getString(R.string.setting_rf_power_text))
+                    .setHint(hint.toString())
+                    .setEditType(true)
+                    .setInputType(InputType.TYPE_CLASS_NUMBER)
+                    .setLeftText(getString(R.string.cancel_text))
+                    .setRightText(getString(R.string.sure_text))
+                    .build(context)
+                dialog.setCallback(object : InputDialog.DialogOnClickCallback {
+                    override fun left(text: String?) {
+                        dialog.cancel()
+                    }
+
+                    override fun middle(text: String?) {
+                    }
+
+                    override fun right(text: String?) {
+                        LogUtils.i("darren", "file name: $text")
+                        if (text != null) {
+                            if (text.trim().isEmpty()) {
+                                dialog.inputError()
+                                return
+                            } else {
+                                if (text.toInt() in minValue..maxValue) {
+                                    App.getPref().setParam(Config.KEY_RF_POWER, text.toInt())
+                                    vm.rfPower.value = text.toInt()
+                                    dialog.dismiss()
+                                } else {
+                                    dialog.inputError()
+                                }
+                            }
+                        } else {
+                            dialog.inputError()
+                        }
+                    }
+                })
+                dialog.show()
             }
         }
     }

@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.os.RemoteException
 import android.util.TypedValue
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
 import com.sunmi.rfid.RFIDManager
 import com.sunmi.rfid.constant.ParamCts
 import com.sunmi.uhf.App
@@ -95,6 +96,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun initData() {
         setCalculateLevel(App.getPref().getParam(Config.ELEC_CACHE, 0))
+        vm.isL2s.observe(viewLifecycleOwner, Observer {
+            if (Config.DEF_INVALID_POWER == App.getPref().getParam(Config.KEY_RF_POWER, Config.DEF_INVALID_POWER)) {
+                if (it) {
+                    App.getPref().setParam(Config.KEY_RF_POWER, Config.DEF_INNER_POWER_MAX)
+                } else {
+                    App.getPref().setParam(Config.KEY_RF_POWER, Config.DEF_UHF_POWER_MAX)
+                }
+            }
+        })
         RFIDManager.getInstance().apply {
             if (isConnect()) {
                 when (getHelper()?.getScanModel()) {

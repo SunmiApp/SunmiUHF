@@ -166,6 +166,8 @@ object EventConstant {
     /** 频率设置 - 频点数量 */
     const val EVENT_FQ_QUANTITY = 1037
 
+    /**功率设置 */
+    const val EVENT_POWER_CLICK = 1038
 
     /** 盘存底座 KeyEvent 事件 */
     const val UHF_KEY_EVENT = "uhf_key_event"
