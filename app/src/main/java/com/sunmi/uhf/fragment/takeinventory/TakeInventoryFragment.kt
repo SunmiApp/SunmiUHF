@@ -532,6 +532,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                                 )
                             }
                             Constant.INT_CUSTOM_MODE -> {
+                                setOutputAllPower(App.getPref().getParam(Config.KEY_RF_POWER, Config.DEF_INNER_POWER_MAX).toByte())
                                 customizedSessionTargetInventory(
                                     seesion.toByte(),
                                     tagFlag.toByte(),

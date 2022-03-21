@@ -240,4 +240,6 @@
 
     <string name="handle_trigger_mode_long_press">长按触发</string>
     <string name="handle_trigger_mode_tap">点按触发</string>
+    <string name="setting_rf_power_text">射频功率设置</string>
+    <string name="please_input_rf_power">请输入射频功率</string>
 </resources>

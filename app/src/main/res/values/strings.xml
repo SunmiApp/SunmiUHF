@@ -240,4 +240,6 @@
 
     <string name="handle_trigger_mode_long_press">Long press to trigger</string>
     <string name="handle_trigger_mode_tap">Tap to trigger</string>
+    <string name="setting_rf_power_text">RF power setting</string>
+    <string name="please_input_rf_power">please enter the RF power</string>
 </resources>

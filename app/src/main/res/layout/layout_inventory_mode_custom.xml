@@ -212,6 +212,40 @@
                     tools:text="30" />
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_1px"
+                android:background="@color/dividerColor" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sunmi_100px"
+                android:gravity="center_vertical"
+                android:onClick="@{()->vm.onPowerClick()}"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:text="射频功率设置"
+                    android:textColor="@color/majorTextColor"
+                    android:textSize="@dimen/sunmi_32ps" />
+
+                <TextView
+                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/right_arrow_icon"
+                    android:drawablePadding="@dimen/sunmi_10px"
+                    android:gravity="center|right"
+                    android:text="@{vm.rfPower.toString()}"
+                    android:textColor="@color/color_FF858A95"
+                    android:textSize="@dimen/sunmi_24ps"
+                    tools:text="0" />
+            </LinearLayout>
+
+
         </LinearLayout>
     </LinearLayout>
 </layout>

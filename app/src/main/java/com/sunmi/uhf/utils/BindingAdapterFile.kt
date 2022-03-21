@@ -1,9 +1,6 @@
 package com.sunmi.uhf.utils
 
-import android.annotation.SuppressLint
-import android.view.MotionEvent
 import android.view.View
-
 import android.widget.ImageView
 import androidx.annotation.Nullable
 import androidx.databinding.BindingAdapter
@@ -55,8 +52,8 @@ fun setSrc(view: ImageView?, resId: Int) {
     view?.setImageResource(resId)
 }
 
-@BindingAdapter("sunmi:outline")
-fun setOutline(@Nullable view: View?, size: String) {
+@BindingAdapter("outline")
+fun setOutline(@Nullable view: View?, @Nullable size: String) {
     view?.clipToOutline = true
     view?.outlineProvider = when (size) {
         "half" -> OutlineProviderHelper.getOutlineProviderHalfHeight()
@@ -79,9 +76,9 @@ fun setOutline(@Nullable view: View?, size: String) {
 //    view?.setColorSchemeColors(primaryColor)
 //}
 
-@SuppressLint("ClickableViewAccessibility")
+/*@SuppressLint("ClickableViewAccessibility")
 @BindingAdapter("sunmi:pressAlpha")
-fun setPressAlpha(@Nullable view: View?, flag: Boolean) {
+fun setPressAlpha(@Nullable view: View?,@Nullable flag: Boolean) {
     if (flag)
         view?.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN)
@@ -90,4 +87,4 @@ fun setPressAlpha(@Nullable view: View?, flag: Boolean) {
                 v.alpha = 1f
             false
         }
-}
+}*/
