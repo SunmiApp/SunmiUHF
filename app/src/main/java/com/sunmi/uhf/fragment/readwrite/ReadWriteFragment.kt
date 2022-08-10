@@ -145,7 +145,7 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
                     1 -> {
                         // 6C标签盘存
                         registerReaderCall(call)
-                        realTimeInventory(5)
+                        realTimeInventory(10)
                         isLoop = true
                     }
                     else -> {
