@@ -31,8 +31,8 @@ abstract class ReadBaseFragment<T : ViewDataBinding> : BaseFragment<T>() {
         override fun onTag(cmd: Byte, state: Byte, tag: DataParameter?) {
             if (BuildConfig.DEBUG) LogUtils.d(
                 "darren",
-                "found tag cmd:" + String.format("%%02X", cmd) + ", state: " + String.format("%%02X", state)
-                        + ("params info: " + tag?.toString() ?: "")
+                "found tag cmd:" + String.format("%02X", cmd) + ", state: " + String.format("%02X", state)
+                        + (",params info: " + tag?.toString() ?: "")
             )
             onCallTag(cmd, state, tag)
         }
