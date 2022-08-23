@@ -82,7 +82,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                 }
                 ParamCts.BROADCAST_ON_CONNECT,
                 ParamCts.BROADCAST_READER_BOOT -> {
-                    handleData()
+                    handleData(true)
                 }
             }
         }
@@ -160,7 +160,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
             tagFlag = getParam(Config.KEY_TAKE_FLAG, Config.DEF_TAKE_FLAG)
             link = getParam(Config.KEY_TAKE_LINK, Config.DEF_TAKE_LINK)
             autoPower = getParam(Config.KEY_TAKE_AUTO_POWER, Config.DEF_TAKE_AUTO_POWER)
-            handleData()
+            handleData(false)
         }
         vm.selectModel.value = vm.modelList[mode - 1]
         RFIDManager.getInstance().apply {
@@ -258,7 +258,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                     if (position in 0..3) {
                         mode = position + 1
                         rate = -1
-                        handleData()
+                        handleData(true)
                     }
                     dismiss()
                 }
@@ -695,18 +695,22 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
         }
     }
 
-    private fun handleData() {
+    private fun handleData(flag: Boolean) {
         RFIDManager.getInstance().apply {
             if (isConnect()) {
                 getHelper()?.apply {
                     registerReaderCall(call)
                     when (mode) {
                         Constant.INT_CUSTOM_MODE -> {
-                            setRfLinkProfile((0xD0 + link).toByte())
+                            if (flag) {
+                                setRfLinkProfile((0xD0 + link).toByte())
+                            }
                             setImpinjSaveTagFocus(seesion == 1 && tagFocus)
                         }
                         else -> {
-                            setRfLinkProfile(0xD1.toByte())
+                            if (flag) {
+                                setRfLinkProfile(0xD1.toByte())
+                            }
                             setImpinjSaveTagFocus(mode == Constant.INT_BALANCE_MODE)
                         }
                     }

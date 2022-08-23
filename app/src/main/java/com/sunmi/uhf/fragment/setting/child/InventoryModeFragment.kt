@@ -4,9 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Environment
 import android.text.InputType
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import com.sunmi.rfid.RFIDManager
@@ -28,7 +26,6 @@ import com.sunmi.uhf.fragment.setting.SettingModel
 import com.sunmi.uhf.utils.LiveDataBusEvent
 import com.sunmi.uhf.utils.LogUtils
 import com.sunmi.widget.dialog.InputDialog
-import java.lang.StringBuilder
 
 /**
  * @ClassName: InventoryModeFragment
@@ -268,8 +265,16 @@ class InventoryModeFragment : BaseFragment<FragmentSettingInventoryModeBinding>(
 
             EventConstant.EVENT_POWER_CLICK -> {
                 val hint = StringBuilder(getString(R.string.please_input_rf_power))
-                val minValue = if(vm.isL2s.value!!){Config.DEF_INNER_POWER_MIN} else {Config.DEF_UHF_POWER_MIN}
-                val maxValue = if(vm.isL2s.value!!){Config.DEF_INNER_POWER_MAX} else {Config.DEF_UHF_POWER_MAX}
+                val minValue = if (vm.isL2s.value!!) {
+                    Config.DEF_INNER_POWER_MIN
+                } else {
+                    Config.DEF_UHF_POWER_MIN
+                }
+                val maxValue = if (vm.isL2s.value!!) {
+                    Config.DEF_INNER_POWER_MAX
+                } else {
+                    Config.DEF_UHF_POWER_MAX
+                }
                 hint.append("(")
                 hint.append(minValue)
                 hint.append("~")
@@ -341,7 +346,7 @@ class InventoryModeFragment : BaseFragment<FragmentSettingInventoryModeBinding>(
         }
     }
 
-    private fun getPower():String{
+    private fun getPower(): String {
         var power = "30"
         RFIDManager.getInstance().apply {
             if (isConnect()) {
@@ -360,6 +365,7 @@ class InventoryModeFragment : BaseFragment<FragmentSettingInventoryModeBinding>(
 
     override fun onDestroyView() {
         super.onDestroyView()
+        LiveDataBusEvent.get().with(EventConstant.EVENT_SET_PROFILE).postValue(true)
         RFIDManager.getInstance().apply {
             if (isConnect()) {
                 getHelper()?.unregisterReaderCall()
