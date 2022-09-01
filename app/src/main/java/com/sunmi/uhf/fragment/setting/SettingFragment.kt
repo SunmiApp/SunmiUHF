@@ -3,15 +3,14 @@ package com.sunmi.uhf.fragment.setting
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.sunmi.rfid.RFIDManager
-import com.sunmi.rfid.entity.DataParameter
 import com.sunmi.uhf.App
 import com.sunmi.uhf.R
+import com.sunmi.uhf.base.BaseFragment
 import com.sunmi.uhf.bean.CommonListBean
 import com.sunmi.uhf.constants.Config
 import com.sunmi.uhf.constants.EventConstant
 import com.sunmi.uhf.databinding.FragmentSettingBinding
 import com.sunmi.uhf.event.SimpleViewEvent
-import com.sunmi.uhf.fragment.ReadBaseFragment
 import com.sunmi.uhf.fragment.setting.child.*
 import com.sunmi.uhf.utils.LiveDataBusEvent
 
@@ -22,7 +21,7 @@ import com.sunmi.uhf.utils.LiveDataBusEvent
  * @CreateDate: 20-9-11 下午6:29
  * @UpdateDate: 20-9-11 下午6:29
  */
-class SettingFragment : ReadBaseFragment<FragmentSettingBinding>() {
+class SettingFragment : BaseFragment<FragmentSettingBinding>() {
     lateinit var vm: SettingModel
     override fun getLayoutResource() = R.layout.fragment_setting
 
@@ -37,7 +36,6 @@ class SettingFragment : ReadBaseFragment<FragmentSettingBinding>() {
     }
 
     override fun initData() {
-        super.initData()
         LiveDataBusEvent.get().with(EventConstant.LABEL_SELECT, CommonListBean::class.java)
             .observe(viewLifecycleOwner, Observer {
                 vm.labelName.value = it.select
@@ -55,23 +53,6 @@ class SettingFragment : ReadBaseFragment<FragmentSettingBinding>() {
                 }
             }
         }
-
-        LiveDataBusEvent.get().with(EventConstant.EVENT_SET_PROFILE, Boolean::class.java).observe(viewLifecycleOwner) {
-            if (it) {
-                App.getPref().apply {
-                    var link = getParam(Config.KEY_TAKE_LINK, Config.DEF_TAKE_LINK)
-                    RFIDManager.getInstance().apply {
-                        if (isConnect()) {
-                            getHelper()?.apply {
-                                registerReaderCall(call)
-                                setRfLinkProfile((0xD0 + link).toByte())
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
     }
 
     override fun onSimpleViewEvent(event: SimpleViewEvent) {
@@ -164,20 +145,5 @@ class SettingFragment : ReadBaseFragment<FragmentSettingBinding>() {
     companion object {
         fun newInstance(args: Bundle?) = SettingFragment()
             .apply { arguments = args }
-    }
-
-    override fun handleBottomStart() {
-    }
-
-    override fun handleBottomStop() {
-    }
-
-    override fun onCallSuccess(cmd: Byte, params: DataParameter?) {
-    }
-
-    override fun onCallTag(cmd: Byte, state: Byte, tag: DataParameter?) {
-    }
-
-    override fun onCallFailed(cmd: Byte, errorCode: Byte, msg: String?) {
     }
 }

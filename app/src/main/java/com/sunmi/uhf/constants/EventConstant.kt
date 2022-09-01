@@ -76,8 +76,6 @@ object EventConstant {
     /** list select 选中 label */
     const val LABEL_SELECT = "label_select"
 
-    const val EVENT_SET_PROFILE = "set_profile"
-
     /** 过滤器 读取区域 点击 */
     const val EVENT_BLOCK_CLICK = 1010
 

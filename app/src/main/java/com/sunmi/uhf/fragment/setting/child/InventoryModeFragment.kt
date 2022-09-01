@@ -365,7 +365,6 @@ class InventoryModeFragment : BaseFragment<FragmentSettingInventoryModeBinding>(
 
     override fun onDestroyView() {
         super.onDestroyView()
-        LiveDataBusEvent.get().with(EventConstant.EVENT_SET_PROFILE).postValue(true)
         RFIDManager.getInstance().apply {
             if (isConnect()) {
                 getHelper()?.unregisterReaderCall()
