@@ -515,7 +515,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                                     0x00.toByte(),
                                     0x00.toByte(),
                                     getPowerSave(),
-                                    10
+                                    1
                                 )
                             }
                             Constant.INT_SPEED_MODE -> {
@@ -528,7 +528,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                                     0x00.toByte(),
                                     0x00.toByte(),
                                     getPowerSave(),
-                                    10
+                                    1
                                 )
                             }
                             Constant.INT_CUSTOM_MODE -> {
@@ -539,7 +539,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                                     0x00.toByte(),
                                     0x00.toByte(),
                                     getPowerSave(),
-                                    10
+                                    1
                                 )
                             }
                         }
@@ -710,6 +710,63 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                             setImpinjSaveTagFocus(mode == Constant.INT_BALANCE_MODE)
                         }
                     }
+                    setMask1Tag()
+                    setMask2Tag()
+                }
+            }
+        }
+    }
+
+    private fun setMask1Tag() {
+        var en: Boolean = App.getPref().getParam(Config.KEY_FILTER_ENABLE_1, false)
+        if (!en) return
+        App.getPref().setParam(Config.KEY_FILTER_ENABLE_1, en)
+        RFIDManager.getInstance().apply {
+            if (isConnect()) {
+                if (en) {
+                    val info = App.getPref().getParam(Config.KEY_FILTER_INFO_1, Config.DEF_FILTER_INFO)
+                    val area = App.getPref().getParam(Config.KEY_FILTER_AREA_1, Config.DEF_FILTER_AREA)
+                    val startAdd = App.getPref().getParam(Config.KEY_FILTER_START_ADD_1, Config.DEF_FILTER_START_ADD)
+                    val rule = App.getPref().getParam(Config.KEY_FILTER_RULE_1, Config.DEF_FILTER_RULE)
+                    val target = App.getPref().getParam(Config.KEY_FILTER_TARGET_1, Config.DEF_FILTER_TARGET)
+                    val infoList = StrUtils.stringToStringArray(info, 2)
+                    val maskValue = StrUtils.stringArrayToByteArray(infoList, infoList?.size ?: 0)
+                    getHelper()?.setTagMask(
+                        0x01,
+                        target.toByte(),
+                        rule.toByte(),
+                        area.toByte(),
+                        startAdd.toByte(),
+                        ((maskValue?.size ?: 0) * 8).toByte(),
+                        maskValue
+                    )
+                }
+            }
+        }
+    }
+
+    private fun setMask2Tag() {
+        var en: Boolean = App.getPref().getParam(Config.KEY_FILTER_ENABLE_2, false)
+        if (!en) return
+        RFIDManager.getInstance().apply {
+            if (isConnect()) {
+                if (en) {
+                    val info = App.getPref().getParam(Config.KEY_FILTER_INFO_2, Config.DEF_FILTER_INFO)
+                    val area = App.getPref().getParam(Config.KEY_FILTER_AREA_2, Config.DEF_FILTER_AREA)
+                    val startAdd = App.getPref().getParam(Config.KEY_FILTER_START_ADD_2, Config.DEF_FILTER_START_ADD)
+                    val rule = App.getPref().getParam(Config.KEY_FILTER_RULE_2, Config.DEF_FILTER_RULE)
+                    val target = App.getPref().getParam(Config.KEY_FILTER_TARGET_2, Config.DEF_FILTER_TARGET)
+                    val infoList = StrUtils.stringToStringArray(info, 2)
+                    val maskValue = StrUtils.stringArrayToByteArray(infoList, infoList?.size ?: 0)
+                    getHelper()?.setTagMask(
+                        0x02,
+                        target.toByte(),
+                        rule.toByte(),
+                        area.toByte(),
+                        startAdd.toByte(),
+                        ((maskValue?.size ?: 0) * 8).toByte(),
+                        maskValue
+                    )
                 }
             }
         }

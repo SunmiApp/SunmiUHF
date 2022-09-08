@@ -250,7 +250,7 @@ class TabFilter2Fragment : BaseFragment<LayoutTabFilterBinding>() {
                         rule.toByte(),
                         area.toByte(),
                         startAdd.toByte(),
-                        maskValue?.size?.toByte() ?: 0,
+                        ((maskValue?.size ?: 0) * 8).toByte(),
                         maskValue
                     )
                 } else {
