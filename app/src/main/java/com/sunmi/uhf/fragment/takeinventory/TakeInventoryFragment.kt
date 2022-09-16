@@ -519,7 +519,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                                 )
                             }
                             Constant.INT_SPEED_MODE -> {
-                                realTimeInventory(3)
+                                realTimeInventory(1)
                             }
                             Constant.INT_ITERATOR_MODE -> {
                                 customizedSessionTargetInventory(
