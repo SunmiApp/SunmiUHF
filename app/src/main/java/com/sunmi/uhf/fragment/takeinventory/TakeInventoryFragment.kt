@@ -103,8 +103,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
             RecycleDivider(
                 activity,
                 RecycleDivider.HORIZONTAL_LIST,
-                resources
-                    .getDimensionPixelSize(R.dimen.sunmi_1px),
+                resources.getDimensionPixelSize(R.dimen.sunmi_1px),
                 ContextCompat.getColor(App.mContext, R.color.dividerColor)
             )
         )
@@ -703,11 +702,11 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                     when (mode) {
                         Constant.INT_CUSTOM_MODE -> {
                             setRfLinkProfile((0xD0 + link).toByte())
-                            setImpinjSaveTagFocus(seesion == 1 && tagFocus)
+                            setImpinjFastTid(seesion == 1 && tagFocus, false)
                         }
                         else -> {
                             setRfLinkProfile(0xD1.toByte())
-                            setImpinjSaveTagFocus(mode == Constant.INT_BALANCE_MODE)
+                            setImpinjFastTid(mode == Constant.INT_BALANCE_MODE, false)
                         }
                     }
                     setMask1Tag()

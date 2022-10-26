@@ -43,7 +43,7 @@
             android:textSize="@dimen/sunmi_28px" />
 
         <TextView
-            android:layout_width="@dimen/sunmi_445px"
+            android:layout_width="@dimen/sunmi_600px"
             android:layout_height="match_parent"
             android:ellipsize="end"
             android:gravity="center"
