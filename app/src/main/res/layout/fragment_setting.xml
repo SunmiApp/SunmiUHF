@@ -73,7 +73,7 @@
                     android:orientation="horizontal"
                     android:paddingTop="@dimen/sunmi_20px"
                     android:paddingBottom="@dimen/sunmi_20px"
-                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}">
+                    android:visibility="@{vm.isInner()? View.GONE:View.VISIBLE}">
 
                     <TextView
                         android:layout_width="0dp"
@@ -104,7 +104,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sunmi_1px"
                     android:background="@color/dividerColor"
-                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}" />
+                    android:visibility="@{vm.isInner()? View.GONE:View.VISIBLE}" />
                 <!--  手柄选择 -->
 
                 <TextView
@@ -153,7 +153,7 @@
                     android:drawablePadding="@dimen/sunmi_20px"
                     android:gravity="center|left"
                     android:onClick="@{()->vm.onAreaSettingClick()}"
-                    android:text="@{vm.isL2s()?@string/setting_frequency_text:@string/setting_select_area_text}"
+                    android:text="@{vm.isInner()?@string/setting_frequency_text:@string/setting_select_area_text}"
                     android:textColor="@color/majorTextColor"
                     android:textSize="@dimen/sunmi_32ps" />
 
@@ -211,13 +211,13 @@
                     android:text="@string/setting_firmware_update_text"
                     android:textColor="@color/majorTextColor"
                     android:textSize="@dimen/sunmi_32ps"
-                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}" />
+                    android:visibility="@{vm.isInner()? View.GONE:View.VISIBLE}" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sunmi_1px"
                     android:background="@color/dividerColor"
-                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}" />
+                    android:visibility="@{vm.isInner()? View.GONE:View.VISIBLE}" />
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

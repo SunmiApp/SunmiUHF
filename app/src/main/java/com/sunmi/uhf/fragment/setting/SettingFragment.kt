@@ -44,11 +44,11 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
         RFIDManager.getInstance().apply {
             if (isConnect()) {
                 when (getHelper()?.getScanModel()) {
-                    RFIDManager.UHF_R2000 -> {
-                        vm.isL2s.postValue(false)
+                    RFIDManager.UHF_R2000, RFIDManager.UHF_S7100 -> {
+                        vm.isInner.postValue(false)
                     }
                     RFIDManager.INNER -> {
-                        vm.isL2s.postValue(true)
+                        vm.isInner.postValue(true)
                     }
                 }
             }

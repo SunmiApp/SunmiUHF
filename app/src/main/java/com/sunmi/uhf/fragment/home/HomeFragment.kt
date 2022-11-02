@@ -7,7 +7,6 @@ import android.content.IntentFilter
 import android.graphics.drawable.ClipDrawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
-import android.os.RemoteException
 import android.util.TypedValue
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
@@ -96,7 +95,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun initData() {
         setCalculateLevel(App.getPref().getParam(Config.ELEC_CACHE, 0))
-        vm.isL2s.observe(viewLifecycleOwner, Observer {
+        vm.isInner.observe(viewLifecycleOwner, Observer {
             if (Config.DEF_INVALID_POWER == App.getPref().getParam(Config.KEY_RF_POWER, Config.DEF_INVALID_POWER)) {
                 if (it) {
                     App.getPref().setParam(Config.KEY_RF_POWER, Config.DEF_INNER_POWER_MAX)
@@ -108,11 +107,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         RFIDManager.getInstance().apply {
             if (isConnect()) {
                 when (getHelper()?.getScanModel()) {
-                    RFIDManager.UHF_R2000 -> {
-                        vm.isL2s.postValue(false)
+                    RFIDManager.UHF_R2000, RFIDManager.UHF_S7100 -> {
+                        vm.isInner.postValue(false)
                     }
                     RFIDManager.INNER -> {
-                        vm.isL2s.postValue(true)
+                        vm.isInner.postValue(true)
                     }
                 }
             }
@@ -205,7 +204,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     try {
                         if (isConnect()) {
                             when (getHelper()?.getScanModel()) {
-                                RFIDManager.UHF_R2000 -> {
+                                RFIDManager.UHF_R2000, RFIDManager.UHF_S7100 -> {
                                     getHelper()?.getBatteryRemainingPercent()
                                     getHelper()?.getBatteryChargeState()
                                 }

@@ -94,7 +94,7 @@ class AboutDeviceFragment : BaseFragment<FragmentAboutDeviceBinding>() {
                     CMD.GET_FIRMWARE_VERSION -> {
                         val main = params?.getByte(ParamCts.FIRMWARE_MAIN_VERSION)
                         val min = params?.getByte(ParamCts.FIRMWARE_MIN_VERSION)
-                        vm.moduleVer.value = "RFID $main.$min"
+                        vm.moduleVer.value = "RFID $main.$min(${params?.getString(ParamCts.FIRMWARE_VERSION) ?: ""})"
                     }
                     CMD.GET_READER_TEMPERATURE -> {
                         val p = params?.getByte(ParamCts.PLUS_MINUS, 1)?.toInt() ?: 1
@@ -149,7 +149,7 @@ class AboutDeviceFragment : BaseFragment<FragmentAboutDeviceBinding>() {
             if (isConnect()) {
                 getHelper()?.apply {
                     when (getScanModel()) {
-                        RFIDManager.UHF_R2000 -> {
+                        RFIDManager.UHF_R2000, RFIDManager.UHF_S7100 -> {
                             registerReaderCall(optCall)
                             /* SN */
                             getReaderSN()
@@ -167,7 +167,7 @@ class AboutDeviceFragment : BaseFragment<FragmentAboutDeviceBinding>() {
                             getBatteryChargeNumTimes()
                             /* UHF 充电状态 */
                             getBatteryChargeState()
-                            vm.isL2s.postValue(false)
+                            vm.isInner.postValue(false)
                         }
                         RFIDManager.INNER -> {
                             registerReaderCall(optCall)
@@ -175,7 +175,7 @@ class AboutDeviceFragment : BaseFragment<FragmentAboutDeviceBinding>() {
                             getFirmwareVersion()
                             /* 模块类型 */
                             binding.tvModelType.text = getString(R.string.module_type_inner)
-                            vm.isL2s.postValue(true)
+                            vm.isInner.postValue(true)
                         }
                     }
                 }

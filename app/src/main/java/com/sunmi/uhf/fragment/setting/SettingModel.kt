@@ -72,8 +72,8 @@ class SettingModel : BaseViewModel() {
     /* UHF 充电状态 */
     val batteryCharge = MutableLiveData<String>()
 
-    //L2s、L2k适配判断
-    val isL2s = MutableLiveData<Boolean>(false)
+    // 是否为内置RFID适配判断
+    val isInner = MutableLiveData<Boolean>(false)
 
     /*射频功率 外接0~33 内置18-26*/
     val rfPower = MutableLiveData<Int>(0)

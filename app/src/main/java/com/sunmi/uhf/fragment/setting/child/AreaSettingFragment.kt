@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.Observer
 import com.sunmi.rfid.RFIDManager
 import com.sunmi.rfid.ReaderCall
@@ -145,11 +144,11 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                     registerReaderCall(optCall)
                     when (getScanModel()) {
                         // UHF R2000
-                        RFIDManager.UHF_R2000 -> {
+                        RFIDManager.UHF_R2000, RFIDManager.UHF_S7100 -> {
                             vm.title.value = resources.getString(R.string.setting_select_area_text)
                             getReaderSN()
                             getFrequencyRegion()
-                            vm.isL2s.postValue(false)
+                            vm.isInner.postValue(false)
                         }
                         RFIDManager.INNER -> {
                             vm.title.value = resources.getString(R.string.setting_frequency_text)
@@ -164,7 +163,7 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                             }
                             getReaderSN()
                             getFrequencyRegion()
-                            vm.isL2s.postValue(true)
+                            vm.isInner.postValue(true)
                         }
                         else -> {
                             binding.moduleNameTv.text = ""
@@ -285,7 +284,7 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                     if (isConnect()) {
                         getHelper()?.apply {
                             when (getScanModel()) {
-                                RFIDManager.UHF_R2000 -> {
+                                RFIDManager.UHF_R2000, RFIDManager.UHF_S7100 -> {
                                     val end = ParamCts.getParamsToRf(rfEnd).toInt()
                                     for (i in rfBand[1]..end) {
                                         list.add("$i.0 MHz")
@@ -371,7 +370,7 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                 if (isConnect()) {
                     LogUtils.d("darren", "show data...")
                     when (getHelper()?.getScanModel()) {
-                        RFIDManager.UHF_R2000 -> {
+                        RFIDManager.UHF_R2000, RFIDManager.UHF_S7100 -> {
                             if (sn.isNotEmpty()) {
                                 rfBand = ParamCts.getRFFrequencyBand(sn)
                             }

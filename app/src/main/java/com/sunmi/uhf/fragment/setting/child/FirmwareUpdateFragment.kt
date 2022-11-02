@@ -130,7 +130,7 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
             return
         }
         RFIDManager.getInstance().apply {
-            if (isConnect() && getHelper()?.getScanModel() == RFIDManager.UHF_R2000) {
+            if (isConnect() && getHelper()?.getScanModel().run { this == RFIDManager.UHF_R2000 || this == RFIDManager.UHF_S7100 }) {
                 vm.updating.value = true
                 vm.updateProgress.value = 0
                 getHelper()?.firmwareUpdate(vm.mBinPath.value, object : FirmwareUpdateCall() {

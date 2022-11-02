@@ -170,11 +170,11 @@ class InventoryModeFragment : BaseFragment<FragmentSettingInventoryModeBinding>(
         RFIDManager.getInstance().apply {
             if (isConnect()) {
                 when (getHelper()?.getScanModel()) {
-                    RFIDManager.UHF_R2000 -> {
-                        vm.isL2s.postValue(false)
+                    RFIDManager.UHF_R2000, RFIDManager.UHF_S7100 -> {
+                        vm.isInner.postValue(false)
                     }
                     RFIDManager.INNER -> {
-                        vm.isL2s.postValue(true)
+                        vm.isInner.postValue(true)
                     }
                 }
             }
@@ -265,12 +265,12 @@ class InventoryModeFragment : BaseFragment<FragmentSettingInventoryModeBinding>(
 
             EventConstant.EVENT_POWER_CLICK -> {
                 val hint = StringBuilder(getString(R.string.please_input_rf_power))
-                val minValue = if (vm.isL2s.value!!) {
+                val minValue = if (vm.isInner.value!!) {
                     Config.DEF_INNER_POWER_MIN
                 } else {
                     Config.DEF_UHF_POWER_MIN
                 }
-                val maxValue = if (vm.isL2s.value!!) {
+                val maxValue = if (vm.isInner.value!!) {
                     Config.DEF_INNER_POWER_MAX
                 } else {
                     Config.DEF_UHF_POWER_MAX
@@ -351,7 +351,7 @@ class InventoryModeFragment : BaseFragment<FragmentSettingInventoryModeBinding>(
         RFIDManager.getInstance().apply {
             if (isConnect()) {
                 when (getHelper()?.getScanModel()) {
-                    RFIDManager.UHF_R2000 -> {
+                    RFIDManager.UHF_R2000, RFIDManager.UHF_S7100 -> {
                         power = "30"
                     }
                     RFIDManager.INNER -> {

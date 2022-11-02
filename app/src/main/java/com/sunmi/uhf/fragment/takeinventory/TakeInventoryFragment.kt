@@ -165,7 +165,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
         RFIDManager.getInstance().apply {
             if (isConnect()) {
                 when (getHelper()?.getScanModel()) {
-                    RFIDManager.UHF_R2000 -> {
+                    RFIDManager.UHF_R2000, RFIDManager.UHF_S7100 -> {
                         vm.labelVisibility.postValue(true)
                     }
                     RFIDManager.INNER -> {

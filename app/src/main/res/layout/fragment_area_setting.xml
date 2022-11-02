@@ -77,7 +77,7 @@
                     android:orientation="horizontal"
                     android:paddingTop="@dimen/sunmi_20px"
                     android:paddingBottom="@dimen/sunmi_20px"
-                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}">
+                    android:visibility="@{vm.isInner()? View.GONE:View.VISIBLE}">
 
                     <TextView
                         android:layout_width="0dp"
@@ -103,7 +103,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sunmi_1px"
                     android:background="@color/dividerColor"
-                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}" />
+                    android:visibility="@{vm.isInner()? View.GONE:View.VISIBLE}" />
                 <!--  区域国家 -->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -113,7 +113,7 @@
                     android:orientation="horizontal"
                     android:paddingTop="@dimen/sunmi_20px"
                     android:paddingBottom="@dimen/sunmi_20px"
-                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}">
+                    android:visibility="@{vm.isInner()? View.GONE:View.VISIBLE}">
 
                     <TextView
                         android:layout_width="0dp"
@@ -141,7 +141,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sunmi_1px"
                     android:background="@color/dividerColor"
-                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}" />
+                    android:visibility="@{vm.isInner()? View.GONE:View.VISIBLE}" />
 
                 <!--  起始频率 -->
                 <LinearLayout
@@ -179,7 +179,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sunmi_1px"
                     android:background="@color/dividerColor"
-                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}" />
+                    android:visibility="@{vm.isInner()? View.GONE:View.VISIBLE}" />
 
                 <!--  截止频率 -->
                 <LinearLayout
@@ -190,7 +190,7 @@
                     android:orientation="horizontal"
                     android:paddingTop="@dimen/sunmi_20px"
                     android:paddingBottom="@dimen/sunmi_20px"
-                    android:visibility="@{vm.isL2s()? View.GONE:View.VISIBLE}">
+                    android:visibility="@{vm.isInner()? View.GONE:View.VISIBLE}">
 
                     <TextView
                         android:layout_width="0dp"
@@ -218,7 +218,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sunmi_1px"
                     android:background="@color/dividerColor"
-                    android:visibility="@{vm.isL2s()? View.VISIBLE:View.GONE}" />
+                    android:visibility="@{vm.isInner()? View.VISIBLE:View.GONE}" />
 
                 <!--  频点间隔 -->
                 <LinearLayout
@@ -229,7 +229,7 @@
                     android:orientation="horizontal"
                     android:paddingTop="@dimen/sunmi_20px"
                     android:paddingBottom="@dimen/sunmi_20px"
-                    android:visibility="@{vm.isL2s()? View.VISIBLE:View.GONE}">
+                    android:visibility="@{vm.isInner()? View.VISIBLE:View.GONE}">
 
                     <TextView
                         android:layout_width="0dp"
@@ -259,7 +259,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sunmi_1px"
                     android:background="@color/dividerColor"
-                    android:visibility="@{vm.isL2s()? View.VISIBLE:View.GONE}" />
+                    android:visibility="@{vm.isInner()? View.VISIBLE:View.GONE}" />
 
                 <!--  频点数量 -->
                 <LinearLayout
@@ -270,7 +270,7 @@
                     android:orientation="horizontal"
                     android:paddingTop="@dimen/sunmi_20px"
                     android:paddingBottom="@dimen/sunmi_20px"
-                    android:visibility="@{vm.isL2s()? View.VISIBLE:View.GONE}">
+                    android:visibility="@{vm.isInner()? View.VISIBLE:View.GONE}">
 
                     <TextView
                         android:layout_width="0dp"
