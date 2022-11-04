@@ -3,13 +3,13 @@ package com.sunmi.uhf.fragment.filter.tab
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-
 import androidx.lifecycle.Observer
 import com.sunmi.rfid.RFIDManager
 import com.sunmi.rfid.ReaderCall
 import com.sunmi.rfid.constant.CMD
 import com.sunmi.rfid.constant.ParamCts
 import com.sunmi.rfid.entity.DataParameter
+import com.sunmi.scanner.utils.ByteUtils
 import com.sunmi.uhf.App
 import com.sunmi.uhf.BuildConfig
 import com.sunmi.uhf.R
@@ -98,8 +98,13 @@ class TabFilter1Fragment : BaseFragment<LayoutTabFilterBinding>() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                val maskValue = StrUtils.stringToByteArray(binding.epcEt.text.toString())
-                val maskStr = StrUtils.byteArrayToString(maskValue, 0, maskValue.size)
+                //val maskValue = StrUtils.stringToByteArray(binding.epcEt.text.toString())
+                val content = binding.epcEt.text.toString().replace(" ", "")
+                println("Test chen 2222 TabFilter1Fragment afterTextChanged content=$content")
+                val maskValue = StrUtils.hexToByteArr(content)
+                //val maskStr = StrUtils.byteArrayToString(maskValue, 0, maskValue.size)
+                val maskStr = StrUtils.byteArrToHex(maskValue, false)
+                println("Test chen 2222 TabFilter1Fragment afterTextChanged maskValue.size=${maskValue.size},maskValue=${ByteUtils.byteArrToHex(maskValue, false)},maskStr=$maskStr")
                 App.getPref().setParam(Config.KEY_FILTER_INFO_1, maskStr)
             }
         })
@@ -157,7 +162,9 @@ class TabFilter1Fragment : BaseFragment<LayoutTabFilterBinding>() {
                 if (it.containsKey(ParamCts.MASK_ID) && it.getByte(ParamCts.MASK_ID) == 0x01.toByte()) {
                     LogUtils.i("darren", "receive-1:${it}")
                     val maskValue = it.getByteArray(ParamCts.MASK_VALUE) ?: byteArrayOf()
-                    val maskStr = StrUtils.byteArrayToString(maskValue, 0, maskValue.size)
+                    //val maskStr = StrUtils.byteArrayToString(maskValue, 0, maskValue.size)
+                    val maskStr = StrUtils.byteArrToHex(maskValue, false)
+                    println("Test chen 3333 maskValue=${ByteUtils.byteArrToHex(maskValue, false)},maskStr=$maskStr")
                     App.getPref().setParam(Config.KEY_FILTER_INFO_1, maskStr)
                     val area = it.getByte(ParamCts.MASK_MEMBANK, Config.DEF_FILTER_AREA.toByte())
                     App.getPref().setParam(Config.KEY_FILTER_AREA_1, area)
@@ -257,9 +264,9 @@ class TabFilter1Fragment : BaseFragment<LayoutTabFilterBinding>() {
                         ((maskValue?.size ?: 0) * 8).toByte(),
                         maskValue
                     )
+                } else {
+                    getHelper()?.clearTagMask(0x01)
                 }
-            } else {
-                getHelper()?.clearTagMask(0x01)
             }
         }
     }

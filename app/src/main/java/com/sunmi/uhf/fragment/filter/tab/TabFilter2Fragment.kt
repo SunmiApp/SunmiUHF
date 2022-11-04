@@ -97,8 +97,11 @@ class TabFilter2Fragment : BaseFragment<LayoutTabFilterBinding>() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                val maskValue = StrUtils.stringToByteArray(binding.epcEt.text.toString())
-                val maskStr = StrUtils.byteArrayToString(maskValue, 0, maskValue.size)
+                /*val maskValue = StrUtils.stringToByteArray(binding.epcEt.text.toString())
+                val maskStr = StrUtils.byteArrayToString(maskValue, 0, maskValue.size)*/
+                val content = binding.epcEt.text.toString().replace(" ", "")
+                val maskValue = StrUtils.hexToByteArr(content)
+                val maskStr = StrUtils.byteArrToHex(maskValue, false)
                 App.getPref().setParam(Config.KEY_FILTER_INFO_2, maskStr)
             }
         })
@@ -149,7 +152,8 @@ class TabFilter2Fragment : BaseFragment<LayoutTabFilterBinding>() {
                 if (it.containsKey(ParamCts.MASK_ID) && it.getByte(ParamCts.MASK_ID) == 0x01.toByte()) {
                     LogUtils.i("darren", "receive-2:${it}")
                     val maskValue = it.getByteArray(ParamCts.MASK_VALUE) ?: byteArrayOf()
-                    val maskStr = StrUtils.byteArrayToString(maskValue, 0, maskValue.size)
+                    //val maskStr = StrUtils.byteArrayToString(maskValue, 0, maskValue.size)
+                    val maskStr = StrUtils.byteArrToHex(maskValue, false)
                     App.getPref().setParam(Config.KEY_FILTER_INFO_2, maskStr)
                     val area = it.getByte(ParamCts.MASK_MEMBANK, Config.DEF_FILTER_AREA.toByte())
                     App.getPref().setParam(Config.KEY_FILTER_AREA_2, area)

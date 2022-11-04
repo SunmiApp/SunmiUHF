@@ -4,6 +4,67 @@ import java.util.*
 import java.util.regex.Pattern
 
 object StrUtils {
+    @OptIn(ExperimentalStdlibApi::class)
+    @JvmStatic
+    fun byte2Hex(inByte: Byte?): String {
+        return String.format("%02x", inByte).uppercase(Locale.getDefault())
+    }
+
+    @JvmStatic
+    @JvmOverloads
+    fun byteArrToHex(inBytArr: ByteArray?, addSpace: Boolean = true): String {
+        return if (inBytArr != null) {
+            val strBuilder = StringBuilder()
+            val j = inBytArr.size
+            for (i in 0 until j) {
+                strBuilder.append(byte2Hex(inBytArr[i]))
+                if (addSpace) {
+                    strBuilder.append(" ")
+                }
+            }
+            val str = strBuilder.toString()
+            strBuilder.delete(0, strBuilder.length)
+            str
+        } else {
+            ""
+        }
+    }
+
+    @JvmStatic
+    fun hexToByte(inHex: String): Byte {
+        return inHex.toInt(16).toByte()
+    }
+
+    @JvmStatic
+    fun isOdd(num: Int): Int {
+        return num and 0x1
+    }
+
+    /**
+     * 转hex字符串转字节数组
+     */
+    @JvmStatic
+    fun hexToByteArr(inHex: String): ByteArray {
+        var inHex = inHex
+        var hexlen = inHex.length
+        val result: ByteArray
+        if (isOdd(hexlen) == 1) { //奇数
+            hexlen++
+            result = ByteArray(hexlen / 2)
+            inHex = "0$inHex"
+        } else { //偶数
+            result = ByteArray(hexlen / 2)
+        }
+        var j = 0
+        var i = 0
+        while (i < hexlen) {
+            result[j] = hexToByte(inHex.substring(i, i + 2))
+            j++
+            i += 2
+        }
+        return result
+    }
+
     /**
      * strings to Hexadecimal array,seperate string by space
      *
@@ -56,6 +117,9 @@ object StrUtils {
      * @return transfered strings
      */
     fun byteArrayToString(btAryHex: ByteArray, nIndex: Int, len: Int): String {
+        if (len <= 0) {
+            return ""
+        }
         var nLen = len
         if (nIndex + nLen > btAryHex.size) {
             nLen = btAryHex.size - nIndex
