@@ -240,7 +240,8 @@ class SearchModelFragment : BaseFragment<FragmentSearchBinding>() {
                         dialog.inputError()
                         return
                     } else {
-                        exportExcel(text, Environment.getExternalStorageDirectory().absolutePath)
+                        //exportExcel(text, Environment.getExternalStorageDirectory().absolutePath)
+                        exportExcel(text, context?.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).toString())
                         dialog.dismiss()
                     }
                 } else {
