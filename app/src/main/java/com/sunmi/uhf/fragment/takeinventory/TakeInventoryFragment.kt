@@ -696,6 +696,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
     }
 
     private fun handleData() {
+        LogUtils.i("TAG", "TakeInventoryFragment.handleData: seesion:$seesion,tagFocus:$tagFocus,link:$link")
         RFIDManager.getInstance().apply {
             if (isConnect()) {
                 getHelper()?.apply {
