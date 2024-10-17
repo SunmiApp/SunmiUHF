@@ -5,13 +5,12 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdk 31
 
     defaultConfig {
         applicationId "com.sunmi.uhf"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 31
         versionCode 19
         versionName "1.0.18"
         // versionNameSuffix ".bate"
@@ -80,13 +79,13 @@ dependencies {
     /**
      * 网络库
      */
-    implementation 'com.sunmi:SunmiHttpLib:1.0.43'
+    implementation 'com.sunmi:SunmiHttpLib:2.0.65'
     /**
      * lifecycle
      */
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     /**
      * recyclerview
