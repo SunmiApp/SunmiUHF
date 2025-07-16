@@ -10,8 +10,6 @@ buildscript {
         maven { url 'https://maven.aliyun.com/repository/google/' }
         maven { url "https://jitpack.io" }
         maven { url "https://plugins.gradle.org/m2/" }
-        // 添加远程 Aliyun Maven Certificate 依赖，
-        apply from: 'https://sbs-android.oss-cn-hangzhou.aliyuncs.com/GradleConfigTool/aliyun_maven_certificate_build.gradle'
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.4.2'
@@ -31,8 +29,6 @@ allprojects {
         maven { url 'https://maven.aliyun.com/nexus/content/repositories/jcenter/' }
         maven { url 'https://maven.aliyun.com/repository/google/' }
         maven { url "https://jitpack.io" }
-        // 添加远程 Aliyun Maven Certificate 依赖，
-        apply from: 'https://sbs-android.oss-cn-hangzhou.aliyuncs.com/GradleConfigTool/aliyun_maven_certificate_build.gradle'
     }
 }
 

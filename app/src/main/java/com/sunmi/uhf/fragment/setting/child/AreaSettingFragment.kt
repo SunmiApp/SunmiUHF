@@ -144,13 +144,13 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                     registerReaderCall(optCall)
                     when (getScanModel()) {
                         // UHF R2000
-                        RFIDManager.UHF_R2000, RFIDManager.UHF_S7100 -> {
+                        RFIDManager.UHF_R2000, RFIDManager.UHF_S7100, RFIDManager.INNER_SIM3500 -> {
                             vm.title.value = resources.getString(R.string.setting_select_area_text)
                             getReaderSN()
                             getFrequencyRegion()
                             vm.isInner.postValue(false)
                         }
-                        RFIDManager.INNER -> {
+                        RFIDManager.INNER_M500 -> {
                             vm.title.value = resources.getString(R.string.setting_frequency_text)
                             binding.moduleNameTv.text = getString(R.string.module_type_inner)
                             fqIntervalList.clear()
@@ -284,7 +284,7 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                     if (isConnect()) {
                         getHelper()?.apply {
                             when (getScanModel()) {
-                                RFIDManager.UHF_R2000, RFIDManager.UHF_S7100 -> {
+                                RFIDManager.UHF_R2000, RFIDManager.UHF_S7100, RFIDManager.INNER_SIM3500 -> {
                                     val end = ParamCts.getParamsToRf(rfEnd).toInt()
                                     for (i in rfBand[1]..end) {
                                         list.add("$i.0 MHz")
@@ -293,7 +293,7 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                                         }
                                     }
                                 }
-                                RFIDManager.INNER -> {
+                                RFIDManager.INNER_M500 -> {
                                     val band = ParamCts.getRFFrequencyBand(getScanModel(), sn)
                                     val end = band[2]
                                     for (i in band[1]..end) {
@@ -370,7 +370,7 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                 if (isConnect()) {
                     LogUtils.d("darren", "show data...")
                     when (getHelper()?.getScanModel()) {
-                        RFIDManager.UHF_R2000, RFIDManager.UHF_S7100 -> {
+                        RFIDManager.UHF_R2000, RFIDManager.UHF_S7100, RFIDManager.INNER_SIM3500 -> {
                             if (sn.isNotEmpty()) {
                                 rfBand = ParamCts.getRFFrequencyBand(sn)
                             }
@@ -456,7 +456,7 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                             }
 
                         }
-                        RFIDManager.INNER -> {
+                        RFIDManager.INNER_M500  -> {
                             binding.moduleNameTv.text = getString(R.string.module_type_inner)
                             binding.areaCountryTv.text = ""
                             binding.rfStartTv.text = getString(R.string.x_mhz, rfStart)

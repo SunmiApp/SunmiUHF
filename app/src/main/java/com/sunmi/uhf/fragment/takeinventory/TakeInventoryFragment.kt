@@ -168,7 +168,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                     RFIDManager.UHF_R2000, RFIDManager.UHF_S7100 -> {
                         vm.labelVisibility.postValue(true)
                     }
-                    RFIDManager.INNER -> {
+                    RFIDManager.INNER_M500, RFIDManager.INNER_SIM3500  -> {
                         vm.labelVisibility.postValue(false)
                     }
                 }

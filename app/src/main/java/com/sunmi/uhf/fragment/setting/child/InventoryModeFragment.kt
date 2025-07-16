@@ -173,7 +173,7 @@ class InventoryModeFragment : BaseFragment<FragmentSettingInventoryModeBinding>(
                     RFIDManager.UHF_R2000, RFIDManager.UHF_S7100 -> {
                         vm.isInner.postValue(false)
                     }
-                    RFIDManager.INNER -> {
+                    RFIDManager.INNER_M500, RFIDManager.INNER_SIM3500  -> {
                         vm.isInner.postValue(true)
                     }
                 }
@@ -351,10 +351,10 @@ class InventoryModeFragment : BaseFragment<FragmentSettingInventoryModeBinding>(
         RFIDManager.getInstance().apply {
             if (isConnect()) {
                 when (getHelper()?.getScanModel()) {
-                    RFIDManager.UHF_R2000, RFIDManager.UHF_S7100 -> {
+                    RFIDManager.UHF_R2000, RFIDManager.UHF_S7100, RFIDManager.INNER_SIM3500  -> {
                         power = "30"
                     }
-                    RFIDManager.INNER -> {
+                    RFIDManager.INNER_M500 -> {
                         power = "26"
                     }
                 }

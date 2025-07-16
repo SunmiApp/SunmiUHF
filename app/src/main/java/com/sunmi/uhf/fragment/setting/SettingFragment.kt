@@ -47,7 +47,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
                     RFIDManager.UHF_R2000, RFIDManager.UHF_S7100 -> {
                         vm.isInner.postValue(false)
                     }
-                    RFIDManager.INNER -> {
+                    RFIDManager.INNER_M500, RFIDManager.INNER_SIM3500 -> {
                         vm.isInner.postValue(true)
                     }
                 }

@@ -169,7 +169,7 @@ class AboutDeviceFragment : BaseFragment<FragmentAboutDeviceBinding>() {
                             getBatteryChargeState()
                             vm.isInner.postValue(false)
                         }
-                        RFIDManager.INNER -> {
+                        RFIDManager.INNER_M500, RFIDManager.INNER_SIM3500 -> {
                             registerReaderCall(optCall)
                             /* UHF 固件版本 */
                             getFirmwareVersion()

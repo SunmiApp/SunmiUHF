@@ -110,7 +110,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     RFIDManager.UHF_R2000, RFIDManager.UHF_S7100 -> {
                         vm.isInner.postValue(false)
                     }
-                    RFIDManager.INNER -> {
+                    RFIDManager.INNER_M500, RFIDManager.INNER_SIM3500 -> {
                         vm.isInner.postValue(true)
                     }
                 }
@@ -208,7 +208,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                                     getHelper()?.getBatteryRemainingPercent()
                                     getHelper()?.getBatteryChargeState()
                                 }
-                                RFIDManager.INNER -> {
+                                RFIDManager.INNER_M500, RFIDManager.INNER_SIM3500 -> {
                                     callNext = false
                                 }
                                 RFIDManager.NONE -> {
