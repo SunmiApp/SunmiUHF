@@ -77,13 +77,9 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                                 rfEnd = it.getByte(ParamCts.FREQUENCY_END).toInt()
                             }
                             4 -> {
-                                rfStart =
-                                    it.getInt(ParamCts.USER_DEFINE_START_FREQUENCY, 865_000) / 1000
-                                rfInterval =
-                                    it.getByte(ParamCts.USER_DEFINE_FREQUENCY_INTERVAL, 0x01)
-                                        .toInt()
-                                rfQuantity =
-                                    it.getByte(ParamCts.USER_DEFINE_CHANNEL_QUANTITY, 0x01).toInt()
+                                rfStart = it.getInt(ParamCts.USER_DEFINE_START_FREQUENCY, 865_000) / 1000
+                                rfInterval = it.getByte(ParamCts.USER_DEFINE_FREQUENCY_INTERVAL, 0x01).toInt()
+                                rfQuantity = it.getByte(ParamCts.USER_DEFINE_CHANNEL_QUANTITY, 0x01).toInt()
                             }
                         }
                         notifyDataChange()
@@ -375,15 +371,14 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                                 rfBand = ParamCts.getRFFrequencyBand(sn)
                             }
                             var res: Int
-                            //CHN(中规频段 920~925MHz)0x03 CHN  输出功率：29(默认)
                             //CHN(美规频段 902~928MHz)0x01 FCC  输出功率：28(默认)
                             //CHN(欧规频段 865~868MHz)0x02 ETSI 输出功率：28(默认)
+                            //CHN(中规频段 920~925MHz)0x03 CHN  输出功率：29(默认)
                             when (getRFRegion()) {
                                 //FCC
                                 0x01 -> {
                                     res = R.array.area_country_america_array
-                                    binding.moduleNameTv.text =
-                                        getString(R.string.module_type_america)
+                                    binding.moduleNameTv.text = getString(R.string.module_type_america)
                                     if (rfBand[0] != 1) {
                                         rfBand[0] = 1
                                         rfBand[1] = 902
@@ -394,8 +389,7 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                                 //ETSI
                                 0x02 -> {
                                     res = R.array.area_country_europe_array
-                                    binding.moduleNameTv.text =
-                                        getString(R.string.module_type_europe)
+                                    binding.moduleNameTv.text = getString(R.string.module_type_europe)
                                     if (rfBand[0] != 1) {
                                         rfBand[0] = 1
                                         rfBand[1] = 865

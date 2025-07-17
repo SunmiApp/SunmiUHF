@@ -503,6 +503,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
         super.start()
         if (!isLoop) {
             RFIDManager.getInstance().getHelper()?.apply {
+                val model = getScanModel()
                 when (App.getPref().getParam(Config.KEY_LABEL, Config.DEF_LABEL)) {
                     1 -> {
                         // 6C标签盘存
@@ -515,11 +516,11 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                                     0x00.toByte(),
                                     0x00.toByte(),
                                     getPowerSave(),
-                                    1
+                                    getRepeat(model)
                                 )
                             }
                             Constant.INT_SPEED_MODE -> {
-                                realTimeInventory(1)
+                                realTimeInventory(getRepeat(model))
                             }
                             Constant.INT_ITERATOR_MODE -> {
                                 customizedSessionTargetInventory(
@@ -528,7 +529,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                                     0x00.toByte(),
                                     0x00.toByte(),
                                     getPowerSave(),
-                                    1
+                                    getRepeat(model)
                                 )
                             }
                             Constant.INT_CUSTOM_MODE -> {
@@ -539,7 +540,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                                     0x00.toByte(),
                                     0x00.toByte(),
                                     getPowerSave(),
-                                    1
+                                    getRepeat(model)
                                 )
                             }
                         }

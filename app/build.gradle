@@ -11,8 +11,8 @@ android {
         applicationId "com.sunmi.uhf"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 20
-        versionName "1.1.0"
+        versionCode 21
+        versionName "1.1.1"
         versionNameSuffix ".bate"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

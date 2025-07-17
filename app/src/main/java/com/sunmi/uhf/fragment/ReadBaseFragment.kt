@@ -2,6 +2,7 @@ package com.sunmi.uhf.fragment
 
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
+import com.sunmi.rfid.RFIDManager
 import com.sunmi.rfid.ReaderCall
 import com.sunmi.rfid.entity.DataParameter
 import com.sunmi.uhf.App
@@ -87,6 +88,13 @@ abstract class ReadBaseFragment<T : ViewDataBinding> : BaseFragment<T>() {
                     }
                 }
             })
+    }
+
+    fun getRepeat(model: Int): Byte {
+        return when (model) {
+            RFIDManager.UHF_S7100, RFIDManager.INNER_SIM3500 -> 10
+            else -> 1
+        }
     }
 
     override fun onPause() {
