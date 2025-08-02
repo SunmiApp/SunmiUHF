@@ -14,6 +14,8 @@ import com.sunmi.uhf.constants.EventConstant
 import com.sunmi.uhf.utils.LiveDataBusEvent
 import com.sunmi.uhf.utils.LogUtils
 import com.sunmi.uhf.utils.SoundHelper
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * @author darren by Darren1009@qq.com - 2020/09/25
@@ -23,26 +25,32 @@ abstract class ReadBaseFragment<T : ViewDataBinding> : BaseFragment<T>() {
     protected val tidList = ArrayList<String>()
     protected val tagList = ArrayList<DataParameter>()
     private lateinit var soundHelper: SoundHelper
+    private var play = false
     protected val call: ReaderCall = object : ReaderCall() {
         override fun onSuccess(cmd: Byte, params: DataParameter?) {
-            if (BuildConfig.DEBUG) LogUtils.d("darren", String.format("CMD: 0x%02X, params info: %s", cmd, params?.toString() ?: ""))
+            if (BuildConfig.DEBUG) {
+                LogUtils.d("darren", String.format("CMD: 0x%02X, params info: %s", cmd, params?.toString() ?: ""))
+            }
             onCallSuccess(cmd, params)
         }
 
         override fun onTag(cmd: Byte, state: Byte, tag: DataParameter?) {
-            if (BuildConfig.DEBUG) LogUtils.d(
-                "darren",
-                "found tag cmd:" + String.format("%02X", cmd) + ", state: " + String.format("%02X", state)
-                        + (",params info: " + tag?.toString() ?: "")
-            )
+            if (BuildConfig.DEBUG) {
+                LogUtils.d(
+                    "darren",
+                    "found tag cmd:${String.format("%02X", cmd)}, state: ${String.format("%02X", state)}${",params info: " + tag?.toString() ?: ""}"
+                )
+            }
             onCallTag(cmd, state, tag)
         }
 
         override fun onFailed(cmd: Byte, errorCode: Byte, msg: String?) {
-            if (BuildConfig.DEBUG) LogUtils.d(
-                "darren",
-                "failed cmd: ${String.format("%02X", cmd)}, errorCode: ${String.format("%02X", errorCode)}, msg: $msg"
-            )
+            if (BuildConfig.DEBUG) {
+                LogUtils.d(
+                    "darren",
+                    "failed cmd: ${String.format("%02X", cmd)}, errorCode: ${String.format("%02X", errorCode)}, msg: $msg"
+                )
+            }
             onCallFailed(cmd, errorCode, msg)
         }
     }
@@ -81,7 +89,6 @@ abstract class ReadBaseFragment<T : ViewDataBinding> : BaseFragment<T>() {
                                 LogUtils.i("darren", "key up event handle type $t")
                             }
                         }
-
                     }
                     else -> {
                         LogUtils.d("darren", EventConstant.UHF_KEY_EVENT + " other key event.")
@@ -116,8 +123,12 @@ abstract class ReadBaseFragment<T : ViewDataBinding> : BaseFragment<T>() {
     }
 
     fun playTips() {
-        if (App.getPref().getParam(Config.KEY_TIP_VOICE, Config.DEF_TIP_VOICE)) {
+        if (play || !App.getPref().getParam(Config.KEY_TIP_VOICE, Config.DEF_TIP_VOICE)) return
+        mainScope.launch {
+            if (play || !App.getPref().getParam(Config.KEY_TIP_VOICE, Config.DEF_TIP_VOICE)) return@launch
+            play = true
             soundHelper.playSound(0, 0)
+            play = false
         }
     }
 

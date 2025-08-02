@@ -12,6 +12,7 @@ import android.os.SystemClock
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -22,6 +23,7 @@ import com.sunmi.rfid.constant.CMD
 import com.sunmi.rfid.constant.ParamCts
 import com.sunmi.rfid.entity.DataParameter
 import com.sunmi.uhf.App
+import com.sunmi.uhf.BuildConfig
 import com.sunmi.uhf.R
 import com.sunmi.uhf.adapter.LabelInfoAdapter
 import com.sunmi.uhf.adapter.TakeModelAdapter
@@ -613,7 +615,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                 val pc = tag.getString(ParamCts.TAG_PC) ?: ""
                 val rssi = "${(Integer.parseInt(tag.getString(ParamCts.TAG_RSSI, "129")) - 129)}"
                 val freq = tag.getString(ParamCts.TAG_FREQ) ?: ""
-                LogUtils.i("darren", "found tag:$epc => $tag")
+                if (BuildConfig.DEBUG) LogUtils.i("darren", "found tag:$epc => $tag")
                 val index = tidList.indexOf(epc)
                 if (index != -1) {
                     val c = tagList[index].getInt(ParamCts.TAG_READ_COUNT, 1) + 1
@@ -670,8 +672,14 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
             CMD.SET_RF_LINK_PROFILE -> {
                 LogUtils.i("darren", "set rf link profile failed.")
             }
+            CMD.SET_IMPINJ_FAST_TID -> {
+                LogUtils.i("darren", "set tag focus failed.")
+            }
             else -> {
                 LogUtils.d("darren", "other failed.")
+                mainScope.launch {
+                    Toast.makeText(App.mContext, "$msg(${String.format("%02X", errorCode)})", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

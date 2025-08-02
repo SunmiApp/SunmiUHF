@@ -86,6 +86,7 @@ object LogUtils {
     }
 
     private fun createLog(msg: String): String {
+        if ("release" == BuildConfig.BUILD_TYPE) return msg
         var targetStackTraceElement: StackTraceElement? = null
         val stackTrace = Thread.currentThread().stackTrace
         var isTrace = false

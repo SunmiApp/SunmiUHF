@@ -2,6 +2,7 @@ package com.sunmi.uhf.fragment.readwrite
 
 import android.os.Bundle
 import android.os.SystemClock
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.sunmi.rfid.RFIDManager
 import com.sunmi.rfid.constant.CMD
@@ -245,6 +246,9 @@ class ReadWriteFragment : ReadBaseFragment<FragmentReadWriteBinding>() {
             }
             else -> {
                 LogUtils.d("darren", "other failed.")
+                mainScope.launch {
+                    Toast.makeText(App.mContext, "$msg(${String.format("%02X", errorCode)})", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

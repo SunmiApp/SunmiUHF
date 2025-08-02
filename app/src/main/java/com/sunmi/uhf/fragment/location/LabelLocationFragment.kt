@@ -2,6 +2,7 @@ package com.sunmi.uhf.fragment.location
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.sunmi.rfid.RFIDManager
 import com.sunmi.rfid.constant.CMD
@@ -200,6 +201,9 @@ class LabelLocationFragment : ReadBaseFragment<FragmentLabelLocationBinding>() {
             }*/
             else -> {
                 LogUtils.d("darren", "other failed.")
+                mainScope.launch {
+                    Toast.makeText(App.mContext, "$msg(${String.format("%02X", errorCode)})", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

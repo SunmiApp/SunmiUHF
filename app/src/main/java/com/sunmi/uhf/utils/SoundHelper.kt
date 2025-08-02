@@ -2,16 +2,14 @@ package com.sunmi.uhf.utils
 
 import android.content.Context
 import android.media.AudioAttributes
-import android.media.AudioManager
 import android.media.SoundPool
-import com.sunmi.uhf.App
-import java.util.*
 
 /**
  * @author darren by Darren1009@qq.com - 2020/09/24
  */
 class SoundHelper(
-    private var context: Context?, soundVolType: Int = MEDIA_SOUND
+    private var context: Context?,
+    private val soundVolType: Int = MEDIA_SOUND
 ) {
     /**
      * 声音池
@@ -23,11 +21,6 @@ class SoundHelper(
      */
     private var soundPoolMap: HashMap<Int, Int>
 
-    /**
-     * 声音音量类型，默认为多媒体
-     */
-    private var soundVolType = MEDIA_SOUND
-
 
     /**
      *  构造器内初始化
@@ -36,9 +29,24 @@ class SoundHelper(
      * @param soundVolType 声音音量类型，默认为多媒体
      */
     init {
-        this.soundVolType = soundVolType
         // 初始化声音池和声音参数map
-        soundPool = SoundPool.Builder().build()
+        val audioAttributes = AudioAttributes.Builder()
+        when(soundVolType) {
+            // 铃声
+            RING_SOUND -> {
+                audioAttributes.setUsage(AudioAttributes.USAGE_ALARM)
+                audioAttributes.setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            }
+            MEDIA_SOUND -> {
+                audioAttributes.setUsage(AudioAttributes.USAGE_MEDIA)
+                audioAttributes.setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+            }
+            else -> {
+                audioAttributes.setUsage(AudioAttributes.USAGE_MEDIA)
+                audioAttributes.setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+            }
+        }
+        soundPool = SoundPool.Builder().setAudioAttributes(audioAttributes.build()).build()
         soundPoolMap = HashMap()
     }
 
@@ -62,24 +70,20 @@ class SoundHelper(
      */
     fun playSound(order: Int, times: Int) {
         if (context == null || !soundPoolMap.containsKey(order)) return
-        // 实例化AudioManager对象
-        val am = context!!.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        // 返回当前AudioManager对象播放所选声音的类型的最大音量值
-        val maxVolumn = am.getStreamMaxVolume(soundVolType).toFloat()
-        // 返回当前AudioManager对象的音量值
-        val currentVolumn = am.getStreamVolume(soundVolType).toFloat()
-        // 比值
-        val volumnRatio = currentVolumn / maxVolumn
-        soundPool.play(soundPoolMap[order]!!, volumnRatio, volumnRatio, 1, times, 1f)
+        // // 实例化AudioManager对象
+        // val am = context!!.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        // // 返回当前AudioManager对象播放所选声音的类型的最大音量值
+        // val maxVolumn = am.getStreamMaxVolume(soundVolType).toFloat()
+        // // 返回当前AudioManager对象的音量值
+        // val currentVolumn = am.getStreamVolume(soundVolType).toFloat()
+        // // 比值
+        // val volumnRatio = currentVolumn / maxVolumn
+        // soundPool.play(soundPoolMap[order]!!, volumnRatio, volumnRatio, 1, times, 1f)
+        soundPool.play(soundPoolMap[order]!!, 1F, 1F, 1, times, 1F)
+        soundPool.setOnLoadCompleteListener { soundPool, sampleId, status ->
+            LogUtils.d("SoundHelper", "load complete")
+        }
     }
-
-    /**
-     * 设置 soundVolType 的值
-     */
-    fun setSoundVolType(soundVolType: Int) {
-        this.soundVolType = soundVolType
-    }
-
     fun destroy() {
         context = null
         soundPool.release()
