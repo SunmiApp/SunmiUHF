@@ -503,67 +503,75 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
 
     override fun start() {
         super.start()
-        if (!isLoop) {
-            RFIDManager.getInstance().getHelper()?.apply {
-                val model = getScanModel()
-                when (App.getPref().getParam(Config.KEY_LABEL, Config.DEF_LABEL)) {
-                    1 -> {
-                        // 6C标签盘存
-                        registerReaderCall(call)
-                        when (mode) {
-                            Constant.INT_BALANCE_MODE -> {
-                                customizedSessionTargetInventory(
-                                    0x01.toByte(),
-                                    0x00.toByte(),
-                                    0x00.toByte(),
-                                    0x00.toByte(),
-                                    getPowerSave(),
-                                    getRepeat(model)
-                                )
+        try {
+            if (!isLoop) {
+                RFIDManager.getInstance().getHelper()?.apply {
+                    val model = getScanModel()
+                    when (App.getPref().getParam(Config.KEY_LABEL, Config.DEF_LABEL)) {
+                        1 -> {
+                            // 6C标签盘存
+                            registerReaderCall(call)
+                            when (mode) {
+                                Constant.INT_BALANCE_MODE -> {
+                                    customizedSessionTargetInventory(
+                                        0x01.toByte(),
+                                        0x00.toByte(),
+                                        0x00.toByte(),
+                                        0x00.toByte(),
+                                        getPowerSave(),
+                                        getRepeat(model)
+                                    )
+                                }
+                                Constant.INT_SPEED_MODE -> {
+                                    realTimeInventory(getRepeat(model))
+                                }
+                                Constant.INT_ITERATOR_MODE -> {
+                                    customizedSessionTargetInventory(
+                                        0x02.toByte(),
+                                        0x00.toByte(),
+                                        0x00.toByte(),
+                                        0x00.toByte(),
+                                        getPowerSave(),
+                                        getRepeat(model)
+                                    )
+                                }
+                                Constant.INT_CUSTOM_MODE -> {
+                                    setOutputAllPower(App.getPref().getParam(Config.KEY_RF_POWER, Config.DEF_INNER_POWER_MAX).toByte())
+                                    customizedSessionTargetInventory(
+                                        seesion.toByte(),
+                                        tagFlag.toByte(),
+                                        0x00.toByte(),
+                                        0x00.toByte(),
+                                        getPowerSave(),
+                                        getRepeat(model)
+                                    )
+                                }
                             }
-                            Constant.INT_SPEED_MODE -> {
-                                realTimeInventory(getRepeat(model))
-                            }
-                            Constant.INT_ITERATOR_MODE -> {
-                                customizedSessionTargetInventory(
-                                    0x02.toByte(),
-                                    0x00.toByte(),
-                                    0x00.toByte(),
-                                    0x00.toByte(),
-                                    getPowerSave(),
-                                    getRepeat(model)
-                                )
-                            }
-                            Constant.INT_CUSTOM_MODE -> {
-                                setOutputAllPower(App.getPref().getParam(Config.KEY_RF_POWER, Config.DEF_INNER_POWER_MAX).toByte())
-                                customizedSessionTargetInventory(
-                                    seesion.toByte(),
-                                    tagFlag.toByte(),
-                                    0x00.toByte(),
-                                    0x00.toByte(),
-                                    getPowerSave(),
-                                    getRepeat(model)
-                                )
-                            }
+                            isLoop = true
                         }
-                        isLoop = true
-                    }
-                    else -> {
-                        LogUtils.e("darren", "error label index")
+                        else -> {
+                            LogUtils.e("darren", "error label index")
+                        }
                     }
                 }
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
     override fun stop() {
         super.stop()
-        if (isLoop) {
-            RFIDManager.getInstance().getHelper()?.apply {
-                inventory(1)
-                unregisterReaderCall()
-                isLoop = false
+        try {
+            if (isLoop) {
+                RFIDManager.getInstance().getHelper()?.apply {
+                    inventory(1)
+                    unregisterReaderCall()
+                    isLoop = false
+                }
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

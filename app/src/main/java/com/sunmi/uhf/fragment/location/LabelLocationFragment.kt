@@ -106,37 +106,45 @@ class LabelLocationFragment : ReadBaseFragment<FragmentLabelLocationBinding>() {
 
     override fun start() {
         super.start()
-        if (!isLoop) {
-            RFIDManager.getInstance().getHelper()?.apply {
-                when (App.getPref().getParam(Config.KEY_LABEL, Config.DEF_LABEL)) {
-                    /*0 -> {
-                        // 6B标签盘存
-                        registerReaderCall(call)
-                        iso180006BInventory()
-                        isLoop = true
-                    }*/
-                    1 -> {
-                        // 6C标签盘存
-                        registerReaderCall(call)
-                        customizedSessionTargetInventory(0x00, 0x00, 0x00, 0, 0, 20)
-                        isLoop = true
-                    }
-                    else -> {
-                        LogUtils.e("darren", "error label index")
+        try {
+            if (!isLoop) {
+                RFIDManager.getInstance().getHelper()?.apply {
+                    when (App.getPref().getParam(Config.KEY_LABEL, Config.DEF_LABEL)) {
+                        /*0 -> {
+                            // 6B标签盘存
+                            registerReaderCall(call)
+                            iso180006BInventory()
+                            isLoop = true
+                        }*/
+                        1 -> {
+                            // 6C标签盘存
+                            registerReaderCall(call)
+                            customizedSessionTargetInventory(0x00, 0x00, 0x00, 0, 0, 20)
+                            isLoop = true
+                        }
+                        else -> {
+                            LogUtils.e("darren", "error label index")
+                        }
                     }
                 }
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
     override fun stop() {
         super.stop()
-        if (isLoop) {
-            RFIDManager.getInstance().getHelper()?.apply {
-                inventory(1)
-                unregisterReaderCall()
-                isLoop = false
+        try {
+            if (isLoop) {
+                RFIDManager.getInstance().getHelper()?.apply {
+                    inventory(1)
+                    unregisterReaderCall()
+                    isLoop = false
+                }
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

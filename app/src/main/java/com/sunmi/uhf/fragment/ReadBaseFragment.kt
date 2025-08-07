@@ -128,6 +128,7 @@ abstract class ReadBaseFragment<T : ViewDataBinding> : BaseFragment<T>() {
             if (play || !App.getPref().getParam(Config.KEY_TIP_VOICE, Config.DEF_TIP_VOICE)) return@launch
             play = true
             soundHelper.playSound(0, 0)
+            delay(5)
             play = false
         }
     }
