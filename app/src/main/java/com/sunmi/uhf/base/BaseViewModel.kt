@@ -17,8 +17,8 @@ import kotlinx.coroutines.launch
 open class BaseViewModel : ViewModel() {
 
 
-    private val _viewEvents = MutableLiveData<ViewEvent>()
-    val viewEvents: LiveData<ViewEvent> get() = _viewEvents
+    private val _viewEvents = MutableLiveData<ViewEvent?>()
+    val viewEvents: LiveData<ViewEvent?> get() = _viewEvents
 
     private val uiScope = viewModelScope
 

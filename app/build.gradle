@@ -47,15 +47,23 @@ android {
         dataBinding = true
         viewBinding = true
     }
-    android.applicationVariants.all {
-        variant ->
-            variant.outputs.all {
-                if (buildType.name != 'debug' && System.getenv("BUILD_NUMBER") != null) {
-                    //variant.getPackageApplication().outputDirectory = new File(project.buildDir.absolutePath + "/outputs" + "/apk")
-                    variant.getPackageApplication().outputDirectory = new File("build/outputs/apk/" + variant.versionName + "/" + variant.flavorName + "/" + System.getenv("BUILD_NUMBER"))
+    android.applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            // defaultConfig.versionName
+            output.outputFileName = "SunmiUHF_privapp_v" + variant.versionName + "_" + buildType.name + ".apk"
+        }
+        if (System.getenv("BUILD_NUMBER") != null) {
+            variant.assemble.doLast {
+                File outputDir = new File(project.buildDir, "outputs/apk/v" + variant.versionName + "/" + System.getenv("BUILD_NUMBER"))
+                variant.outputs.forEach { file ->
+                    copy {
+                        from file.outputFile.parent
+                        into outputDir
+                    }
+                    delete(file.outputFile.parent)
                 }
-                outputFileName = "SunmiUHF_v" + defaultConfig.versionName + "_" + buildType.name + ".apk"
             }
+        }
     }
     lintOptions {
         abortOnError false
