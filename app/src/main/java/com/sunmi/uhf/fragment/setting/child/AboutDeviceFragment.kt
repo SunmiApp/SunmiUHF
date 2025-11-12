@@ -174,7 +174,7 @@ class AboutDeviceFragment : BaseFragment<FragmentAboutDeviceBinding>() {
                             /* UHF 固件版本 */
                             getFirmwareVersion()
                             /* 模块类型 */
-                            binding.tvModelType.text = getString(R.string.module_type_inner)
+                            mainScope.launch { binding.tvModelType.text = getString(R.string.module_type_inner) }
                             vm.isInner.postValue(true)
                         }
                     }

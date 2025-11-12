@@ -207,17 +207,17 @@ class SearchModelFragment : BaseFragment<FragmentSearchBinding>() {
      *  @param type 类型 0：全部，1：选择的
      */
     private fun exportExcel() {
-        context?.let {
-            if (ActivityCompat.checkSelfPermission(
-                    it,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), TakeInventoryFragment.REQUEST_PERMISSION_ID)
-                showShort(R.string.please_allow_read_write_sd_card)
-                return
-            }
-        }
+        // context?.let {
+        //     if (ActivityCompat.checkSelfPermission(
+        //             it,
+        //             Manifest.permission.WRITE_EXTERNAL_STORAGE
+        //         ) != PackageManager.PERMISSION_GRANTED
+        //     ) {
+        //         requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), TakeInventoryFragment.REQUEST_PERMISSION_ID)
+        //         showShort(R.string.please_allow_read_write_sd_card)
+        //         return
+        //     }
+        // }
         val dialog = InputDialog.Builder()
             .setTitle(getString(R.string.please_input_file_name))
             .setHint(getString(R.string.please_input_file_name))
@@ -271,16 +271,16 @@ class SearchModelFragment : BaseFragment<FragmentSearchBinding>() {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == TakeInventoryFragment.REQUEST_PERMISSION_ID) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                exportExcel()
-            } else {
-                showShort(R.string.please_allow_read_write_sd_card)
-            }
-        }
-    }
+    // override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    //     super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    //     if (requestCode == TakeInventoryFragment.REQUEST_PERMISSION_ID) {
+    //         if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+    //             exportExcel()
+    //         } else {
+    //             showShort(R.string.please_allow_read_write_sd_card)
+    //         }
+    //     }
+    // }
 
     companion object {
         fun newInstance(args: Bundle?) = SearchModelFragment()

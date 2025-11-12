@@ -170,7 +170,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                     RFIDManager.UHF_R2000, RFIDManager.UHF_S7100 -> {
                         vm.labelVisibility.postValue(true)
                     }
-                    RFIDManager.INNER_M500, RFIDManager.INNER_SIM3500  -> {
+                    RFIDManager.INNER_M500, RFIDManager.INNER_SIM3500 -> {
                         vm.labelVisibility.postValue(false)
                     }
                 }
@@ -319,17 +319,18 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
      *  @param type 类型 0：全部，1：选择的
      */
     private fun exportExcel() {
-        context?.let {
-            if (ActivityCompat.checkSelfPermission(
-                    it,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_PERMISSION_ID)
-                showShort(R.string.please_allow_read_write_sd_card)
-                return
-            }
-        }
+        // context?.let {
+        //     if (
+        //         ActivityCompat.checkSelfPermission(
+        //             it,
+        //             Manifest.permission.WRITE_EXTERNAL_STORAGE
+        //         ) != PackageManager.PERMISSION_GRANTED
+        //     ) {
+        //         requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_PERMISSION_ID)
+        //         showShort(R.string.please_allow_read_write_sd_card)
+        //         return
+        //     }
+        // }
         val dialog = InputDialog.Builder()
             .setTitle(getString(R.string.please_input_file_name))
             .setHint(getString(R.string.please_input_file_name))
@@ -387,16 +388,16 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_PERMISSION_ID) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                exportExcel()
-            } else {
-                showShort(R.string.please_allow_read_write_sd_card)
-            }
-        }
-    }
+    // override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    //     super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    //     if (requestCode == REQUEST_PERMISSION_ID) {
+    //         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+    //             exportExcel()
+    //         } else {
+    //             showShort(R.string.please_allow_read_write_sd_card)
+    //         }
+    //     }
+    // }
 
     /**
      * 点击返回健后，弹出二次确认弹窗
