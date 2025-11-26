@@ -177,6 +177,15 @@ class AboutDeviceFragment : BaseFragment<FragmentAboutDeviceBinding>() {
                             mainScope.launch { binding.tvModelType.text = getString(R.string.module_type_inner) }
                             vm.isInner.postValue(true)
                         }
+                        RFIDManager.OUTER_YRF808S -> {
+                            registerReaderCall(optCall)
+                            /* SN */
+                            getReaderSN()
+                            /* UHF 固件版本 */
+                            getFirmwareVersion()
+                            /* 模块固件版本 */
+                            getReaderVersion()
+                        }
                     }
                 }
             }

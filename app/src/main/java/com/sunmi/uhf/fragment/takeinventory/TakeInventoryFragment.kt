@@ -173,6 +173,9 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                     RFIDManager.INNER_M500, RFIDManager.INNER_SIM3500 -> {
                         vm.labelVisibility.postValue(false)
                     }
+                    RFIDManager.OUTER_YRF808S -> {
+                        vm.labelVisibility.postValue(true)
+                    }
                 }
             }
         }

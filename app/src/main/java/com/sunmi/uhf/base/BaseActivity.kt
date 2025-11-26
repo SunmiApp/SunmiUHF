@@ -47,12 +47,10 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
         initView()
         initData()
         initBus()
-        if (isPadFlag) {
-            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-            onLandScape()
-        } else {
-            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        if (isPortrait()) {
             onPortrait()
+        } else {
+            onLandScape()
         }
     }
 
@@ -65,6 +63,11 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
         return ((App.mContext.resources.configuration.screenLayout
                 and Configuration.SCREENLAYOUT_SIZE_MASK)
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE)
+    }
+
+    private fun isPortrait(): Boolean {
+        return (App.mContext.resources.configuration.orientation
+                == Configuration.ORIENTATION_PORTRAIT)
     }
 
     /**

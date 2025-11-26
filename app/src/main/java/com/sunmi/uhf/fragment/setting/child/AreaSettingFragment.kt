@@ -161,6 +161,10 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                             getFrequencyRegion()
                             vm.isInner.postValue(true)
                         }
+                        RFIDManager.OUTER_YRF808S -> {
+                            vm.title.value = resources.getString(R.string.setting_select_area_text)
+                            getFrequencyRegion()
+                        }
                         else -> {
                             binding.moduleNameTv.text = ""
                         }
@@ -299,6 +303,25 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                                         }
                                     }
                                 }
+                                RFIDManager.OUTER_YRF808S -> {
+                                    when(rfRegion) {
+                                        1 -> {
+                                            for (i in 0 .. 49) {
+                                                list.add("${902.75 + i * 0.5} MHz")
+                                            }
+                                        }
+                                        2 -> {
+                                            for (i in 0 .. 3) {
+                                                list.add("${865.7 + i * 0.6} MHz")
+                                            }
+                                        }
+                                        3 -> {
+                                            for (i in 0 .. 15) {
+                                                list.add("${920.625 + i * 0.25} MHz")
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -307,11 +330,40 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
             EventConstant.EVENT_AREA_RF_END -> {
                 title = resources.getString(R.string.hint_please_select_opt_end_rf)
                 str = binding.rfEndTv.text.toString()
-                val start = ParamCts.getParamsToRf(rfStart).toInt()
-                for (i in start..rfBand[2]) {
-                    list.add("$i.0 MHz")
-                    if (i < rfBand[2]) {
-                        list.add("$i.5 MHz")
+                RFIDManager.getInstance().apply {
+                    if (isConnect()) {
+                        getHelper()?.apply {
+                            when (getScanModel()) {
+                                RFIDManager.OUTER_YRF808S -> {
+                                    when(rfRegion) {
+                                        1 -> {
+                                            for (i in 0 .. 49) {
+                                                list.add("${902.75 + i * 0.5} MHz")
+                                            }
+                                        }
+                                        2 -> {
+                                            for (i in 0 .. 3) {
+                                                list.add("${865.7 + i * 0.6} MHz")
+                                            }
+                                        }
+                                        3 -> {
+                                            for (i in 0 .. 15) {
+                                                list.add("${920.625 + i * 0.25} MHz")
+                                            }
+                                        }
+                                    }
+                                }
+                                else -> {
+                                    val start = ParamCts.getParamsToRf(rfStart).toInt()
+                                    for (i in start..rfBand[2]) {
+                                        list.add("$i.0 MHz")
+                                        if (i < rfBand[2]) {
+                                            list.add("$i.5 MHz")
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -326,19 +378,24 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
 
     private fun setSelectRF(type: Int?, select: String?) {
         if (select?.isNotEmpty() == true && select.contains("MHz")) {
-            val v = ParamCts.getRfToParams((select.replace(" MHz", "").toFloat() * 10).toInt())
-            when (type) {
-                EventConstant.EVENT_AREA_RF_START -> {
-                    rfStart = v
-                    mainScope.launch { binding.rfStartTv.text = select }
-                }
-                EventConstant.EVENT_AREA_RF_END -> {
-                    rfEnd = v
-                    mainScope.launch { binding.rfEndTv.text = select }
-                }
-            }
             RFIDManager.getInstance().apply {
                 if (isConnect()) {
+                    val v = if(getHelper()?.getScanModel() == RFIDManager.OUTER_YRF808S) {
+                        ParamCts.getRfToParams(select.replace(" MHz", "").toDouble(), rfRegion)
+                    } else {
+                        ParamCts.getRfToParams((select.replace(" MHz", "").toFloat() * 10).toInt())
+                    }
+
+                    when (type) {
+                        EventConstant.EVENT_AREA_RF_START -> {
+                            rfStart = v
+                            mainScope.launch { binding.rfStartTv.text = select }
+                        }
+                        EventConstant.EVENT_AREA_RF_END -> {
+                            rfEnd = v
+                            mainScope.launch { binding.rfEndTv.text = select }
+                        }
+                    }
                     when (rfRegion) {
                         in 1..3 -> {
                             getHelper()?.setFrequencyRegion(
@@ -457,6 +514,61 @@ class AreaSettingFragment : BaseFragment<FragmentAreaSettingBinding>() {
                             binding.rfEndTv.text = ""
                             binding.tvFqInterval.text = rfInterval.toString()
                             binding.tvFqQuantity.text = rfQuantity.toString()
+                        }
+                        RFIDManager.OUTER_YRF808S -> {
+                            rfBand = ParamCts.getRFFrequencyBand(rfRegion)
+                            when (rfRegion) {
+                                //FCC
+                                0x01 -> {
+                                    binding.moduleNameTv.text = getString(R.string.module_type_america)
+                                    if (rfBand[0] != 1) {
+                                        rfBand[0] = 1
+                                        rfBand[1] = 902
+                                        rfBand[2] = 928
+                                        rfBand[3] = 0x01
+                                    }
+                                }
+                                //ETSI
+                                0x02 -> {
+                                    binding.moduleNameTv.text = getString(R.string.module_type_europe)
+                                    if (rfBand[0] != 1) {
+                                        rfBand[0] = 1
+                                        rfBand[1] = 865
+                                        rfBand[2] = 868
+                                        rfBand[3] = 0x02
+                                    }
+                                }
+                                //CHN
+                                0x03 -> {
+                                    binding.moduleNameTv.text = getString(R.string.module_type_china)
+                                    if (rfBand[0] != 1) {
+                                        rfBand[0] = 1
+                                        rfBand[1] = 920
+                                        rfBand[2] = 925
+                                        rfBand[3] = 0x03
+                                    }
+                                }
+                                else -> {
+                                    binding.moduleNameTv.text = ""
+                                    if (rfBand[0] != 1) {
+                                        rfBand[0] = 1
+                                        rfBand[1] = 902
+                                        rfBand[2] = 928
+                                        rfBand[3] = 0x01
+                                    }
+                                }
+                            }
+                            countryList.clear()
+                            if (rfStart == -1 || rfEnd == -1) {
+                                binding.rfStartTv.text = ""
+                                binding.rfEndTv.text = ""
+                            } else {
+                                val startRf = ParamCts.getParamsToRf(rfStart, rfRegion)
+                                val endRf = ParamCts.getParamsToRf(rfEnd, rfRegion)
+                                binding.rfStartTv.text = getString(R.string.x_mhz, startRf.toInt())
+                                binding.rfEndTv.text = getString(R.string.x_mhz, endRf.toInt())
+                                binding.areaCountryTv.text = getString(R.string.hint_please_auto_set)
+                            }
                         }
                         else -> {
                             binding.moduleNameTv.text = ""
