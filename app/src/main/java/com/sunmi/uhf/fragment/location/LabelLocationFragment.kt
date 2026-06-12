@@ -194,24 +194,28 @@ class LabelLocationFragment : ReadBaseFragment<FragmentLabelLocationBinding>() {
     }
 
     override fun onCallFailed(cmd: Byte, errorCode: Byte, msg: String?) {
+        isLoop = false
+        if (state) {
+            start()
+        }
         when (cmd) {
             CMD.CUSTOMIZED_SESSION_TARGET_INVENTORY -> {
-                isLoop = false
+                /*isLoop = false
                 if (state) {
                     start()
-                }
+                }*/
             }
-            /*CMD.ISO18000_6B_INVENTORY -> {
-                isLoop = false
+            CMD.ISO18000_6B_INVENTORY -> {
+                /*isLoop = false
                 if (state) {
                     start()
-                }
-            }*/
+                }*/
+            }
             else -> {
-                LogUtils.d("darren", "other failed.")
-                mainScope.launch {
-                    Toast.makeText(App.mContext, "$msg(${String.format("%02X", errorCode)})", Toast.LENGTH_LONG).show()
-                }
+                LogUtils.d("darren", "other failed cmd(0x${String.format("%02X", cmd)}),$msg(${String.format("%02X", errorCode)}).")
+                // mainScope.launch {
+                //     Toast.makeText(App.mContext, "$msg(${String.format("%02X", errorCode)})", Toast.LENGTH_LONG).show()
+                // }
             }
         }
     }

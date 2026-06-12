@@ -222,6 +222,7 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                 }
                 exportExcel()
             }
+
             EventConstant.EVENT_INVENTORY_EXPORT_EXCEL_ALL -> {
                 exportExcelType = 0
                 if (list.size == 0) {
@@ -661,20 +662,24 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
     }
 
     override fun onCallFailed(cmd: Byte, errorCode: Byte, msg: String?) {
+        isLoop = false
+        if (state) {
+            start()
+        }
         when (cmd) {
             CMD.REAL_TIME_INVENTORY,
             CMD.CUSTOMIZED_SESSION_TARGET_INVENTORY -> {
-                isLoop = false
+                /*isLoop = false
                 if (state) {
                     start()
-                }
+                }*/
             }
-            /*CMD.ISO18000_6B_INVENTORY -> {
-                isLoop = false
+            CMD.ISO18000_6B_INVENTORY -> {
+                /*isLoop = false
                 if (state) {
                     start()
-                }
-            }*/
+                }*/
+            }
             CMD.SET_OUTPUT_POWER -> {
                 LogUtils.i("darren", "set out power failed.")
             }
@@ -688,10 +693,10 @@ class TakeInventoryFragment : ReadBaseFragment<FragmentTakeInventoryBinding>() {
                 LogUtils.i("darren", "set tag focus failed.")
             }
             else -> {
-                LogUtils.d("darren", "other failed.")
-                mainScope.launch {
-                    Toast.makeText(App.mContext, "$msg(${String.format("%02X", errorCode)})", Toast.LENGTH_LONG).show()
-                }
+                LogUtils.d("darren", "other failed cmd(0x${String.format("%02X", cmd)}),$msg(${String.format("%02X", errorCode)}).")
+                // mainScope.launch {
+                //     Toast.makeText(App.mContext, "$msg(${String.format("%02X", errorCode)})", Toast.LENGTH_LONG).show()
+                // }
             }
         }
     }
